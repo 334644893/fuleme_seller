@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_store_aggregation_query"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/evaluate_content_1"
+    android:orientation="vertical"
+    tools:context="com.fuleme.business.activity.StoreAggregationQueryActivity">
+
+    <include layout="@layout/item_actionbar" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_store_agg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+         />
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_date_query"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_margin="20dp"-->
+        <!--android:background="@drawable/shape_corner_bom_line_hui"-->
+        <!--android:gravity="center"-->
+        <!--android:paddingLeft="120dp"-->
+        <!--android:paddingRight="120dp"-->
+        <!--android:text="确定"-->
+        <!--android:textColor="@color/theme"-->
+        <!--android:textSize="@dimen/text_size_20" />-->
+</LinearLayout>
