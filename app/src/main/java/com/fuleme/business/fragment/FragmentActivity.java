@@ -1,5 +1,6 @@
 package com.fuleme.business.fragment;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,17 +18,25 @@ import android.widget.Toast;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
+import com.fuleme.business.helper.GsonUtils;
+import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.ToastUtil;
+import com.fuleme.business.widget.LoadingDialogUtils;
+
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 管理员主页
  */
 public class FragmentActivity extends BaseActivity {
-
+    private static final String TAG = "FragmentActivity";
     @Bind(R.id.tv_left)
     ImageView tvLeft;
     @Bind(R.id.tv_title)
@@ -237,7 +246,6 @@ public class FragmentActivity extends BaseActivity {
                 Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {
-
                 System.exit(0);
             }
             return true;
@@ -246,5 +254,41 @@ public class FragmentActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+    /**
+     * 退出接口
+     */
+    Dialog mLoading;
+    private void logout() {
+        Call<Object> call = getApi().logout( App.token);
 
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful()) {
+                    if (GsonUtils.getError_code(response.body())==GsonUtils.SUCCESSFUL) {
+                        // do SomeThing
+                        LogUtil.i("成功");
+                    } else {
+                        LogUtil.i("失败");
+                    }
+
+                } else {
+                    LogUtil.i("失败response.message():" + response.message());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                LogUtil.e(TAG, t.toString());
+            }
+
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        logout();
+    }
 }

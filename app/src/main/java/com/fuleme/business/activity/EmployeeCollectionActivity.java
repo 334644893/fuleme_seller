@@ -8,7 +8,9 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fuleme.business.R;
@@ -28,11 +30,20 @@ import butterknife.OnClick;
 public class EmployeeCollectionActivity extends AppCompatActivity {
     @Bind(R.id.fl_save_image)
     FrameLayout flSaveImage;
+    @Bind(R.id.tv_title)
+    TextView tvTitle;
     private Handler mHandler = new Handler();
 
-    @OnClick(R.id.tv_bt_save)
-    public void onClick() {
-        saveView();
+    @OnClick({R.id.tv_left, R.id.tv_bt_save})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tv_bt_save:
+                saveView();
+                break;
+            case R.id.tv_left:
+                finish();
+                break;
+        }
     }
 
     @Override
@@ -40,6 +51,7 @@ public class EmployeeCollectionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_administrator_b);
         ButterKnife.bind(this);
+        tvTitle.setText("收款码");
     }
 
     private void saveView() {

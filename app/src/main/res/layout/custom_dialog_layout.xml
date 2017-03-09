@@ -30,6 +30,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="8dip"
             android:layout_weight="1"
+            android:gravity="center"
             android:textColor="@color/title_background"
             android:textSize="16sp" />
 
@@ -58,7 +59,6 @@
             android:layout_marginLeft="10dip"
             android:textColor="#FF000000"
             android:gravity="center"
-            android:text="aasasasasa"
             android:textSize="16sp" />
     </LinearLayout>
 

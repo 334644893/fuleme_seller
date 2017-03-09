@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.fuleme.business.R;
 import com.fuleme.business.bean.IncomeBean;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import butterknife.Bind;
@@ -20,16 +21,15 @@ import butterknife.ButterKnife;
  */
 
 public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHolder> {
-
-
-    final private int Y_STATE = 0;
+    java.text.NumberFormat nf = java.text.NumberFormat.getInstance();
+    final private int Y_STATE = 1;
     final private String Y_STATE_S = "已划款";
-    final private int N_STATE = 1;
+    final private int N_STATE = 0;
     final private String N_STATE_S = "未划款";
-    private List<IncomeBean> mDatas;
+    private List<IncomeBean.DataBean> mDatas;
     private Context context;
 
-    public IncomeAdapter(Context context, List<IncomeBean> mDatas) {
+    public IncomeAdapter(Context context, List<IncomeBean.DataBean> mDatas) {
         this.context = context;
         this.mDatas = mDatas;
     }
@@ -46,6 +46,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            nf.setGroupingUsed(false);
         }
     }
 
@@ -58,12 +59,13 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.tvITime.setText(mDatas.get(position).getmDate());
-        holder.tvIAmount.setText("¥ "+mDatas.get(position).getmAmount());
-        if (mDatas.get(position).getmState() == Y_STATE) {
+        holder.tvITime.setText(mDatas.get(position).getResultTime());
+        holder.tvIAmount.setText("¥ "+nf.format(mDatas.get(position).getArrivalAmount()));
+
+        if (mDatas.get(position).getResultStatus() == Y_STATE) {
             holder.tvIState.setText(Y_STATE_S);
             holder.tvIState.setTextColor(context.getResources().getColor(R.color.online_1));
-        } else if (mDatas.get(position).getmState() == N_STATE) {
+        } else if (mDatas.get(position).getResultStatus() == N_STATE) {
             holder.tvIState.setText(N_STATE_S);
             holder.tvIState.setTextColor(context.getResources().getColor(R.color.red));
         }

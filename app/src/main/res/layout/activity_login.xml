@@ -47,9 +47,9 @@
                     android:id="@+id/tv_dianyuan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
                     android:gravity="center"
                     android:text="店员"
+                    android:padding="5dp"
                     android:textColor="@color/black_87"
                     android:textSize="@dimen/text_size_s" />
 
@@ -72,7 +72,7 @@
                     android:id="@+id/tv_admin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:padding="5dp"
                     android:gravity="center"
                     android:text="管理员"
                     android:textColor="@color/black_26"
@@ -104,10 +104,10 @@
             android:imeOptions="actionNext"
             android:inputType="number"
             android:maxLength="11"
+            android:text="13419567515"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:singleLine="true"
-            android:textColor="@color/colorPrimary"
             android:textColorHint="@color/black_26"
             android:textSize="14sp" />
 
@@ -121,14 +121,14 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:background="@null"
-            android:hint="请输入手机号"
+            android:hint="请输入密码"
+            android:text="666666"
             android:imeOptions="actionNext"
             android:inputType="number"
             android:maxLength="11"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:singleLine="true"
-            android:textColor="@color/colorPrimary"
             android:textColorHint="@color/black_26"
             android:textSize="14sp" />
 
@@ -139,21 +139,23 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:padding="10dp"
                 android:paddingLeft="16dp"
                 android:text="记住密码"
                 android:textSize="@dimen/text_size_s" />
 
             <TextView
+                android:id="@+id/tv_wjmm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:padding="10dp"
                 android:paddingLeft="16dp"
                 android:text="忘记密码"
                 android:textSize="@dimen/text_size_s" />
@@ -165,7 +167,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="32dp"
             android:background="@color/theme"
             android:gravity="center"
             android:text="登录"
@@ -177,9 +178,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="注册账号"
             android:padding="20dp"
+            android:text="注册账号"
             android:textSize="@dimen/text_size_15" />
     </LinearLayout>
 

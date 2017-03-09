@@ -4,30 +4,54 @@
     android:id="@+id/activity_scan_receipt"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     tools:context="com.fuleme.business.activity.ScanReceiptActivity">
 
-    <TextView
+    <include layout="@layout/item_actionbar" />
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:background="@drawable/shape_b_hui"
-        android:gravity="center"
-        android:padding="5dp"
-        android:text="扫一扫"
-        android:textSize="@dimen/text_size_25" />
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tv_saoyisao"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape_b_hui"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="扫一扫"
+            android:textSize="@dimen/text_size_20" />
+
+        <View
+            android:layout_width="3dp"
+            android:layout_height="0dp" />
+
+        <TextView
+            android:id="@+id/tv_zhifuma"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/shape_b_hui"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="支付码"
+            android:textSize="@dimen/text_size_20" />
+    </LinearLayout>
+
 
     <EditText
-        android:id="@+id/et_phone"
+        android:id="@+id/et_amount"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/shape_b_hui"
         android:hint="¥0.00"
-
-        android:imeOptions="actionNext"
         android:inputType="number"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
@@ -45,6 +69,7 @@
         android:textSize="@dimen/text_size_15" />
 
     <LinearLayout
+        android:id="@+id/ll_zhifu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">

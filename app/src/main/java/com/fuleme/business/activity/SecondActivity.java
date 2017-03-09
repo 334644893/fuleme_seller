@@ -52,9 +52,9 @@ public class SecondActivity extends AppCompatActivity {
     private void initView() {
 
         tvTitle.setText("");
-        tvRight.setVisibility(View.VISIBLE);
-        tvRight.setBackgroundDrawable(null);
-        tvRight.setText("相册");
+        tvRight.setVisibility(View.INVISIBLE);
+//        tvRight.setBackgroundDrawable(null);
+//        tvRight.setText("相册");
     }
 
     /**

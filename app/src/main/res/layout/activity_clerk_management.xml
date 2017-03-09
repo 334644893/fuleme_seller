@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:textSize="@dimen/text_size_15"
-            android:text="周黑鸭" />
+             />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -55,5 +55,7 @@
         android:layout_marginTop="1dp"
         android:id="@+id/m_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none"/>
 </LinearLayout>

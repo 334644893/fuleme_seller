@@ -47,14 +47,13 @@
                     android:textSize="@dimen/text_size_20" />
 
                 <TextView
-                    android:id="@+id/tv_agg_all"
+                    android:id="@+id/tv_balance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="25dp"
                     android:layout_weight="1"
                     android:paddingRight="15dp"
-                    android:text="123 元"
                     android:textColor="@color/red"
                     android:textSize="@dimen/text_size_20" />
             </LinearLayout>
@@ -159,7 +158,8 @@
 
                 <TextView
                     android:id="@+id/tv_i_time"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:ellipsize="end"
@@ -181,7 +181,8 @@
 
                 <TextView
                     android:id="@+id/tv_i_state"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:ellipsize="end"
@@ -198,7 +199,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_m_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:scrollbars="none"/>
     </LinearLayout>
 
 

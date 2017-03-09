@@ -2,6 +2,8 @@ package com.fuleme.business;
 
 import android.app.Application;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.fuleme.business.helper.APIService;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
@@ -13,19 +15,33 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class App extends Application {
-    public static  int login_type = 1;//登录状态 0:管理员 1：员工
-    public static  final int LOGIN_TYPE_ADMIN = 0;
-    public static  final int LOGIN_TYPE_EMPLOYEES= 1;
+    public static String PLACEHOLDER = "";//占位符
+    public static int uid = 0;//用户id
+    public static String token = "";//用户标识，该token在其他用于获取用户信息的接口时必带
+    public static String phone = "";//登录手机号
+    public static String username = "";//昵称(付了么号)
+    public static int login_type = 1;//登录状态 0:管理员 1：员工
+    public static final int LOGIN_TYPE_ADMIN = 0;
+    public static final int LOGIN_TYPE_EMPLOYEES = 1;
     private static App instance;
     private APIService serverApi;
 
     @Override
     public void onCreate() {
+
         super.onCreate();
         instance = this;
-
+        initFresco();//初始化图片加载
         initRest();//初始化网络通信
+
         ZXingLibrary.initDisplayOpinion(this);//二维码
+    }
+
+    private void initFresco() {
+        ImagePipelineConfig config = ImagePipelineConfig.newBuilder(this)
+                .setDownsampleEnabled(true)//支持各种格式
+                .build();
+        Fresco.initialize(this, config);
     }
 
     private void initRest() {
@@ -43,8 +59,6 @@ public class App extends Application {
     public static App getInstance() {
         return instance;
     }
-
-
 
 
 }

@@ -1,14 +1,18 @@
 package com.fuleme.business.fragment;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.fuleme.business.App;
 import com.fuleme.business.R;
@@ -16,6 +20,7 @@ import com.fuleme.business.activity.AboutUsActivity;
 import com.fuleme.business.activity.BusinessApplicationActivity;
 import com.fuleme.business.activity.ClerkManagementActivity;
 import com.fuleme.business.activity.LoginActivity;
+import com.fuleme.business.activity.RegistrationInformationActivity;
 import com.fuleme.business.activity.UserDetailsActivity;
 
 import butterknife.Bind;
@@ -37,6 +42,14 @@ public class CFragment extends Fragment {
     View llSetDyglLine;
     @Bind(R.id.ll_set_dygl)
     LinearLayout llSetDygl;
+    @Bind(R.id.tv_phone)
+    TextView tvPhone;
+    @Bind(R.id.tv_fulemenumber)
+    TextView tvFulemenumber;
+    @Bind(R.id.ll_addstore)
+    LinearLayout llAddstore;
+    @Bind(R.id.v_add_line)
+    View vAddLine;
 
     @Nullable
     @Override
@@ -57,13 +70,19 @@ public class CFragment extends Fragment {
 
 
     public void initView() {
+        tvPhone.setText(App.phone);
+        tvFulemenumber.setText(App.username);
         //根据登录类型显示隐藏员工管理
         if (App.login_type == App.LOGIN_TYPE_EMPLOYEES) {
             llSetDygl.setVisibility(View.GONE);
             llSetDyglLine.setVisibility(View.GONE);
+            llAddstore.setVisibility(View.GONE);
+            vAddLine.setVisibility(View.GONE);
         } else if (App.login_type == App.LOGIN_TYPE_ADMIN) {
             llSetDygl.setVisibility(View.VISIBLE);
             llSetDyglLine.setVisibility(View.VISIBLE);
+            llAddstore.setVisibility(View.VISIBLE);
+            vAddLine.setVisibility(View.VISIBLE);
         }
     }
 
@@ -72,7 +91,8 @@ public class CFragment extends Fragment {
 
     }
 
-    @OnClick({R.id.ll_set_zh, R.id.ll_set_s_a, R.id.ll_set_dygl, R.id.ll_guanyuwomen, R.id.iv_btm_tongzhi})
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @OnClick({R.id.ll_addstore, R.id.ll_set_zh, R.id.ll_set_s_a, R.id.ll_set_dygl, R.id.ll_guanyuwomen, R.id.iv_btm_tongzhi})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_set_zh:
@@ -86,6 +106,10 @@ public class CFragment extends Fragment {
             case R.id.ll_set_dygl:
                 // 跳转店员管理
                 startActivity(new Intent(getActivity(), ClerkManagementActivity.class));
+                break;
+            case R.id.ll_addstore:
+                // 注册店铺
+                startActivity(new Intent(getActivity(), RegistrationInformationActivity.class));
                 break;
             case R.id.iv_btm_tongzhi:
                 //通知
@@ -118,4 +142,5 @@ public class CFragment extends Fragment {
             getActivity().finish();
         }
     }
+
 }

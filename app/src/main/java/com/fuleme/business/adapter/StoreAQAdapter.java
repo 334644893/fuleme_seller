@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fuleme.business.R;
+import com.fuleme.business.bean.ClerkInfoBean;
 import com.fuleme.business.bean.StoreAQBean;
 
 import java.util.List;
@@ -26,11 +27,11 @@ public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHo
 
 //    final int IVSTATE_VISIBLE = 0;
 //    private List<StoreAQBean> mDatas;
-    private List<String> mDatas;
+    private List<ClerkInfoBean.DataBean> mDatas;
     private Context context;
     private onRecyclerViewItemClickListener itemClickListener = null;
 
-    public StoreAQAdapter(Context context, List<String> mDatas) {
+    public StoreAQAdapter(Context context, List<ClerkInfoBean.DataBean> mDatas) {
         this.context = context;
         this.mDatas = mDatas;
     }
@@ -63,7 +64,7 @@ public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHo
 //        } else {
 //            holder.ivStore.setVisibility(View.INVISIBLE);
 //        }
-        holder.tvStore.setText(mDatas.get(position));
+        holder.tvStore.setText(mDatas.get(position).getName());
         holder.llStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +77,7 @@ public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHo
 
     public interface onRecyclerViewItemClickListener {
         //点击传递item信息接口
-        void onItemClick(View v, String itemText);
+        void onItemClick(View v, ClerkInfoBean.DataBean bean);
     }
 
     public void setOnItemClickListener(onRecyclerViewItemClickListener listener) {

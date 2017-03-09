@@ -112,6 +112,7 @@
 
     <!-- 基本颜色 -->
     <color name="orange">#ff7801</color>
+    <color name="orange_1">#FFBE81</color>
     <color name="blue">#01aeff</color>
     <color name="blue_pressed">#0295d9</color>
     <color name="touMing">#00000000</color>
@@ -128,6 +129,7 @@
 
     <!--取消颜色-->
     <color name="cancel_normal">#DCD95341</color>
+    <color name="cancel_normal_1">#BA2F2F</color>
     <color name="cancel_pressed">#ffd95341</color>
 
     <color name="btn_voice_n">#66CD00</color>

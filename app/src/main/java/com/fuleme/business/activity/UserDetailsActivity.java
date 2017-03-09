@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.fuleme.business.R;
 import com.fuleme.business.fragment.FragmentActivity;
-import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.widget.CustomDialog;
 
 import butterknife.Bind;
@@ -17,8 +16,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class UserDetailsActivity extends AppCompatActivity {
+    @Bind(R.id.tv_store_name)
+    TextView tvStoreName;
+    @Bind(R.id.tv_region)
+    TextView tvRegion;
+    @Bind(R.id.tv_industry)
+    TextView tvIndustry;
     private CustomDialog dialog;
-    final int FROM = 886;
     final int EXIT_USERDETAIL = 100;//退出
     @Bind(R.id.tv_title)
     TextView tvTitle;
@@ -28,7 +32,14 @@ public class UserDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
         ButterKnife.bind(this);
+        initView();
+    }
+
+    public void initView() {
         tvTitle.setText("账号详情");
+        tvStoreName.setText("");
+        tvRegion.setText("");
+        tvIndustry.setText("");
     }
 
     @OnClick({R.id.tv_left, R.id.btn_login, R.id.ll_forgotpassword})
@@ -42,7 +53,7 @@ public class UserDetailsActivity extends AppCompatActivity {
                 CustomDialog.Builder customBuilder = new
                         CustomDialog.Builder(UserDetailsActivity.this);
                 customBuilder
-                        .setMessage("确定退出")
+                        .setTitle("确定退出")
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();

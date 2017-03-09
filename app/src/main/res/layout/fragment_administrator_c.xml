@@ -7,7 +7,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,6 +48,7 @@
                     android:paddingLeft="10dp">
 
                     <TextView
+                        android:id="@+id/tv_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_gravity="center_vertical"
@@ -53,6 +56,7 @@
                         android:text="1234567" />
 
                     <TextView
+                        android:id="@+id/tv_fulemenumber"
                         android:layout_width="wrap_content"
                         android:layout_height="0dp"
                         android:layout_gravity="center_vertical"
@@ -151,6 +155,41 @@
             </LinearLayout>
 
             <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/black_26" />
+            <LinearLayout
+                android:id="@+id/ll_addstore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="15dp">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon_add" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="4"
+                    android:paddingLeft="10dp"
+                    android:text="添加店铺" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon3" />
+            </LinearLayout>
+
+            <View
+                android:id="@+id/v_add_line"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/black_26" />

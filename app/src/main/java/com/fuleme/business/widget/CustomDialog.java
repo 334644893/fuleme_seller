@@ -196,6 +196,7 @@ public class CustomDialog extends Dialog {
             } else {
                 layout.findViewById(R.id.iv_r).setVisibility(View.GONE);
             }
+
             // set the confirm button
             if (positiveButtonText != null) {
                 ((TextView) layout.findViewById(R.id.positiveButton))
@@ -243,8 +244,12 @@ public class CustomDialog extends Dialog {
             if (message != null) {
                 ((TextView) layout.findViewById(
                         R.id.message)).setText(message);
-            } else if (contentView != null) {
+            } else{
+                 layout.findViewById(R.id.content).setVisibility(View.GONE);
+            }
+            if (contentView != null) {
                 // if no message set
+
                 // add the contentView to the dialog body
                 ((LinearLayout) layout.findViewById(R.id.content))
                         .removeAllViews();

@@ -60,9 +60,9 @@ public class ClerkManagementAdapter extends RecyclerView.Adapter<ClerkManagement
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.tvName.setText(mDatas.get(position).getName());
         holder.tvPhone.setText(mDatas.get(position).getPhone());
-        if (mDatas.get(position).getType().equals("0")) {
+        if (mDatas.get(position).getType().equals("1")) {
             holder.tvType.setText("(店长)");
-        } else if (mDatas.get(position).getType().equals("1")) {
+        } else if (mDatas.get(position).getType().equals("2")) {
             holder.tvType.setText("店员");
         } else {
             holder.tvType.setText("未知");
