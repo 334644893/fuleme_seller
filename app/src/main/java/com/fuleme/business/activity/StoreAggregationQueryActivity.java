@@ -68,7 +68,7 @@ public class StoreAggregationQueryActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new StoreAQAdapter(StoreAggregationQueryActivity.this, mDatas);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(StoreAggregationQueryActivity.this, LinearLayoutManager.VERTICAL));
+//        mRecyclerView.addItemDecoration(new DividerItemDecoration(StoreAggregationQueryActivity.this, LinearLayoutManager.VERTICAL));
         mAdapter.setOnItemClickListener(new StoreAQAdapter.onRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v, ClerkInfoBean.DataBean bean) {
@@ -117,7 +117,7 @@ public class StoreAggregationQueryActivity extends BaseActivity {
                         mDatas = response.body().getData();
                         ClerkInfoBean.DataBean bean = new ClerkInfoBean.DataBean();
                         bean.setName("全部店铺");
-                        bean.setId("");
+                        bean.setId(App.PLACEHOLDER);
                         mDatas.add(0, bean);
                         initView();
 
