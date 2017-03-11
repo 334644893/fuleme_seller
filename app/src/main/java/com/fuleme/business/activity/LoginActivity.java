@@ -123,10 +123,14 @@ public class LoginActivity extends BaseActivity {
                         LoadingDialogUtils.closeDialog(mLoading);//取消等待框
                         //TODO 初始化数据
                         JSONObject data = GsonUtils.getResultData(response.body());
-                        App.phone = data.optString("phone");
                         App.uid = data.optInt("uid");
-                        App.token = data.optString("token");
+                        App.phone = data.optString("phone");
                         App.username = data.optString("username");
+                        App.role = data.optString("role");
+                        App.merchant = data.optString("merchant");
+                        App.area = data.optString("area");
+                        App.opr_cls = data.optString("opr_cls");
+                        App.token = data.optString("token");
                         //TODO 跳转主页
                         startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
                         finish();

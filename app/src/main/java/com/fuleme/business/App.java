@@ -20,7 +20,11 @@ public class App extends Application {
     public static String token = "";//用户标识，该token在其他用于获取用户信息的接口时必带
     public static String phone = "";//登录手机号
     public static String username = "";//昵称(付了么号)
-    public static int login_type = 1;//登录状态 0:管理员 1：员工
+    public static String merchant = "";//商户名称
+    public static String role  = "";//用户角色，0 管理员，1店长，2店员
+    public static String area  = "";//店铺地区
+    public static String opr_cls  = "";//所属行业
+    public static int login_type = 1;//登录状态 0:管理员 1：员工//TODO 后台在乱改，待完善
     public static final int LOGIN_TYPE_ADMIN = 0;
     public static final int LOGIN_TYPE_EMPLOYEES = 1;
     private static App instance;

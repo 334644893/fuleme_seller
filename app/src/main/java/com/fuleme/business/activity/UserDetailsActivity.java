@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.fragment.FragmentActivity;
 import com.fuleme.business.widget.CustomDialog;
@@ -37,9 +38,10 @@ public class UserDetailsActivity extends AppCompatActivity {
 
     public void initView() {
         tvTitle.setText("账号详情");
-        tvStoreName.setText("");
-        tvRegion.setText("");
-        tvIndustry.setText("");
+        tvStoreName.setText(App.merchant);
+        tvRegion.setText(App.area);
+        tvIndustry.setText(App.opr_cls);
+
     }
 
     @OnClick({R.id.tv_left, R.id.btn_login, R.id.ll_forgotpassword})

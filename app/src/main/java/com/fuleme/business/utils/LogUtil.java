@@ -30,7 +30,7 @@ public class LogUtil {
     private static boolean isPrint = true;
     private static boolean isDebug = false;
 
-    public static final String TAG = "YHY";
+    public static final String TAG = "fuleme";
     public static final String MSG = "log msg is null.";
 
     private static List<String> logList;

@@ -53,6 +53,7 @@ public class RegisteredActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registered);
         ButterKnife.bind(this);
+        initView();
     }
 
     public void initView() {

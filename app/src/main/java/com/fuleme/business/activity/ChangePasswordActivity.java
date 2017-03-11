@@ -55,9 +55,11 @@ public class ChangePasswordActivity extends BaseActivity {
             case R.id.btn_tj:
                 if (TextUtils.isEmpty(etFPPhone.getText().toString())) {
                     ToastUtil.showMessage("请填写旧密码");
-                } else if (TextUtils.isEmpty(etFPPs.getText().toString()) || etFPEp.getText().toString().length() != 11) {
+                } else if (TextUtils.isEmpty(etFPPs.getText().toString())) {
                     ToastUtil.showMessage("请填写新密码");
-                }  else {
+                } else if (!etFPPs.getText().toString().equals(etFPEp.getText().toString())) {
+                    ToastUtil.showMessage("新密码不一致");
+                } else {
                     modifypwd();
                 }
                 break;

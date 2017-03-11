@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.fuleme.business.R;
 import com.fuleme.business.bean.IncomeBean;
+import com.fuleme.business.utils.DateUtil;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -59,7 +60,7 @@ public class IncomeAdapter extends RecyclerView.Adapter<IncomeAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.tvITime.setText(mDatas.get(position).getResultTime());
+        holder.tvITime.setText(DateUtil.stampToDate(mDatas.get(position).getResultTime(),DateUtil.DATE_2));
         holder.tvIAmount.setText("¥ "+nf.format(mDatas.get(position).getArrivalAmount()));
 
         if (mDatas.get(position).getResultStatus() == Y_STATE) {
