@@ -48,8 +48,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="店员"
                     android:padding="5dp"
+                    android:text="店员"
                     android:textColor="@color/black_87"
                     android:textSize="@dimen/text_size_s" />
 
@@ -72,8 +72,8 @@
                     android:id="@+id/tv_admin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
                     android:gravity="center"
+                    android:padding="5dp"
                     android:text="管理员"
                     android:textColor="@color/black_26"
                     android:textSize="@dimen/text_size_s" />
@@ -104,10 +104,10 @@
             android:imeOptions="actionNext"
             android:inputType="number"
             android:maxLength="11"
-            android:text="13419567515"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:singleLine="true"
+            android:text="13419567515"
             android:textColorHint="@color/black_26"
             android:textSize="14sp" />
 
@@ -122,13 +122,13 @@
             android:layout_height="48dp"
             android:background="@null"
             android:hint="请输入密码"
-            android:text="666666"
             android:imeOptions="actionNext"
-            android:inputType="number"
+            android:inputType="textPassword"
             android:maxLength="11"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:singleLine="true"
+            android:text="666666"
             android:textColorHint="@color/black_26"
             android:textSize="14sp" />
 
