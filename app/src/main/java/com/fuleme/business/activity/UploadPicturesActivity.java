@@ -38,7 +38,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class UploadPicturesActivity extends BaseActivity {
+public class  UploadPicturesActivity extends BaseActivity {
     private static final String TAG = "UploadPicturesActivity";
     public static String urlImg = "";//营业证显示图片地址
     private static final int IMAGE_NUM = 1;//最多上传数量

@@ -16,6 +16,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * 账号详情
+ */
 public class UserDetailsActivity extends AppCompatActivity {
     @Bind(R.id.tv_store_name)
     TextView tvStoreName;

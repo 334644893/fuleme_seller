@@ -11,5 +11,6 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size"
         android:text="武汉"
+        android:gravity="center"
         android:padding="10dp"/>
 </LinearLayout>

@@ -24,7 +24,7 @@ public class App extends Application {
     public static String role  = "";//用户角色，0 管理员，1店长，2店员
     public static String area  = "";//店铺地区
     public static String opr_cls  = "";//所属行业
-    public static int login_type = 1;//登录状态 0:管理员 1：员工//TODO 后台在乱改，待完善
+    public static int login_type = 1;//登录状态 0:管理员 1：员工
     public static final int LOGIN_TYPE_ADMIN = 0;
     public static final int LOGIN_TYPE_EMPLOYEES = 1;
     private static App instance;

@@ -23,6 +23,7 @@ import com.fuleme.business.utils.DividerItemDecoration;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.widget.AddClerkDialog;
+import com.fuleme.business.widget.CustomDialog;
 import com.fuleme.business.widget.LoadingDialogUtils;
 
 import org.json.JSONObject;
@@ -51,7 +52,7 @@ public class ClerkManagementActivity extends BaseActivity {
     LinearLayoutManager linearLayoutManager;
     ClerkManagementAdapter mAdapter;
     private List<CMBean> mDatas = new ArrayList<CMBean>();//列表集合
-    private Dialog mLoading,mLoading_2;
+    private Dialog mLoading, mLoading_2, mLoading_3;
     public static String storeID = "";
     public static String storeName = "";
     final int TOSTORE = 998;
@@ -67,6 +68,8 @@ public class ClerkManagementActivity extends BaseActivity {
 
     }
 
+    private CustomDialog deleteDialog;
+
     public void initView() {
         tvTitle.setText("店员管理");
         /**
@@ -79,7 +82,27 @@ public class ClerkManagementActivity extends BaseActivity {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(ClerkManagementActivity.this, LinearLayoutManager.VERTICAL));
         mAdapter.setOnItemClickListener(new ClerkManagementAdapter.onRecyclerViewItemClickListener() {
             @Override
-            public void onItemClick(View v, CMBean bean) {
+            public void onItemClick(View v, final CMBean bean) {
+                CustomDialog.Builder customBuilder = new
+                        CustomDialog.Builder(ClerkManagementActivity.this);
+                customBuilder
+                        .setTitle("将员工 " + bean.getName() + " 移除?")
+                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                delclerk(App.token, bean.getStoreid(), bean.getId());
+
+
+                            }
+                        })
+                        .setPositiveButton("取消",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                deleteDialog = customBuilder.create();
+                deleteDialog.show();
             }
         });
 
@@ -99,6 +122,8 @@ public class ClerkManagementActivity extends BaseActivity {
                     cmBean.setName(cb.getUsername());
                     cmBean.setType(cb.getRole() + "");
                     cmBean.setPhone(cb.getPhone());
+                    cmBean.setId(cb.getId() + "");
+                    cmBean.setStoreid(db.getId());
                     mDatas.add(cmBean);
                 }
             }
@@ -114,6 +139,8 @@ public class ClerkManagementActivity extends BaseActivity {
                         cmBean.setName(cb.getUsername());
                         cmBean.setType(cb.getRole() + "");
                         cmBean.setPhone(cb.getPhone());
+                        cmBean.setId(cb.getId() + "");
+                        cmBean.setStoreid(db.getId());
                         mDatas.add(cmBean);
                     }
                 }
@@ -124,7 +151,7 @@ public class ClerkManagementActivity extends BaseActivity {
         mAdapter.notifyDataSetChanged();
     }
 
-    private AddClerkDialog dialog;
+    private AddClerkDialog addDialog;
 
     @OnClick({R.id.tv_left, R.id.ll_to_store, R.id.rl_add})
     public void onClick(View view) {
@@ -157,12 +184,13 @@ public class ClerkManagementActivity extends BaseActivity {
                                 ToastUtil.showMessage("请填写员工姓名");
                             } else {
                                 addclerk(App.token, storeID, etName, etPassword, etPhone, state + "");
+                                addDialog.dismiss();
                             }
 
                         }
                     });
-                    dialog = customBuilder.create();
-                    dialog.show();
+                    addDialog = customBuilder.create();
+                    addDialog.show();
                 }
                 break;
         }
@@ -242,7 +270,7 @@ public class ClerkManagementActivity extends BaseActivity {
                         // do SomeThing
                         LogUtil.i("成功");
                         ToastUtil.showMessage("添加成功");
-                        dialog.dismiss();
+
                         getmerchantclerkinfo();
                     } else {
                         ToastUtil.showMessage("失败");
@@ -252,6 +280,7 @@ public class ClerkManagementActivity extends BaseActivity {
                 } else {
                     LogUtil.i("失败response.message():" + response.message());
                 }
+
                 LoadingDialogUtils.closeDialog(mLoading_2);//取消等待框
             }
 
@@ -259,6 +288,51 @@ public class ClerkManagementActivity extends BaseActivity {
             public void onFailure(Call<Object> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
                 LoadingDialogUtils.closeDialog(mLoading_2);//取消等待框
+                ToastUtil.showMessage("超时");
+            }
+
+        });
+    }
+
+    /**
+     * 删除店铺店员接口
+     *
+     * @param token
+     * @param shopid
+     * @param id
+     */
+    private void delclerk(
+            String token,
+            String shopid,
+            String id) {
+        mLoading_3 = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "删除中...");//添加等待框
+        Call<Object> call = getApi().delclerk(token, shopid, id);
+
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful()) {
+                    if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
+                        // do SomeThing
+                        LogUtil.i("成功");
+                        ToastUtil.showMessage("删除成功");
+                        getmerchantclerkinfo();
+
+                    } else {
+                        ToastUtil.showMessage("失败");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
+                    }
+
+                } else {
+                    LogUtil.i("失败response.message():" + response.message());
+                }
+                LoadingDialogUtils.closeDialog(mLoading_3);//取消等待框
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                LogUtil.e(TAG, t.toString());
+                LoadingDialogUtils.closeDialog(mLoading_3);//取消等待框
                 ToastUtil.showMessage("超时");
             }
 

@@ -121,8 +121,7 @@
                     android:layout_gravity="center_vertical"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:paddingLeft="10dp"
-                    />
+                    android:paddingLeft="10dp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -159,9 +158,9 @@
                 <TextView
                     android:id="@+id/tv_i_time"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="center|left"
                     android:lines="1"
@@ -182,9 +181,9 @@
                 <TextView
                     android:id="@+id/tv_i_state"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="center|right"
                     android:lines="1"
@@ -196,12 +195,22 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_m_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            android:scrollbars="none"/>
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/demo_swiperefreshlayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scrollbars="vertical">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_m_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
     </LinearLayout>
 
 

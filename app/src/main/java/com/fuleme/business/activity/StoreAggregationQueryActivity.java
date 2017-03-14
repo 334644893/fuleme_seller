@@ -38,7 +38,6 @@ import retrofit2.Response;
 public class StoreAggregationQueryActivity extends BaseActivity {
     private static final String TAG = "StoreAggregationQueryAc";
     private Context context = StoreAggregationQueryActivity.this;
-    final int FROMSTORE = 888;
     public static int intentType = 0;//判断从哪个页面过来查询
     public static final int AGGREGATIONQUERYACTIVITY = 1;
     public static final int BFRAGMENT = 2;
@@ -68,7 +67,6 @@ public class StoreAggregationQueryActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mAdapter = new StoreAQAdapter(StoreAggregationQueryActivity.this, mDatas);
         mRecyclerView.setAdapter(mAdapter);
-//        mRecyclerView.addItemDecoration(new DividerItemDecoration(StoreAggregationQueryActivity.this, LinearLayoutManager.VERTICAL));
         mAdapter.setOnItemClickListener(new StoreAQAdapter.onRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v, ClerkInfoBean.DataBean bean) {
@@ -93,10 +91,6 @@ public class StoreAggregationQueryActivity extends BaseActivity {
         });
 
     }
-
-//    protected void initData() {
-//
-//    }
     /**
      * 店员管理接口获取店铺
      */

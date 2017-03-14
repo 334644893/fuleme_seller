@@ -200,6 +200,19 @@ public interface APIService {
     );
 
     /**
+     * 删除店铺店员接口
+     * @param token
+     * @param shopid 店铺ID
+     * @param id   店员ID
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("merchant/delclerk")
+    Call<Object> delclerk(@Field("token") String token,
+                            @Field("shopid") String shopid,
+                            @Field("id") String id);
+
+    /**
      * 省接口
      *
      * @return
@@ -266,7 +279,9 @@ public interface APIService {
      */
     @FormUrlEncoded
     @POST("account/income")
-    Call<IncomeBean> income(@Field("token") String token);
+    Call<IncomeBean> income(@Field("token") String token,
+                            @Field("page") int page,
+                            @Field("list_rows") int list_rows);
 
     /**
      * 汇总查询接口

@@ -1,7 +1,9 @@
 package com.fuleme.business.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -33,7 +35,14 @@ import retrofit2.Response;
  * 我的账户-收入
  */
 public class IncomeActivity extends BaseActivity {
-    private static final String TAG = "IncomeActivity";
+    public static final String TAG = "IncomeActivity";
+
+    public boolean state = true;//是否刷新
+    public static boolean textState = true;//true 显示正在加载，false显示 没有更多
+    @Bind(R.id.demo_swiperefreshlayout)
+    SwipeRefreshLayout demoSwiperefreshlayout;
+    private int page = 1;//当前加载的页数
+    public static int rows = 20;//传给服务器的需要加载的数量
     int text_state = 0;//0：收缩状态 1：伸张状态
     @Bind(R.id.tv_tipstext)
     TextView tvTipstext;
@@ -58,8 +67,8 @@ public class IncomeActivity extends BaseActivity {
     }
 
     public void init() {
+        initView();
         initData();
-
     }
 
     public void initView() {
@@ -73,7 +82,33 @@ public class IncomeActivity extends BaseActivity {
         mAdapter = new IncomeAdapter(IncomeActivity.this, mDatas);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(IncomeActivity.this, LinearLayoutManager.VERTICAL));
-
+        //刷新控件
+        demoSwiperefreshlayout.setColorSchemeResources(R.color.white);
+        demoSwiperefreshlayout.setProgressBackgroundColorSchemeResource(R.color.theme);
+        demoSwiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //下拉重置数据
+                page = 1;
+                state = true;
+                income();
+            }
+        });
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                int totalItemCount = linearLayoutManager.getItemCount();
+                //lastVisibleItem >= totalItemCount - 4 表示剩下4个item自动加载，各位自由选择
+                // dy>0 表示向下滑动
+                if (lastVisibleItem >= totalItemCount - 1 && dy > 0 && state == true) {
+                    state = false;
+                    page += 1;
+                    income();
+                }
+            }
+        });
 
     }
 
@@ -104,13 +139,13 @@ public class IncomeActivity extends BaseActivity {
     }
 
     /**
-     * 获取开户行接口
+     * 获取收入记录接口
      */
     private Dialog mLoading;
 
     private void income() {
         mLoading = LoadingDialogUtils.createLoadingDialog(IncomeActivity.this, "获取中...");//添加等待框
-        Call<IncomeBean> call = getApi().income(App.token);
+        Call<IncomeBean> call = getApi().income(App.token, page, rows);
 
         call.enqueue(new Callback<IncomeBean>() {
             @Override
@@ -119,16 +154,22 @@ public class IncomeActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("成功");
+                        LogUtil.i("page=" + page);
                         //TODO 初始化数据
+                        if (page == 1) {
+                            mDatas.clear();
+                        } else {
+                            state = true;
+                            textState=true;
+                        }
+                        if (response.body().getData() == null || response.body().getData().size() < rows) {
+                            state = false;
+                            textState=false;
+                        }
                         tvBalance.setText(response.body().getBalance() + " 元");
                         tvTipstext.setText(response.body().getPrompt());
-                        mDatas = response.body().getData();
-//                         IncomeBean.DataBean a= new IncomeBean.DataBean();
-//                        a.setResultStatus(1);
-//                        a.setArrivalAmount(1000000000);
-//                        a.setResultTime("0000-00-00");
-//                        mDatas.add(a);
-                        initView();
+                        mDatas.addAll(response.body().getData());
+                        mAdapter.notifyDataSetChanged();
                     } else {
                         ToastUtil.showMessage("获取失败");
                     }
@@ -136,12 +177,14 @@ public class IncomeActivity extends BaseActivity {
                     LogUtil.i("失败response.message():" + response.message());
                 }
                 LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                demoSwiperefreshlayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<IncomeBean> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
                 LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                demoSwiperefreshlayout.setRefreshing(false);
                 ToastUtil.showMessage("超时");
             }
 

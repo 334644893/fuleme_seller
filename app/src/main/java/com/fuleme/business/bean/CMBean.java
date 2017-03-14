@@ -13,6 +13,15 @@ public class CMBean implements Serializable{
     private String type="";
     private String phone="";
     private String password="";
+    private String storeid="";
+
+    public String getStoreid() {
+        return storeid;
+    }
+
+    public void setStoreid(String storeid) {
+        this.storeid = storeid;
+    }
 
     public String getId() {
         return id;
