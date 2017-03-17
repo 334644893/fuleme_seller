@@ -38,10 +38,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class  UploadPicturesActivity extends BaseActivity {
+public class UploadPicturesActivity extends BaseActivity {
     private static final String TAG = "UploadPicturesActivity";
-    public static String urlImg = "";//营业证显示图片地址
-    private static final int IMAGE_NUM = 1;//最多上传数量
+    public static String urlImg_business_licence = "";//营业证显示图片地址
+    public static ArrayList<String> urlImg_identity_card = new ArrayList<>();//本地身份证图片地址集合
+    private static int IMAGE_NUM = 1;//最多上传数量
+    private int index_mDatas = -1;//当前选择的图片在mDatas中的索引
+    private int index_successful = 0;//用来记录成功上传的图片数量
     private ArrayList<String> mDatas = new ArrayList<String>();
     private UploadPicturesAdapter mAdapter;
     public int ACTIVITY_REQUEST_SELECT_PHOTO = 1000;
@@ -55,6 +58,7 @@ public class  UploadPicturesActivity extends BaseActivity {
     TextView tvTitle;
     @Bind(R.id.tv_right)
     TextView tvRight;
+    private int intent = 0;//区分进入页面
 
     @OnClick({R.id.tv_left, R.id.tv_right, R.id.btn})
     public void onClick(View view) {
@@ -66,18 +70,40 @@ public class  UploadPicturesActivity extends BaseActivity {
                 break;
             case R.id.tv_right:
                 if (mDatas.size() > 1) {
-                    userAvator.setImageDrawable(getResources().getDrawable(R.mipmap.logo_de));
-                    mDatas.remove(0);
+
+                    mDatas.remove(index_mDatas);
                     mAdapter.notifyDataSetChanged();
-                    urlImg = "";
-                    RegistrationInformationActivity.url="";
+                    if (mDatas.size() > 1) {
+                        index_mDatas = 0;
+                        userAvator.setImageURI(Uri.fromFile(new File(mDatas.get(index_mDatas))));
+                    } else {
+                        userAvator.setImageDrawable(getResources().getDrawable(R.mipmap.logo_de));
+                    }
+
+
+//                    switch (intent) {
+//                        case RegistrationStoreActivity.BUSINESS_LICENCE:
+//                            urlImg_business_licence = "";
+//                            RegistrationStoreActivity.url_business_licence = "";
+//                            break;
+//                        case RegistrationStoreActivity.IDENTITY_CARD:
+//                            urlImg_identity_card = "";
+//                            RegistrationStoreActivity.url_identity_card = "";
+//                            break;
+//                    }
+
                 } else {
                     ToastUtil.showMessage("选张图片呗");
                 }
                 break;
             case R.id.btn:
                 if (mDatas.size() > 1) {
-                    uploadMemberIcon(PictureUtil.smallPic(mDatas.get(0)));
+                    mLoading = LoadingDialogUtils.createLoadingDialog(UploadPicturesActivity.this, "上传中...");//添加等待框
+                    index_successful = 0;
+                    urlImg_identity_card.clear();
+                    for (int i = 0; i < mDatas.size() - 1; i++) {
+                        uploadMemberIcon(PictureUtil.smallPic(mDatas.get(i)));
+                    }
                 } else {
                     ToastUtil.showMessage("选张图片呗");
                 }
@@ -96,7 +122,7 @@ public class  UploadPicturesActivity extends BaseActivity {
     }
 
     public void init() {
-
+        intent = getIntent().getExtras().getInt("intent");
         initData();
         initView();
         initClick();
@@ -105,14 +131,48 @@ public class  UploadPicturesActivity extends BaseActivity {
     public void initData() {
 
         mDatas.add("add");//初始化一个加号
-        if (!TextUtils.isEmpty(urlImg)&&new File(urlImg).exists()) {
-            mDatas.add(0, urlImg);
-            userAvator.setImageURI(Uri.fromFile(new File(urlImg)));
+        switch (intent) {
+            case RegistrationStoreActivity.BUSINESS_LICENCE:
+                tvTitle.setText("上传营业证");
+                IMAGE_NUM = 1;//营业证1张
+                if (!TextUtils.isEmpty(urlImg_business_licence) && new File(urlImg_business_licence).exists()) {
+                    mDatas.add(0, urlImg_business_licence);
+                    index_mDatas = 0;
+                    userAvator.setImageURI(Uri.fromFile(new File(urlImg_business_licence)));
+                }
+                break;
+            case RegistrationStoreActivity.IDENTITY_CARD:
+                tvTitle.setText("上传身份证");
+                IMAGE_NUM = 2;//身份证2张
+                if (urlImg_identity_card.size() > 0 && fileIsNull(urlImg_identity_card)) {
+                    mDatas.addAll(0, urlImg_identity_card);
+                    index_mDatas = 0;
+                    userAvator.setImageURI(Uri.fromFile(new File(urlImg_identity_card.get(index_mDatas))));
+                }
+                break;
         }
+
+    }
+
+    /**
+     * 判断图片是否还在手机中
+     *
+     * @param list
+     * @return
+     */
+    private boolean fileIsNull(List<String> list) {
+        for (String s : list) {
+            if (!new File(s).exists()) {
+                return false;
+            }
+        }
+        return true;
+
     }
 
     public void initView() {
-        tvTitle.setText("上传营业证");
+
+
         tvRight.setText("删除");
         tvRight.setVisibility(View.VISIBLE);
         //初始化列表
@@ -142,7 +202,8 @@ public class  UploadPicturesActivity extends BaseActivity {
 
                 } else {
                     //点击其余图片
-                    userAvator.setImageURI(Uri.fromFile(new File(mDatas.get(position))));
+                    index_mDatas = position;
+                    userAvator.setImageURI(Uri.fromFile(new File(mDatas.get(index_mDatas))));
 
                 }
             }
@@ -160,9 +221,10 @@ public class  UploadPicturesActivity extends BaseActivity {
                 List<String> pathList = Album.parseResult(data);
 
                 if (pathList.size() > 0) {
-                    mDatas.add(0, pathList.get(0));
+                    mDatas.addAll(mDatas.size() - 1, pathList);
                     mAdapter.notifyDataSetChanged();
                     userAvator.setImageURI(Uri.fromFile(new File(pathList.get(0))));//大图
+                    index_mDatas = mDatas.size() - 1;
                 }
             } else if (resultCode == RESULT_CANCELED) { // 用户取消选择。
                 // 根据需要提示用户取消了选择。
@@ -173,14 +235,14 @@ public class  UploadPicturesActivity extends BaseActivity {
     }
 
     /**
-     * 上传营业证
+     * 上传图片
      */
     private void uploadMemberIcon(String filePath) {
         if (TextUtils.isEmpty(filePath)) {
             ToastUtil.showMessage("图片不见了");
             finish();
         }
-        mLoading = LoadingDialogUtils.createLoadingDialog(UploadPicturesActivity.this, "上传中...");//添加等待框
+
         File file = new File(filePath);
         RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part imageBodyPart = MultipartBody.Part.createFormData("file", file.getName(), imageBody);
@@ -191,24 +253,48 @@ public class  UploadPicturesActivity extends BaseActivity {
                 if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                     // do SomeThing
                     LogUtil.i("上传成功");
-                    ToastUtil.showMessage("上传成功");
+
+
                     //TODO 初始化数据
                     JSONObject data = GsonUtils.getResultData(response.body());
-                    RegistrationInformationActivity.url = data.optString("url");
-                    urlImg=mDatas.get(0);
-                    LoadingDialogUtils.closeDialog(mLoading);//取消等待框
-                    finish();
+                    switch (intent) {
+                        case RegistrationStoreActivity.BUSINESS_LICENCE:
+                            RegistrationStoreActivity.url_business_licence = data.optString("url");
+                            urlImg_business_licence = mDatas.get(0);
+                            break;
+                        case RegistrationStoreActivity.IDENTITY_CARD:
+                            if (RegistrationStoreActivity.url_identity_card.size() == 2) {
+                                RegistrationStoreActivity.url_identity_card.set(index_successful, data.optString("url"));
+                            } else {
+                                RegistrationStoreActivity.url_identity_card.add(data.optString("url"));
+
+                            }
+                            urlImg_identity_card.add(mDatas.get(index_successful));
+                            break;
+                    }
+                    index_successful++;
+                    if (index_successful == mDatas.size() - 1) {
+
+                        LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                        finish();
+                    }
                 } else {
+                    RegistrationStoreActivity.url_identity_card.clear();
+                    urlImg_identity_card.clear();
                     ToastUtil.showMessage("上传失败");
                     LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                    finish();
                 }
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
+                RegistrationStoreActivity.url_identity_card.clear();
+                urlImg_identity_card.clear();
                 LogUtil.e(TAG, t.toString());
                 LoadingDialogUtils.closeDialog(mLoading);//取消等待框
                 ToastUtil.showMessage("图片上传失败");
+                finish();
             }
         });
 

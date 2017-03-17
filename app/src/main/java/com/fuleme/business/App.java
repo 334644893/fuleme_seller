@@ -1,10 +1,17 @@
 package com.fuleme.business;
 
 import android.app.Application;
+import android.content.Context;
+import android.util.Log;
 
+import com.alibaba.sdk.android.push.CloudPushService;
+import com.alibaba.sdk.android.push.CommonCallback;
+import com.alibaba.sdk.android.push.noonesdk.PushServiceFactory;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.fuleme.business.helper.APIService;
+import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.utils.ToastUtil;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import retrofit2.Retrofit;
@@ -15,6 +22,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class App extends Application {
+    private static final String TAG = "App";
     public static String PLACEHOLDER = "";//占位符
     public static int uid = 0;//用户id
     public static String token = "";//用户标识，该token在其他用于获取用户信息的接口时必带
@@ -37,7 +45,7 @@ public class App extends Application {
         instance = this;
         initFresco();//初始化图片加载
         initRest();//初始化网络通信
-
+        initCloudChannel(this);//阿里云
         ZXingLibrary.initDisplayOpinion(this);//二维码
     }
 
@@ -55,7 +63,24 @@ public class App extends Application {
                 .build();
         serverApi = retrofit.create(APIService.class);
     }
-
+    /**
+     * 初始化云推送通道
+     * @param applicationContext
+     */
+    private void initCloudChannel(Context applicationContext) {
+        PushServiceFactory.init(applicationContext);
+        CloudPushService pushService = PushServiceFactory.getCloudPushService();
+        pushService.register(applicationContext, new CommonCallback() {
+            @Override
+            public void onSuccess(String response) {
+                LogUtil.d(TAG, "init cloudchannel success");
+            }
+            @Override
+            public void onFailed(String errorCode, String errorMessage) {
+                LogUtil.d(TAG, "init cloudchannel failed -- errorcode:" + errorCode + " -- errorMessage:" + errorMessage);
+            }
+        });
+    }
     public APIService getServerApi() {
         return serverApi;
     }

@@ -71,7 +71,12 @@ public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHo
             holder.llNumber.setVisibility(View.GONE);
             holder.llArea.setVisibility(View.GONE);
         } else {
-            holder.tvNumber.setText(mDatas.get(position).getClerk().size() + "");
+            if(mDatas.get(position).getClerk()!=null){
+
+                holder.tvNumber.setText(mDatas.get(position).getClerk().size() + "");
+            }else{
+                holder.tvNumber.setText("0");
+            }
             holder.tvArea.setText(mDatas.get(position).getAddress());
         }
         holder.tvStore.setText(mDatas.get(position).getName());

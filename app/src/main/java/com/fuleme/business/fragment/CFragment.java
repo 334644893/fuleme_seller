@@ -20,7 +20,7 @@ import com.fuleme.business.activity.AboutUsActivity;
 import com.fuleme.business.activity.BusinessApplicationActivity;
 import com.fuleme.business.activity.ClerkManagementActivity;
 import com.fuleme.business.activity.LoginActivity;
-import com.fuleme.business.activity.RegistrationInformationActivity;
+import com.fuleme.business.activity.RegistrationStoreActivity;
 import com.fuleme.business.activity.UserDetailsActivity;
 
 import butterknife.Bind;
@@ -109,7 +109,7 @@ public class CFragment extends Fragment {
                 break;
             case R.id.ll_addstore:
                 // 注册店铺
-                startActivity(new Intent(getActivity(), RegistrationInformationActivity.class));
+                startActivity(new Intent(getActivity(), RegistrationStoreActivity.class));
                 break;
             case R.id.iv_btm_tongzhi:
                 //通知
