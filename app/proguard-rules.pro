@@ -39,3 +39,5 @@
 -dontwarn anetwork.**
 -dontwarn com.ut.**
 -dontwarn com.ta.**
+-keep class com.alibaba.idst.nls.** {*;}
+-keep class com.google.**{*;}

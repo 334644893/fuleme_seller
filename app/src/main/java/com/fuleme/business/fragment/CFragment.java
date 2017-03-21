@@ -31,9 +31,6 @@ import butterknife.OnClick;
  * 我的
  */
 public class CFragment extends Fragment {
-    int btmState = 1;
-    final int STATE_OFF = 0;
-    final int STATE_ON = 1;
     @Bind(R.id.iv_btm_tongzhi)
     ImageView ivBtmTongzhi;
     final int EXIT_USERDETAIL = 100;//退出
@@ -57,7 +54,6 @@ public class CFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_administrator_c, container, false);
 
         ButterKnife.bind(this, view);
-        initData();
         initView();
         return view;
     }
@@ -86,11 +82,6 @@ public class CFragment extends Fragment {
         }
     }
 
-
-    protected void initData() {
-
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @OnClick({R.id.ll_addstore, R.id.ll_set_zh, R.id.ll_set_s_a, R.id.ll_set_dygl, R.id.ll_guanyuwomen, R.id.iv_btm_tongzhi})
     public void onClick(View view) {
@@ -113,7 +104,7 @@ public class CFragment extends Fragment {
                 break;
             case R.id.iv_btm_tongzhi:
                 //通知
-                setBtmTongzhi(btmState);
+                setBtmTongzhi();
                 break;
             case R.id.ll_guanyuwomen:
                 // 跳转关于我们
@@ -122,13 +113,13 @@ public class CFragment extends Fragment {
         }
     }
 
-    private void setBtmTongzhi(int state) {
-        if (state == STATE_OFF) {
-            ivBtmTongzhi.setImageDrawable(getResources().getDrawable(R.mipmap.icon_on));
-            btmState = STATE_ON;
-        } else if (state == STATE_ON) {
+    private void setBtmTongzhi() {
+        if (App.bindAccount) {
             ivBtmTongzhi.setImageDrawable(getResources().getDrawable(R.mipmap.icon_off));
-            btmState = STATE_OFF;
+            App.unbindAccount();
+        } else  {
+            ivBtmTongzhi.setImageDrawable(getResources().getDrawable(R.mipmap.icon_on));
+            App.bindAccount();
         }
     }
 

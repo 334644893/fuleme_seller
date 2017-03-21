@@ -25,6 +25,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 添加店铺
+ */
 public class RegistrationStoreActivity extends BaseActivity {
     private static final String TAG = "RegistrationStoreActivi";
     @Bind(R.id.tv_title)
@@ -49,6 +52,7 @@ public class RegistrationStoreActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration_store);
         ButterKnife.bind(this);
+        tvTitle.setText("添加店铺");
     }
 
     @Override

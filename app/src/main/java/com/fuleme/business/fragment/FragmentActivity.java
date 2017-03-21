@@ -1,6 +1,8 @@
 package com.fuleme.business.fragment;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,11 +19,13 @@ import android.widget.Toast;
 
 import com.fuleme.business.App;
 import com.fuleme.business.R;
+import com.fuleme.business.activity.UserDetailsActivity;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.widget.LoadingDialogUtils;
+import com.fuleme.business.widget.NoticeDialog;
 
 import org.json.JSONObject;
 
@@ -77,13 +81,11 @@ public class FragmentActivity extends BaseActivity {
     BFragment bFragment;
     CFragment cFragment;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
         ButterKnife.bind(this);
-
         initView();
 
     }
@@ -107,12 +109,12 @@ public class FragmentActivity extends BaseActivity {
         tvButIm2.setImageResource(mItemImage[1]);
         tvButIm3.setImageResource(mItemImage[2]);
         //根据登录类型显示隐藏首页导航
-        if(App.login_type==App.LOGIN_TYPE_EMPLOYEES){
-            tvBut1.setVisibility(View.GONE);
-            select(1);
-        }else if (App.login_type==App.LOGIN_TYPE_ADMIN){
+        if (App.login_type == App.LOGIN_TYPE_ADMIN) {
             tvBut1.setVisibility(View.VISIBLE);
             select(0);
+        } else if (App.login_type == App.LOGIN_TYPE_EMPLOYEES) {
+            tvBut1.setVisibility(View.GONE);
+            select(1);
         }
     }
 
@@ -201,10 +203,11 @@ public class FragmentActivity extends BaseActivity {
 
     /**
      * 改变底部导航
+     *
      * @param i
      */
     private void setBottom(int i) {
-        switch (i){
+        switch (i) {
             case 0:
                 tvTitle.setText(mItemText[0]);
                 tvButIm1.setImageResource(mItemCheckedImage[0]);
@@ -254,18 +257,21 @@ public class FragmentActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+
     /**
      * 退出接口
      */
     Dialog mLoading;
+
     private void logout() {
-        Call<Object> call = getApi().logout( App.token);
+        Call<Object> call = getApi().logout(App.token);
 
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (response.isSuccessful()) {
-                    if (GsonUtils.getError_code(response.body())==GsonUtils.SUCCESSFUL) {
+                    if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("成功");
                     } else {
@@ -291,4 +297,5 @@ public class FragmentActivity extends BaseActivity {
         super.onDestroy();
         logout();
     }
+
 }

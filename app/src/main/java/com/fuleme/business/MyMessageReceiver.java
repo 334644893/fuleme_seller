@@ -1,10 +1,18 @@
 package com.fuleme.business;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 
 import com.alibaba.sdk.android.push.MessageReceiver;
 import com.alibaba.sdk.android.push.notification.CPushMessage;
+import com.fuleme.business.activity.IncomeActivity;
+import com.fuleme.business.fragment.FragmentActivity;
 import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.utils.ToastUtil;
+import com.fuleme.business.utils.TtsUtil;
+import com.fuleme.business.widget.CustomDialog;
+import com.fuleme.business.widget.NoticeDialog;
 
 import java.util.Map;
 
@@ -13,6 +21,7 @@ import java.util.Map;
  */
 
 public class MyMessageReceiver extends MessageReceiver {
+
     // 消息接收部分的LOG_TAG
     public static final String REC_TAG = "receiver";
 
@@ -20,6 +29,7 @@ public class MyMessageReceiver extends MessageReceiver {
     public void onNotification(Context context, String title, String summary, Map<String, String> extraMap) {
         // TODO 处理推送通知
         LogUtil.e("MyMessageReceiver", "Receive notification, title: " + title + ", summary: " + summary + ", extraMap: " + extraMap);
+
     }
 
     @Override
@@ -30,6 +40,9 @@ public class MyMessageReceiver extends MessageReceiver {
     @Override
     public void onNotificationOpened(Context context, String title, String summary, String extraMap) {
         LogUtil.e("MyMessageReceiver", "onNotificationOpened, title: " + title + ", summary: " + summary + ", extraMap:" + extraMap);
+        App.NoticeDialog(context,title,summary);
+        TtsUtil.play("收款成功啦");
+
     }
 
     @Override
@@ -40,6 +53,8 @@ public class MyMessageReceiver extends MessageReceiver {
     @Override
     protected void onNotificationReceivedInApp(Context context, String title, String summary, Map<String, String> extraMap, int openType, String openActivity, String openUrl) {
         LogUtil.e("MyMessageReceiver", "onNotificationReceivedInApp, title: " + title + ", summary: " + summary + ", extraMap:" + extraMap + ", openType:" + openType + ", openActivity:" + openActivity + ", openUrl:" + openUrl);
+        App.NoticeDialog(context,title,summary);
+        TtsUtil.play("收款成功啦");
     }
 
     @Override

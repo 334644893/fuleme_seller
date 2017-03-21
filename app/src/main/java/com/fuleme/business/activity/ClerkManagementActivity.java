@@ -49,6 +49,8 @@ public class ClerkManagementActivity extends BaseActivity {
     TextView tvStoreName;
     @Bind(R.id.m_recyclerView)
     RecyclerView mRecyclerView;
+    @Bind(R.id.none)
+    TextView none;
     LinearLayoutManager linearLayoutManager;
     ClerkManagementAdapter mAdapter;
     private List<CMBean> mDatas = new ArrayList<CMBean>();//列表集合
@@ -117,23 +119,7 @@ public class ClerkManagementActivity extends BaseActivity {
             storeName = "全部店铺";
             //列表数据
             for (ClerkInfoBean.DataBean db : dataList) {
-                for (ClerkInfoBean.DataBean.ClerkBean cb : db.getClerk()) {
-                    CMBean cmBean = new CMBean();
-                    cmBean.setName(cb.getUsername());
-                    cmBean.setType(cb.getRole() + "");
-                    cmBean.setPhone(cb.getPhone());
-                    cmBean.setId(cb.getId() + "");
-                    cmBean.setStoreid(db.getId());
-                    mDatas.add(cmBean);
-                }
-            }
-        } else {
-            //单一店铺
-            for (ClerkInfoBean.DataBean db : dataList) {
-                if (db.getId().equals(storeID)) {
-                    //根据ID显示店名
-                    storeName = db.getName();
-                    //根据ID显示店员
+                if (db.getClerk() != null) {
                     for (ClerkInfoBean.DataBean.ClerkBean cb : db.getClerk()) {
                         CMBean cmBean = new CMBean();
                         cmBean.setName(cb.getUsername());
@@ -145,9 +131,34 @@ public class ClerkManagementActivity extends BaseActivity {
                     }
                 }
             }
+        } else {
+            //单一店铺
+            for (ClerkInfoBean.DataBean db : dataList) {
+                if (db.getId().equals(storeID)) {
+                    //根据ID显示店名
+                    storeName = db.getName();
+                    //根据ID显示店员
+                    if (db.getClerk() != null) {
+                        for (ClerkInfoBean.DataBean.ClerkBean cb : db.getClerk()) {
+                            CMBean cmBean = new CMBean();
+                            cmBean.setName(cb.getUsername());
+                            cmBean.setType(cb.getRole() + "");
+                            cmBean.setPhone(cb.getPhone());
+                            cmBean.setId(cb.getId() + "");
+                            cmBean.setStoreid(db.getId());
+                            mDatas.add(cmBean);
+                        }
+                    }
+                }
+            }
         }
         //刷新数据列表
         tvStoreName.setText(storeName);
+        if (mDatas.size() >0) {
+            none.setVisibility(View.GONE);
+        } else{
+            none.setVisibility(View.VISIBLE);
+        }
         mAdapter.notifyDataSetChanged();
     }
 

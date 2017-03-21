@@ -11,13 +11,14 @@ import android.widget.ScrollView;
 
 import com.fuleme.business.R;
 import com.fuleme.business.bean.CMBean;
+import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.utils.ToastUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AddEmployeesActivity extends AppCompatActivity {
+public class AddEmployeesActivity extends BaseActivity {
     int type = 0;
     final static int MANAGER = 0;
     final static int ASSISTANT = 1;

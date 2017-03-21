@@ -7,19 +7,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.sdk.android.push.CommonCallback;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
+import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.fragment.FragmentActivity;
+import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.widget.CustomDialog;
+import com.fuleme.business.widget.NoticeDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.fuleme.business.App.pushService;
+
 /**
  * 账号详情
  */
-public class UserDetailsActivity extends AppCompatActivity {
+public class UserDetailsActivity extends BaseActivity {
+    private static final String TAG = "UserDetailsActivity";
     @Bind(R.id.tv_store_name)
     TextView tvStoreName;
     @Bind(R.id.tv_region)
@@ -69,6 +76,8 @@ public class UserDetailsActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         Intent intent = new Intent(UserDetailsActivity.this, FragmentActivity.class);
                                         setResult(EXIT_USERDETAIL, intent);
+                                        //绑定推送账号
+                                        App.unbindAccount();
                                         finish();
                                     }
                                 });

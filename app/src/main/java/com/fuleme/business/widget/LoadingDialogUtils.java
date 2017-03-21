@@ -29,6 +29,7 @@ public class LoadingDialogUtils {
         loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));// 设置布局
+        loadingDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
         /**
          *将显示Dialog的方法封装在这里面
          */

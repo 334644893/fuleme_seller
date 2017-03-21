@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.REORDER_TASKS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -39,7 +40,7 @@
 
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -53,7 +54,7 @@
         <meta-data
             android:name="com.alibaba.app.appsecret"
             android:value="44251471e875432d116765e2f5b75583" /> <!-- 请填写你自己的appSecret -->
-        <activity android:name=".MainActivity" />
+        <!--<activity android:name=".MainActivity" />-->
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -65,9 +66,9 @@
             android:name=".activity.StartActivity"
             android:theme="@style/TranslucentTheme" />
         <activity android:name=".activity.ForgotPasswordActivity" />
-        <activity
-            android:name=".activity.RegistrationInformationActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <!-- <activity -->
+        <!-- android:name=".activity.RegistrationInformationActivity" -->
+        <!-- android:windowSoftInputMode="stateHidden|stateUnchanged" /> -->
         <activity android:name=".fragment.FragmentActivity" />
         <activity android:name=".activity.AggregationQueryActivity" />
         <activity android:name=".activity.StoreAggregationQueryActivity" />
@@ -87,11 +88,11 @@
         <activity android:name=".activity.ScanReceiptActivity" />
         <activity android:name=".activity.SecondActivity" />
         <activity android:name=".activity.RegisteredActivity" />
-        <activity android:name=".activity.RegionActivity" />
-        <activity android:name=".activity.AddIndustryActivity" />
-        <activity
-            android:name=".activity.OpenBusinessActivity"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <!-- <activity android:name=".activity.RegionActivity" /> -->
+        <!-- <activity android:name=".activity.AddIndustryActivity" /> -->
+        <!-- <activity -->
+        <!-- android:name=".activity.OpenBusinessActivity" -->
+        <!-- android:windowSoftInputMode="stateHidden|stateUnchanged" /> -->
         <activity
             android:name="com.yanzhenjie.album.AlbumActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -208,7 +209,7 @@
                 <action android:name="org.android.agoo.client.MessageReceiverService" />
             </intent-filter>
         </service>
-
+        //消息接收Receiver配置
         <receiver
             android:name=".MyMessageReceiver"
             android:exported="true">
@@ -243,7 +244,10 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.RegistrationStoreActivity"></activity>
+        <activity android:name=".activity.RegistrationStoreActivity" />
+        <activity android:name=".activity.NoticeActivity" />
+        <activity android:name=".activity.CustomNotificationActivity" />
+        <activity android:name=".widget.dialogActivity"></activity>
     </application>
 
 </manifest>

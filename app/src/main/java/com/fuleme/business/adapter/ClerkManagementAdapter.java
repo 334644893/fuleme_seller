@@ -40,6 +40,7 @@ public class ClerkManagementAdapter extends RecyclerView.Adapter<ClerkManagement
         TextView tvType;
         @Bind(R.id.tv_phone)
         TextView tvPhone;
+
         @Bind(R.id.ll_store)
         LinearLayout llStore;
 
