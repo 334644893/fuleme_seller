@@ -1,15 +1,10 @@
 package com.fuleme.business.fragment;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -19,15 +14,9 @@ import android.widget.Toast;
 
 import com.fuleme.business.App;
 import com.fuleme.business.R;
-import com.fuleme.business.activity.UserDetailsActivity;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
-import com.fuleme.business.utils.ToastUtil;
-import com.fuleme.business.widget.LoadingDialogUtils;
-import com.fuleme.business.widget.NoticeDialog;
-
-import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -69,15 +58,22 @@ public class FragmentActivity extends BaseActivity {
     LinearLayout llBottom;
     @Bind(R.id.fl_page)
     FrameLayout flPage;
-    private int[] mItemImage = {R.mipmap.icon26,
+    @Bind(R.id.tv_but_im_order)
+    ImageView tvButImOrder;
+    @Bind(R.id.tv_but_tv_order)
+    TextView tvButTvOrder;
+    @Bind(R.id.tv_but_order)
+    LinearLayout tvButOrder;
+    private int[] mItemImage = {R.mipmap.icon26, R.mipmap.icon_order,
             R.mipmap.icon25, R.mipmap.icon39};
-    private int[] mItemCheckedImage = {R.mipmap.icon37,
+    private int[] mItemCheckedImage = {R.mipmap.icon37, R.mipmap.icon_order_1,
             R.mipmap.icon27, R.mipmap.icon24};
-    private String[] mItemText = {"首页", "收款", "我的"};
+    private String[] mItemText = {"首页", "订单", "收款", "我的"};
     private long exitTime;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     AFragment aFragment;
+    OrderFragment orderFragment;
     BFragment bFragment;
     CFragment cFragment;
 
@@ -102,19 +98,23 @@ public class FragmentActivity extends BaseActivity {
         tvRight.setVisibility(View.INVISIBLE);
         //TODO 填充底部
         tvButTv1.setText(mItemText[0]);
-        tvButTv2.setText(mItemText[1]);
-        tvButTv3.setText(mItemText[2]);
-        tvButTv1.setTextColor(getResources().getColor(R.color.theme));
+        tvButTvOrder.setText(mItemText[1]);
+        tvButTv2.setText(mItemText[2]);
+        tvButTv3.setText(mItemText[3]);
+//        tvButTv1.setTextColor(getResources().getColor(R.color.theme));
         tvButIm1.setImageResource(mItemImage[0]);
-        tvButIm2.setImageResource(mItemImage[1]);
-        tvButIm3.setImageResource(mItemImage[2]);
+        tvButImOrder.setImageResource(mItemImage[1]);
+        tvButIm2.setImageResource(mItemImage[2]);
+        tvButIm3.setImageResource(mItemImage[3]);
         //根据登录类型显示隐藏首页导航
         if (App.login_type == App.LOGIN_TYPE_ADMIN) {
             tvBut1.setVisibility(View.VISIBLE);
+            tvButOrder.setVisibility(View.VISIBLE);
             select(0);
         } else if (App.login_type == App.LOGIN_TYPE_EMPLOYEES) {
             tvBut1.setVisibility(View.GONE);
-            select(1);
+            tvButOrder.setVisibility(View.GONE);
+            select(2);
         }
     }
 
@@ -140,6 +140,19 @@ public class FragmentActivity extends BaseActivity {
             case 1:
                 hideTab();
                 setBottom(i);
+                orderFragment = (OrderFragment) fragmentManager.findFragmentByTag("orderFragment");
+
+                if (orderFragment == null) {
+                    orderFragment = new OrderFragment();
+                    fragmentTransaction.add(R.id.fl_page, orderFragment, "orderFragment");
+                } else {
+                    fragmentTransaction.show(orderFragment);
+                }
+
+                break;
+            case 2:
+                hideTab();
+                setBottom(i);
                 bFragment = (BFragment) fragmentManager.findFragmentByTag("bFragment");
 
                 if (bFragment == null) {
@@ -149,7 +162,7 @@ public class FragmentActivity extends BaseActivity {
                     fragmentTransaction.show(bFragment);
                 }
                 break;
-            case 2:
+            case 3:
                 hideTab();
                 setBottom(i);
                 cFragment = (CFragment) fragmentManager.findFragmentByTag("cFragment");
@@ -171,6 +184,9 @@ public class FragmentActivity extends BaseActivity {
         if (aFragment != null) {
             fragmentTransaction.hide(aFragment);
         }
+        if (orderFragment != null) {
+            fragmentTransaction.hide(orderFragment);
+        }
         if (bFragment != null) {
             fragmentTransaction.hide(bFragment);
         }
@@ -180,18 +196,22 @@ public class FragmentActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_but_1, R.id.tv_but_2, R.id.tv_but_3, R.id.tv_left, R.id.tv_right})
+    @OnClick({R.id.tv_but_1,R.id.tv_but_order, R.id.tv_but_2, R.id.tv_but_3, R.id.tv_left, R.id.tv_right})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_but_1:
                 select(0);
 
                 break;
-            case R.id.tv_but_2:
+            case R.id.tv_but_order:
                 select(1);
+
+                break;
+            case R.id.tv_but_2:
+                select(2);
                 break;
             case R.id.tv_but_3:
-                select(2);
+                select(3);
                 break;
             case R.id.tv_left:
                 finish();
@@ -211,27 +231,44 @@ public class FragmentActivity extends BaseActivity {
             case 0:
                 tvTitle.setText(mItemText[0]);
                 tvButIm1.setImageResource(mItemCheckedImage[0]);
-                tvButIm2.setImageResource(mItemImage[1]);
-                tvButIm3.setImageResource(mItemImage[2]);
+                tvButImOrder.setImageResource(mItemImage[1]);
+                tvButIm2.setImageResource(mItemImage[2]);
+                tvButIm3.setImageResource(mItemImage[3]);
                 tvButTv1.setTextColor(getResources().getColor(R.color.theme));
+                tvButTvOrder.setTextColor(getResources().getColor(R.color.black_54));
                 tvButTv2.setTextColor(getResources().getColor(R.color.black_54));
                 tvButTv3.setTextColor(getResources().getColor(R.color.black_54));
                 break;
             case 1:
                 tvTitle.setText(mItemText[1]);
                 tvButIm1.setImageResource(mItemImage[0]);
-                tvButIm2.setImageResource(mItemCheckedImage[1]);
-                tvButIm3.setImageResource(mItemImage[2]);
+                tvButImOrder.setImageResource(mItemCheckedImage[1]);
+                tvButIm2.setImageResource(mItemImage[2]);
+                tvButIm3.setImageResource(mItemImage[3]);
                 tvButTv1.setTextColor(getResources().getColor(R.color.black_54));
-                tvButTv2.setTextColor(getResources().getColor(R.color.theme));
+                tvButTvOrder.setTextColor(getResources().getColor(R.color.theme));
+                tvButTv2.setTextColor(getResources().getColor(R.color.black_54));
                 tvButTv3.setTextColor(getResources().getColor(R.color.black_54));
                 break;
             case 2:
                 tvTitle.setText(mItemText[2]);
                 tvButIm1.setImageResource(mItemImage[0]);
-                tvButIm2.setImageResource(mItemImage[1]);
-                tvButIm3.setImageResource(mItemCheckedImage[2]);
+                tvButImOrder.setImageResource(mItemImage[1]);
+                tvButIm2.setImageResource(mItemCheckedImage[2]);
+                tvButIm3.setImageResource(mItemImage[3]);
                 tvButTv1.setTextColor(getResources().getColor(R.color.black_54));
+                tvButTvOrder.setTextColor(getResources().getColor(R.color.black_54));
+                tvButTv2.setTextColor(getResources().getColor(R.color.theme));
+                tvButTv3.setTextColor(getResources().getColor(R.color.black_54));
+                break;
+            case 3:
+                tvTitle.setText(mItemText[3]);
+                tvButIm1.setImageResource(mItemImage[0]);
+                tvButImOrder.setImageResource(mItemImage[1]);
+                tvButIm2.setImageResource(mItemImage[2]);
+                tvButIm3.setImageResource(mItemCheckedImage[3]);
+                tvButTv1.setTextColor(getResources().getColor(R.color.black_54));
+                tvButTvOrder.setTextColor(getResources().getColor(R.color.black_54));
                 tvButTv2.setTextColor(getResources().getColor(R.color.black_54));
                 tvButTv3.setTextColor(getResources().getColor(R.color.theme));
                 break;

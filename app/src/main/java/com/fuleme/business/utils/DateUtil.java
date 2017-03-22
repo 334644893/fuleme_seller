@@ -12,6 +12,7 @@ import java.util.Date;
 public class DateUtil {
     public static final String DATE_1 = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_2 = "yyyy-MM-dd";
+    public static final String DATE_3 = "HH:mm:ss";
 
     /*
     * 将时间戳转换为时间type

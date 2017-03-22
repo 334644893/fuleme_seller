@@ -3,6 +3,9 @@ package com.fuleme.business.helper;
 import com.fuleme.business.bean.AggregationQueryBean;
 import com.fuleme.business.bean.ClerkInfoBean;
 import com.fuleme.business.bean.IncomeBean;
+import com.fuleme.business.bean.OrderBean;
+import com.fuleme.business.bean.OrderDetailsBean;
+
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -18,7 +21,8 @@ import retrofit2.http.Part;
 
 public interface APIService {
     //    String SERVER_IP = "http://192.168.1.138/";
-    String SERVER_IP = "https://dev.fuleme.com/";//TEST
+        String SERVER_IP = "http://192.168.1.155/";
+//    String SERVER_IP = "https://dev.fuleme.com/";//TEST
 
     /**
      * 注册
@@ -132,7 +136,27 @@ public interface APIService {
      */
     @GET("system/version")
     Call<Object> version();
-
+    /**
+     * 获取店铺订单
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("shop/orderInfo")
+    Call<OrderDetailsBean> orderInfo(@Field("token") String token,
+                                     @Field("year") String year,
+                                     @Field("month") String month,
+                                     @Field("shopid") String shopid,
+                                     @Field("page") int page,
+                                     @Field("list_rows") int list_rows);
+    /**
+     * 门店列表接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("shop/list")
+    Call<OrderBean> list(@Field("token") String token);
 //    /**
 //     * 添加店铺接口(废弃)
 //     *

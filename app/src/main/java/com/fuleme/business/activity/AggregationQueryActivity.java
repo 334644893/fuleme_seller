@@ -172,7 +172,9 @@ public class AggregationQueryActivity extends BaseActivity {
     protected Dialog onCreateDialog(int id) {
         switch (id) {
             case DATE_DIALOG_START:
-                return new DatePickerDialog(this, startDateListener, startYear, startMonth, startDay);
+                return new DatePickerDialog(this, startDateListener, startYear, startMonth
+                        , startDay
+                );
             case DATE_DIALOG_END:
                 return new DatePickerDialog(this, endDateListener, endYear, endMonth, endDay);
         }

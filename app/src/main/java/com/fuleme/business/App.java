@@ -44,12 +44,15 @@ public class App extends Application {
     public static String opr_cls = "";//所属行业
     public static int login_type = 1;//登录状态 0:管理员 1：员工
     public static boolean bindAccount = true;//通知开关
+    final public static String alipay = "pay.alipay.jspay";
+    final public static String weixin = "pay.weixin.jspay";
     public static final int LOGIN_TYPE_ADMIN = 0;
     public static final int LOGIN_TYPE_EMPLOYEES = 1;
     private static App instance;
     private APIService serverApi;
     public static CloudPushService pushService;
     private static Dialog mLoading, mLoading_1;
+
     public APIService getServerApi() {
         return serverApi;
     }
@@ -137,7 +140,6 @@ public class App extends Application {
             }
         });
     }
-
 
 
     /**
