@@ -4,13 +4,15 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
-import com.alibaba.idst.nls.internal.common.PhoneInfo;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.adapter.OrderDetailsAdapter;
@@ -25,7 +27,6 @@ import com.fuleme.business.widget.LoadingDialogUtils;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -41,12 +42,12 @@ import retrofit2.Response;
 public class OrderDetailsActivity extends BaseActivity {
     private static final String TAG = "OrderDetailsActivity";
     NumberFormat nf = NumberFormat.getInstance();
-    public static String year = "2017";
-    public static String month = "03";
+    public static String year = "";
+    public static String month = "";
     public static String shopid = "";
     public static String short_name = "";
     public static int page = 1;
-    public static int list_rows = 5;
+    public static int list_rows = 10;
     public boolean state = true;//是否刷新
     public static boolean textState = true;//true 显示正在加载，false显示 没有更多
     @Bind(R.id.tv_title)
@@ -64,6 +65,10 @@ public class OrderDetailsActivity extends BaseActivity {
     @Bind(R.id.demo_swiperefreshlayout)
     SwipeRefreshLayout demoSwiperefreshlayout;
     private List<OrderDetailsBean.DataBean> mDatas = new ArrayList<>();
+    final Calendar calendar = Calendar.getInstance();
+    int yy = calendar.get(Calendar.YEAR);
+    int mm = calendar.get(Calendar.MONTH);
+    int dd = calendar.get(Calendar.DAY_OF_MONTH);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +92,9 @@ public class OrderDetailsActivity extends BaseActivity {
     public void initView() {
 
         tvTitle.setText(short_name);
-        tv1.setText(year + "-" + month);
+        year = yy + "";
+        month = mm + 1 + "";
+        tv1.setText(year + "-" + month + "  ");
         /**
          * 设置列表
          */
@@ -103,9 +110,7 @@ public class OrderDetailsActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 //下拉重置数据
-                page = 1;
-                state = true;
-                orderInfo();
+                refresh();
             }
         });
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -133,10 +138,54 @@ public class OrderDetailsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_1:
+                showDialog(0);
                 break;
         }
     }
 
+    @Override
+    protected Dialog onCreateDialog(int i) {
+
+        DatePickerDialog dlg = new DatePickerDialog(new ContextThemeWrapper(OrderDetailsActivity.this,
+                android.R.style.Theme_Holo_Light_Dialog_NoActionBar), DateListener, yy, mm, dd) {
+            @Override
+            protected void onCreate(Bundle savedInstanceState) {
+                super.onCreate(savedInstanceState);
+                LinearLayout mSpinners = (LinearLayout) findViewById(getContext().getResources().getIdentifier("android:id/pickers", null, null));
+                if (mSpinners != null) {
+                    NumberPicker mMonthSpinner = (NumberPicker) findViewById(getContext().getResources().getIdentifier("android:id/month", null, null));
+                    NumberPicker mYearSpinner = (NumberPicker) findViewById(getContext().getResources().getIdentifier("android:id/year", null, null));
+                    mSpinners.removeAllViews();
+                    if (mYearSpinner != null) {
+                        mSpinners.addView(mYearSpinner);
+                    }
+                    if (mMonthSpinner != null) {
+                        mSpinners.addView(mMonthSpinner);
+                    }
+                }
+                View dayPickerView = findViewById(getContext().getResources().getIdentifier("android:id/day", null, null));
+                if (dayPickerView != null) {
+                    dayPickerView.setVisibility(View.GONE);
+                }
+            }
+
+        };
+        return dlg;
+    }
+
+    private DatePickerDialog.OnDateSetListener DateListener = new DatePickerDialog.OnDateSetListener() {
+
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            yy = year;
+            mm = monthOfYear;
+            OrderDetailsActivity.year = year + "";
+            OrderDetailsActivity.month = monthOfYear + 1 + "";
+            tv1.setText(OrderDetailsActivity.year + "-" + OrderDetailsActivity.month);
+            refresh();
+        }
+    };
     /**
      * 获取店铺订单
      */
@@ -196,5 +245,14 @@ public class OrderDetailsActivity extends BaseActivity {
             }
 
         });
+    }
+
+    /**
+     * 重置数据
+     */
+    private void refresh() {
+        page = 1;
+        state = true;
+        orderInfo();
     }
 }

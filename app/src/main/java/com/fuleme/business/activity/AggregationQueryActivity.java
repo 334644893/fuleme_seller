@@ -5,11 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.fuleme.business.App;
@@ -36,6 +38,8 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.lang.reflect.Field;
 
 /**
  * 汇总查询
@@ -92,6 +96,7 @@ public class AggregationQueryActivity extends BaseActivity {
         setContentView(R.layout.activity_aggregation_query);
         ButterKnife.bind(this);
         initView();
+
     }
 
     private void initView() {
@@ -131,6 +136,7 @@ public class AggregationQueryActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.ll_start_date:
+
                 showDialog(DATE_DIALOG_START);
                 break;
             case R.id.ll_end_date:
@@ -177,9 +183,11 @@ public class AggregationQueryActivity extends BaseActivity {
                 );
             case DATE_DIALOG_END:
                 return new DatePickerDialog(this, endDateListener, endYear, endMonth, endDay);
+
         }
         return null;
     }
+
 
 
     public String add0(int i) {
