@@ -48,9 +48,12 @@ public class UserDetailsActivity extends BaseActivity {
 
     public void initView() {
         tvTitle.setText("账号详情");
-        tvStoreName.setText(App.merchant);
-        tvRegion.setText(App.area);
-        tvIndustry.setText(App.opr_cls);
+        if("0".equals(App.short_state)){
+            tvStoreName.setText(App.merchant+"(审核中)");
+        }else{
+            tvStoreName.setText(App.merchant+"(已审核)");
+        }
+        tvRegion.setText(App.short_area);
 
     }
 

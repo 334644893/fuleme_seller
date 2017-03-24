@@ -36,7 +36,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:lines="1"
-            android:text="¥99999999999999" />
+            android:text="" />
 
         <TextView
             android:id="@+id/tv_i_state"

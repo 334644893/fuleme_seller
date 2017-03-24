@@ -113,8 +113,8 @@ public class NoticeDialog extends Dialog {
             dialog.addContentView(layout, new LayoutParams(
                     LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
             //initView
-            ((TextView) layout.findViewById(R.id.tv_2)).setText(amount);
-            ((TextView) layout.findViewById(R.id.tv_4)).setText(order);
+            ((TextView) layout.findViewById(R.id.tv_2)).setText("￥"+amount+"元");
+            ((TextView) layout.findViewById(R.id.tv_4)).setText("订单号: "+order);
 
             // set the confirm button
             layout.findViewById(R.id.positiveButton)

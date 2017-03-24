@@ -57,9 +57,9 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (!response.isSuccessful()) {
-                    LogUtil.i("验证码失败response.message():" + response.message());
-
-
+                    ToastUtil.showMessage("验证码失败:" + GsonUtils.getErrmsg(response.body()));
+                }else{
+                    ToastUtil.showMessage("发送成功请稍等..." );
                 }
             }
 

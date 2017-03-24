@@ -41,7 +41,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center|right"
-                    android:text="周黑鸭"
                     android:textColor="@color/color_section_heading"
                     android:textSize="@dimen/text_size_15" />
             </LinearLayout>
@@ -76,6 +75,7 @@
 
 
             <TextView
+                android:id="@+id/tv_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

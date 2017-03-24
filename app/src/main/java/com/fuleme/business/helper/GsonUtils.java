@@ -61,5 +61,16 @@ public class GsonUtils {
 
     }
 
+    public static String getStringV(String jsonString, String v) {
+
+        try {
+            return new JSONObject(jsonString).optString(v);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return "";
+    }
+
 
 }

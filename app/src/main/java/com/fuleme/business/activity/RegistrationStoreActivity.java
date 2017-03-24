@@ -69,9 +69,9 @@ public class RegistrationStoreActivity extends BaseActivity {
             }
         }
         if (requestCode == IDENTITY_CARD) {
-            //营业证
+            //身份证
             if (url_identity_card.size() == 2) {
-                ToastUtil.showMessage("上传成功");
+
                 tvStateSfz.setText("已上传");
                 tvStateSfz.setTextColor(getResources().getColor(R.color.theme));
             } else {
@@ -178,8 +178,8 @@ public class RegistrationStoreActivity extends BaseActivity {
         } else if (TextUtils.isEmpty(url_business_licence)) {
             ToastUtil.showMessage("请上传营业证");
             return false;
-        } else if (url_identity_card.size() <= 0) {
-            ToastUtil.showMessage("请上传身份证");
+        } else if (url_identity_card.size() <2) {
+            ToastUtil.showMessage("请上传身份证正反面(共2张)");
             return false;
         }
         return true;

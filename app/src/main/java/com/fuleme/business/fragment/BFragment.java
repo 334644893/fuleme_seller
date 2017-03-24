@@ -45,8 +45,9 @@ public class BFragment extends Fragment {
     LinearLayout ll_store;
     final int TOSTORE = 998;
     ImageView ivBaQrCode;
-    public static String storeID = App.PLACEHOLDER;//查询店铺ID·初始为占位符，表示全部店铺
-    public static String storeName = App.PLACEHOLDER;//storeName·初始为占位符
+
+//    public static String storeID = App.PLACEHOLDER;//查询店铺ID·初始为占位符，表示全部店铺
+//    public static String storeName = App.PLACEHOLDER;//storeName·初始为占位符
 
     @Nullable
     @Override
@@ -134,19 +135,23 @@ public class BFragment extends Fragment {
      * 管理员页面
      */
     public void initAdminView() {
-        if (App.PLACEHOLDER.equals(storeID)) {
-            storeName = "全部店铺";
-        }
-//初始化
+        //初始化
         flSaveImage = (FrameLayout) view.findViewById(R.id.fl_save_image);
         tv_bt_save = (TextView) view.findViewById(R.id.tv_bt_save);
         ll_store = (LinearLayout) view.findViewById(R.id.ll_store);
         tv_storeName = (TextView) view.findViewById(R.id.tv_storeName);
         ivBaQrCode = (ImageView) view.findViewById(R.id.iv_ba_qr_code);
-        //店名
-        tv_storeName.setText(storeName);
-        //生成二维码
-        ivBaQrCode.setImageBitmap(Zxing.getQrCode(storeName + "的二维码"));
+        if (!App.PLACEHOLDER.equals(App.short_id)) {
+            //店名
+            if("0".equals(App.short_state)){
+                tv_storeName.setText(App.merchant+"(审核中)");
+            }else{
+                tv_storeName.setText(App.merchant+"(已审核)");
+            }
+            //生成二维码
+            LogUtil.i("生成二维码，店铺名"+App.merchant+"店铺ID"+App.short_id);
+            ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
+        }
         //保存二维码
         tv_bt_save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,8 +195,13 @@ public class BFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TOSTORE) {
-            tv_storeName.setText(storeName);
-            LogUtil.i("选择店铺ID：" + storeID);
+            if("0".equals(App.short_state)){
+                tv_storeName.setText(App.merchant+"(审核中)");
+            }else{
+                tv_storeName.setText(App.merchant+"(已审核)");
+            }
+            LogUtil.i("生成二维码，店铺名"+App.merchant+"店铺ID"+App.short_id);
+            ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
         }
     }
 

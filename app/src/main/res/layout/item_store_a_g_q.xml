@@ -4,7 +4,7 @@
     android:id="@+id/ll_store"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/evaluate_content_1"
     android:gravity="center"
     android:orientation="horizontal"
     android:padding="8dp">

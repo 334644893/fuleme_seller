@@ -36,7 +36,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:paddingLeft="4dp"
-                android:text="共11笔" />
+                android:text="共笔" />
         </LinearLayout>
 
         <LinearLayout
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:lines="1"
                 android:ellipsize="end"
-                android:text="￥123761" />
+                android:text="0" />
         </LinearLayout>
     </LinearLayout>
 

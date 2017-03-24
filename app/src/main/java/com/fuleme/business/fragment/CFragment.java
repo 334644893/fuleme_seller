@@ -69,12 +69,12 @@ public class CFragment extends Fragment {
         tvPhone.setText(App.phone);
         tvFulemenumber.setText(App.username);
         //根据登录类型显示隐藏员工管理
-        if (App.login_type == App.LOGIN_TYPE_EMPLOYEES) {
+        if ("2".equals(App.role)) {
             llSetDygl.setVisibility(View.GONE);
             llSetDyglLine.setVisibility(View.GONE);
             llAddstore.setVisibility(View.GONE);
             vAddLine.setVisibility(View.GONE);
-        } else if (App.login_type == App.LOGIN_TYPE_ADMIN) {
+        } else {
             llSetDygl.setVisibility(View.VISIBLE);
             llSetDyglLine.setVisibility(View.VISIBLE);
             llAddstore.setVisibility(View.VISIBLE);
@@ -117,7 +117,7 @@ public class CFragment extends Fragment {
         if (App.bindAccount) {
             ivBtmTongzhi.setImageDrawable(getResources().getDrawable(R.mipmap.icon_off));
             App.unbindAccount();
-        } else  {
+        } else {
             ivBtmTongzhi.setImageDrawable(getResources().getDrawable(R.mipmap.icon_on));
             App.bindAccount();
         }

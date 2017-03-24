@@ -34,6 +34,7 @@ public class PaymentCodeActivity extends BaseActivity {
     }
 
     public void initview() {
+        tvTitle.setText("支付码");
         etAmount = getIntent().getExtras().getString("etAmount");
         tvQian.setText("￥" + etAmount);
         ivBaQrCode.setImageBitmap(Zxing.getQrCode("请给" + etAmount + "块钱"));

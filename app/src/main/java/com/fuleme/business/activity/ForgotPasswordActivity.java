@@ -57,6 +57,7 @@ public class ForgotPasswordActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
         ButterKnife.bind(this);
+        tvTitle.setText("忘记密码");
     }
 
     @OnClick({R.id.tv_left, R.id.btn_get_verify, R.id.btn_tj})
@@ -66,8 +67,12 @@ public class ForgotPasswordActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_get_verify:
-                startTimer(10);
-
+                if (TextUtils.isEmpty(etFPPhone.getText().toString()) || etFPPhone.getText().toString().length() != 11) {
+                    ToastUtil.showMessage("手机号格式错误");
+                } else {
+                    startTimer(10);
+                    send(TAG, etFPPhone.getText().toString());
+                }
                 break;
             case R.id.btn_tj:
                 if (TextUtils.isEmpty(etFPPhone.getText().toString()) || etFPPhone.getText().toString().length() != 11) {
@@ -103,19 +108,18 @@ public class ForgotPasswordActivity extends BaseActivity {
 
                     // do SomeThing
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
-                        ToastUtil.showMessage("密码修改成功");
+                        ToastUtil.showMessage("密码已重置");
                         finish();
                     } else {
-                        ToastUtil.showMessage("失败");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
 
                     }
 
-                    LoadingDialogUtils.closeDialog(mLoading);//取消等待框
 
                 } else {
-                    LoadingDialogUtils.closeDialog(mLoading);//取消等待框
                     LogUtil.i("失败response.message():" + response.message());
                 }
+                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
             }
 
             @Override

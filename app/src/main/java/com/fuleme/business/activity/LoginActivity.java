@@ -2,6 +2,7 @@ package com.fuleme.business.activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.fragment.FragmentActivity;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.utils.TtsUtil;
 import com.fuleme.business.widget.LoadingDialogUtils;
@@ -41,6 +43,8 @@ public class LoginActivity extends BaseActivity {
     View tvDianyuanL;
     @Bind(R.id.tv_admin)
     TextView tvAdmin;
+    @Bind(R.id.tv_jzmm)
+    TextView tvJzmm;
     @Bind(R.id.tv_admin_l)
     View tvAdminL;
     @Bind(R.id.et_phone)
@@ -48,16 +52,47 @@ public class LoginActivity extends BaseActivity {
     @Bind(R.id.et_verify)
     EditText etVerify;
     private Dialog mLoading;
+    private int loginjzmm;
+    Drawable drawable_41, drawable_40;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        initJzmm();
         setState(App.LOGIN_TYPE_EMPLOYEES);
     }
 
-    @OnClick({R.id.tv_wjmm, R.id.ll_dianyuan, R.id.ll_admin, R.id.btn_login, R.id.tv_zczh})
+    /**
+     * 初始化记住密码
+     * loginjzmm 0：未选中 1：选中
+     */
+    private void initJzmm() {
+        loginjzmm = (int) SharedPreferencesUtils.getParam(getApplicationContext(), "loginjzmm", 0);
+        //初始化账号密码
+//        etPhone.setText(SharedPreferencesUtils.getParam(getApplicationContext(), "phone", "") + "");
+        etPhone.setText(SharedPreferencesUtils.getParam(getApplicationContext(), "phone", "13419567515") + "");
+        if (loginjzmm == 1) {
+            etVerify.setText(SharedPreferencesUtils.getParam(getApplicationContext(), "password", "") + "");
+        }else{
+//            etVerify.setText("");
+            etVerify.setText("666666");
+        }
+        //初始化标记
+        drawable_41 = getResources().getDrawable(R.mipmap.icon41);
+        drawable_40 = getResources().getDrawable(R.mipmap.icon40);
+        drawable_41.setBounds(0, 0, drawable_41.getMinimumWidth(), drawable_41.getMinimumHeight());
+        drawable_40.setBounds(0, 0, drawable_40.getMinimumWidth(), drawable_40.getMinimumHeight());
+
+        if (loginjzmm == 0) {
+            tvJzmm.setCompoundDrawables(drawable_41, null, null, null);
+        } else if (loginjzmm == 1) {
+            tvJzmm.setCompoundDrawables(drawable_40, null, null, null);
+        }
+    }
+
+    @OnClick({R.id.tv_wjmm, R.id.ll_dianyuan, R.id.ll_admin, R.id.btn_login, R.id.tv_zczh, R.id.tv_jzmm})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_dianyuan:
@@ -78,6 +113,21 @@ public class LoginActivity extends BaseActivity {
                 break;
             case R.id.tv_wjmm:
                 startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+
+                break;
+            case R.id.tv_jzmm:
+                LogUtil.i("jzmmmmmmmm", loginjzmm + "");
+                if (loginjzmm == 0) {
+                    loginjzmm = 1;
+                    SharedPreferencesUtils.setParam(getApplicationContext(), "loginjzmm", 1);
+                    tvJzmm.setCompoundDrawables(drawable_40, null, null, null);
+                } else if (loginjzmm == 1) {
+                    loginjzmm = 0;
+                    SharedPreferencesUtils.setParam(getApplicationContext(), "loginjzmm", 0);
+                    tvJzmm.setCompoundDrawables(drawable_41, null, null, null);
+                    SharedPreferencesUtils.setParam(getApplicationContext(), "password", "");
+                }
+
 
                 break;
         }
@@ -124,7 +174,6 @@ public class LoginActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("登陆成功");
-                        LoadingDialogUtils.closeDialog(mLoading);//取消等待框
                         //TODO 初始化数据
                         JSONObject data = GsonUtils.getResultData(response.body());
                         App.uid = data.optInt("uid");
@@ -134,25 +183,30 @@ public class LoginActivity extends BaseActivity {
                         App.short_id = data.optString("short_id");
                         App.merchant = data.optString("short_name");
                         App.short_state = data.optString("short_state");
-//                        App.area = data.optString("area");
-//                        App.opr_cls = data.optString("opr_cls");
+                        App.short_area = data.optString("short_area");
                         App.token = data.optString("token");
+                        App.qrcode = data.optString("qrcode");
                         //绑定推送账号
                         App.bindAccount();
-
+                        //记住密码和手机号
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "phone", etPhone.getText().toString());
+                        if (loginjzmm == 0) {
+                            SharedPreferencesUtils.setParam(getApplicationContext(), "password", "");
+                        } else if (loginjzmm == 1) {
+                            SharedPreferencesUtils.setParam(getApplicationContext(), "password", etVerify.getText().toString());
+                        }
                         //TODO 跳转主页
                         startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
                         finish();
                     } else {
                         ToastUtil.showMessage("登录失败");
-                        LoadingDialogUtils.closeDialog(mLoading);//取消等待框
                     }
 
                 } else {
-                    LoadingDialogUtils.closeDialog(mLoading);//取消等待框
                     LogUtil.i("登陆失败response.message():" + response.message());
 
                 }
+                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
             }
 
             @Override

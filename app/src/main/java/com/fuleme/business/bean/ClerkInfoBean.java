@@ -46,7 +46,25 @@ public class ClerkInfoBean {
         private String id;
         private String name;
         private String address;
+        private String state;
+        private String qrcode;
         private List<ClerkBean> clerk;
+
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String state) {
+            this.state = state;
+        }
+
+        public String getQrcode() {
+            return qrcode;
+        }
+
+        public void setQrcode(String qrcode) {
+            this.qrcode = qrcode;
+        }
 
         public String getId() {
             return id;

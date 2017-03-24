@@ -21,8 +21,14 @@ import retrofit2.http.Part;
 
 public interface APIService {
     //    String SERVER_IP = "http://192.168.1.138/";
-        String SERVER_IP = "http://192.168.1.155/";
-//    String SERVER_IP = "https://dev.fuleme.com/";//TEST
+//    String SERVER_IP = "http://192.168.1.155/";
+    String SERVER_IP = "https://dev.fuleme.com/";//TEST
+    /**
+     * 关于我们接口
+     *
+     * @return
+     */
+    String ABOUT = "system/about";
 
     /**
      * 注册
@@ -99,7 +105,7 @@ public interface APIService {
      * @return
      */
     @FormUrlEncoded
-    @POST("user/send")
+    @POST("sms/send")
     Call<Object> send(@Field("phone") String phone,
                       @Field("imei") String imei);
 
@@ -121,13 +127,6 @@ public interface APIService {
     @POST("user/upload")
     Call<Object> uploadMemberIcon(@Part MultipartBody.Part part);
 
-    /**
-     * 关于我们接口
-     *
-     * @return
-     */
-    @GET("system/about")
-    Call<Object> about();
 
     /**
      * 版本更新接口
@@ -136,6 +135,7 @@ public interface APIService {
      */
     @GET("system/version")
     Call<Object> version();
+
     /**
      * 获取店铺订单
      *
@@ -149,6 +149,7 @@ public interface APIService {
                                      @Field("shopid") String shopid,
                                      @Field("page") int page,
                                      @Field("list_rows") int list_rows);
+
     /**
      * 门店列表接口
      *
@@ -214,12 +215,13 @@ public interface APIService {
 
     /**
      * 添加店铺接口
-     * @param short_name 商户简称
-     * @param contact_mobile 联系人手机号
-     * @param account_num 商户结算账号
+     *
+     * @param short_name       商户简称
+     * @param contact_mobile   联系人手机号
+     * @param account_num      商户结算账号
      * @param business_licence 营业证
-     * @param identity_card 身份证
-     * @param token 用户token
+     * @param identity_card    身份证
+     * @param token            用户token
      * @return
      */
     @FormUrlEncoded
@@ -235,16 +237,17 @@ public interface APIService {
 
     /**
      * 删除店铺店员接口
+     *
      * @param token
      * @param shopid 店铺ID
-     * @param id   店员ID
+     * @param id     店员ID
      * @return
      */
     @FormUrlEncoded
     @POST("merchant/delclerk")
     Call<Object> delclerk(@Field("token") String token,
-                            @Field("shopid") String shopid,
-                            @Field("id") String id);
+                          @Field("shopid") String shopid,
+                          @Field("id") String id);
 
 //    /**
 //     * 省接口

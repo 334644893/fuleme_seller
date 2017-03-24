@@ -34,20 +34,20 @@ public class App extends Application {
     public static String PLACEHOLDER = "";//占位符
     public static int uid = 0;//用户id
     public static String token = "";//用户标识，该token在其他用于获取用户信息的接口时必带
+    public static String qrcode = "";//店铺付款转成二维码地址
     public static String phone = "";//登录手机号
     public static String username = "";//昵称(付了么号)
     public static String short_id = "";//商户ID
     public static String merchant = "";//商户名称
     public static String short_state = "";//商户名称
+    public static String short_area = "";//商户地址
     public static String role = "";//用户角色，0 管理员，1店长，2店员
-    public static String area = "";//店铺地区
-    public static String opr_cls = "";//所属行业
     public static int login_type = 1;//登录状态 0:管理员 1：员工
     public static boolean bindAccount = true;//通知开关
     final public static String alipay = "pay.alipay.jspay";
     final public static String weixin = "pay.weixin.jspay";
-    public static final int LOGIN_TYPE_ADMIN = 0;
-    public static final int LOGIN_TYPE_EMPLOYEES = 1;
+    public static final int LOGIN_TYPE_ADMIN = 0;//登录状态 0:管理员
+    public static final int LOGIN_TYPE_EMPLOYEES = 1;//登录状态  1：员工
     private static App instance;
     private APIService serverApi;
     public static CloudPushService pushService;

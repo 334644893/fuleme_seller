@@ -53,13 +53,13 @@ public class StoreAggregationQueryActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyclerview);
         ButterKnife.bind(this);
+        initView();
         getmerchantclerkinfo();
 
     }
 
+
     public void initView() {
-
-
         /**
          * 设置列表
          */
@@ -76,21 +76,22 @@ public class StoreAggregationQueryActivity extends BaseActivity {
                         AggregationQueryActivity.storeID = bean.getId();
                         break;
                     case BFRAGMENT:
-                        BFragment.storeName = bean.getName();
-                        BFragment.storeID = bean.getId();
+                        App.merchant = bean.getName();
+                        App.short_id = bean.getId();
+                        App.qrcode = bean.getQrcode();
+                        App.short_state = bean.getState();
                         break;
                     case CLERKMANAGEMENTACTIVITY:
                         ClerkManagementActivity.storeName = bean.getName();
                         ClerkManagementActivity.storeID = bean.getId();
                         break;
                 }
-
                 finish();
-
             }
         });
 
     }
+
     /**
      * 店员管理接口获取店铺
      */
@@ -108,12 +109,15 @@ public class StoreAggregationQueryActivity extends BaseActivity {
                         // do SomeThing
                         LogUtil.i("成功");
                         //TODO 初始化数据
-                        mDatas = response.body().getData();
-                        ClerkInfoBean.DataBean bean = new ClerkInfoBean.DataBean();
-                        bean.setName("全部店铺");
-                        bean.setId(App.PLACEHOLDER);
-                        mDatas.add(0, bean);
-                        initView();
+                        mDatas.clear();
+                        mDatas.addAll(response.body().getData());
+                        if (intentType != BFRAGMENT) {
+                            ClerkInfoBean.DataBean bean = new ClerkInfoBean.DataBean();
+                            bean.setName("全部店铺");
+                            bean.setId(App.PLACEHOLDER);
+                            mDatas.add(0, bean);
+                        }
+                        mAdapter.notifyDataSetChanged();
 
 
                     } else {

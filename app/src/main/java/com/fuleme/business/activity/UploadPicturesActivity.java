@@ -97,7 +97,8 @@ public class UploadPicturesActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn:
-                if (mDatas.size() > 1) {
+                if (mDatas.size() - 1 == IMAGE_NUM) {
+                    //当图片集合减去“加号”图片后 等于需要上传的数量时  开始上传图片
                     mLoading = LoadingDialogUtils.createLoadingDialog(UploadPicturesActivity.this, "上传中...");//添加等待框
                     index_successful = 0;
                     urlImg_identity_card.clear();
@@ -105,7 +106,15 @@ public class UploadPicturesActivity extends BaseActivity {
                         uploadMemberIcon(PictureUtil.smallPic(mDatas.get(i)));
                     }
                 } else {
-                    ToastUtil.showMessage("选张图片呗");
+                    switch (intent) {
+                        case RegistrationStoreActivity.BUSINESS_LICENCE:
+                            ToastUtil.showMessage("请添加营业证(共1张)");
+                            break;
+                        case RegistrationStoreActivity.IDENTITY_CARD:
+                            ToastUtil.showMessage("请添加身份证正反面(共2张)");
+                            break;
+                    }
+
                 }
 
                 break;
@@ -209,8 +218,6 @@ public class UploadPicturesActivity extends BaseActivity {
             }
         });
     }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -233,7 +240,6 @@ public class UploadPicturesActivity extends BaseActivity {
         }
 
     }
-
     /**
      * 上传图片
      */
@@ -242,7 +248,6 @@ public class UploadPicturesActivity extends BaseActivity {
             ToastUtil.showMessage("图片不见了");
             finish();
         }
-
         File file = new File(filePath);
         RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
         MultipartBody.Part imageBodyPart = MultipartBody.Part.createFormData("file", file.getName(), imageBody);
@@ -253,8 +258,7 @@ public class UploadPicturesActivity extends BaseActivity {
                 if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                     // do SomeThing
                     LogUtil.i("上传成功");
-
-
+                    ToastUtil.showMessage("上传成功");
                     //TODO 初始化数据
                     JSONObject data = GsonUtils.getResultData(response.body());
                     switch (intent) {
@@ -267,14 +271,12 @@ public class UploadPicturesActivity extends BaseActivity {
                                 RegistrationStoreActivity.url_identity_card.set(index_successful, data.optString("url"));
                             } else {
                                 RegistrationStoreActivity.url_identity_card.add(data.optString("url"));
-
                             }
                             urlImg_identity_card.add(mDatas.get(index_successful));
                             break;
                     }
                     index_successful++;
                     if (index_successful == mDatas.size() - 1) {
-
                         LoadingDialogUtils.closeDialog(mLoading);//取消等待框
                         finish();
                     }
@@ -286,7 +288,6 @@ public class UploadPicturesActivity extends BaseActivity {
                     finish();
                 }
             }
-
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 RegistrationStoreActivity.url_identity_card.clear();
@@ -297,8 +298,6 @@ public class UploadPicturesActivity extends BaseActivity {
                 finish();
             }
         });
-
-
     }
 
 

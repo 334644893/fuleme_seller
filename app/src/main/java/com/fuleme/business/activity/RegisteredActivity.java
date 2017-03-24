@@ -67,8 +67,12 @@ public class RegisteredActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_get_verify:
-                startTimer(10);
-
+                if (TextUtils.isEmpty(etFPPhone.getText().toString()) || etFPPhone.getText().toString().length() != 11) {
+                    ToastUtil.showMessage("手机号格式错误");
+                } else {
+                    startTimer(10);
+                    send(TAG, etFPPhone.getText().toString());
+                }
                 break;
             case R.id.btn_tj:
                 if (TextUtils.isEmpty(etFPNickname.getText().toString())) {
@@ -93,6 +97,7 @@ public class RegisteredActivity extends BaseActivity {
      * 注册接口
      */
     private Dialog mLoading;
+
     private void Register() {
         mLoading = LoadingDialogUtils.createLoadingDialog(context, "获取中...");//添加等待框
         LogUtil.i("/etFPPhone:" + etFPPhone + "/etFPNickname:" + etFPNickname + "/etFPPs:" + etFPPs);
@@ -104,11 +109,11 @@ public class RegisteredActivity extends BaseActivity {
                 if (response.isSuccessful()) {
 
                     // do SomeThing
-                    if (GsonUtils.getError_code(response.body())==GsonUtils.SUCCESSFUL) {
+                    if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         ToastUtil.showMessage("注册成功");
                         finish();
                     } else {
-                        ToastUtil.showMessage("注册失败");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                         finish();
                     }
 

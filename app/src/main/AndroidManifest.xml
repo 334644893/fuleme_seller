@@ -77,10 +77,10 @@
         <activity android:name=".activity.IncomeActivity" />
         <activity android:name=".activity.AboutUsActivity" />
         <activity android:name=".activity.ClerkManagementActivity" />
-        <activity
-            android:name=".activity.AddEmployeesActivity"
-            android:theme="@style/translucent"
-            android:windowSoftInputMode="stateHidden|stateUnchanged" />
+        <!--<activity-->
+            <!--android:name=".activity.AddEmployeesActivity"-->
+            <!--android:theme="@style/translucent"-->
+            <!--android:windowSoftInputMode="stateHidden|stateUnchanged" />-->
         <activity android:name=".activity.UserDetailsActivity" />
         <activity
             android:name=".activity.ChangePasswordActivity"
@@ -246,10 +246,6 @@
         </receiver>
 
         <activity android:name=".activity.RegistrationStoreActivity" />
-        <activity android:name=".activity.NoticeActivity" />
-        <activity android:name=".activity.CustomNotificationActivity" />
-        <activity android:name=".widget.dialogActivity" />
-        <activity android:name=".fragment.OrderFragment" />
         <activity android:name=".activity.OrderDetailsActivity"></activity>
     </application>
 
