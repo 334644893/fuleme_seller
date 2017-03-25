@@ -97,7 +97,7 @@ public class AggregationQueryBean {
              */
 
             private int number;
-            private String amount;
+            private String total_fee;
 
             public int getNumber() {
                 return number;
@@ -108,11 +108,11 @@ public class AggregationQueryBean {
             }
 
             public String getAmount() {
-                return amount;
+                return total_fee;
             }
 
             public void setAmount(String amount) {
-                this.amount = amount;
+                this.total_fee = amount;
             }
         }
 
@@ -123,7 +123,7 @@ public class AggregationQueryBean {
              */
 
             private int number;
-            private String amount;
+            private String total_fee;
 
             public int getNumber() {
                 return number;
@@ -134,11 +134,11 @@ public class AggregationQueryBean {
             }
 
             public String getAmount() {
-                return amount;
+                return total_fee;
             }
 
             public void setAmount(String amount) {
-                this.amount = amount;
+                this.total_fee = amount;
             }
         }
 
@@ -149,7 +149,7 @@ public class AggregationQueryBean {
              */
 
             private int number;
-            private String amount;
+            private String total_fee;
 
             public int getNumber() {
                 return number;
@@ -160,11 +160,11 @@ public class AggregationQueryBean {
             }
 
             public String getAmount() {
-                return amount;
+                return total_fee;
             }
 
             public void setAmount(String amount) {
-                this.amount = amount;
+                this.total_fee = amount;
             }
         }
 
@@ -175,7 +175,7 @@ public class AggregationQueryBean {
              */
 
             private int number;
-            private String amount;
+            private String total_fee;
 
             public int getNumber() {
                 return number;
@@ -186,11 +186,11 @@ public class AggregationQueryBean {
             }
 
             public String getAmount() {
-                return amount;
+                return total_fee;
             }
 
             public void setAmount(String amount) {
-                this.amount = amount;
+                this.total_fee = amount;
             }
         }
 
@@ -201,7 +201,7 @@ public class AggregationQueryBean {
              */
 
             private int number;
-            private String amount;
+            private String total_fee;
 
             public int getNumber() {
                 return number;
@@ -212,11 +212,11 @@ public class AggregationQueryBean {
             }
 
             public String getAmount() {
-                return amount;
+                return total_fee;
             }
 
             public void setAmount(String amount) {
-                this.amount = amount;
+                this.total_fee = amount;
             }
         }
     }

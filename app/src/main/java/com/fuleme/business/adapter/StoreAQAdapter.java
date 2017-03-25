@@ -68,6 +68,7 @@ public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHo
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         if (App.PLACEHOLDER.equals(mDatas.get(position).getId())
                 ) {
+            holder.tvStore.setText(mDatas.get(position).getName());
             holder.llNumber.setVisibility(View.GONE);
             holder.llArea.setVisibility(View.GONE);
         } else {
@@ -78,8 +79,14 @@ public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHo
                 holder.tvNumber.setText("0");
             }
             holder.tvArea.setText(mDatas.get(position).getAddress());
+            if("0".equals(mDatas.get(position).getState())){
+                holder.tvStore.setText(mDatas.get(position).getName()+"(待审核)");
+            }else{
+                holder.tvStore.setText(mDatas.get(position).getName()+"(已审核)");
+            }
         }
-        holder.tvStore.setText(mDatas.get(position).getName());
+
+
         holder.llStore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

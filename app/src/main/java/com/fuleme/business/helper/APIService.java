@@ -42,7 +42,8 @@ public interface APIService {
     @POST("user/register")
     Call<Object> register(@Field("phone") String phone,
                           @Field("username") String username,
-                          @Field("password") String password
+                          @Field("password") String password,
+                          @Field("code") String code
     );
 
     /**

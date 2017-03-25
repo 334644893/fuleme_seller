@@ -101,7 +101,12 @@ public class RegisteredActivity extends BaseActivity {
     private void Register() {
         mLoading = LoadingDialogUtils.createLoadingDialog(context, "获取中...");//添加等待框
         LogUtil.i("/etFPPhone:" + etFPPhone + "/etFPNickname:" + etFPNickname + "/etFPPs:" + etFPPs);
-        Call<Object> call = getApi().register(etFPPhone.getText().toString(), etFPNickname.getText().toString(), etFPPs.getText().toString());
+        Call<Object> call = getApi().register(
+                etFPPhone.getText().toString(),
+                etFPNickname.getText().toString(),
+                etFPPs.getText().toString(),
+                etFPV.getText().toString()
+        );
 
         call.enqueue(new Callback<Object>() {
             @Override
