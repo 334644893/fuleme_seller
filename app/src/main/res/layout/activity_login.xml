@@ -122,7 +122,6 @@
             android:layout_height="48dp"
             android:background="@null"
             android:hint="请输入密码"
-            android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:maxLength="11"
             android:paddingLeft="16dp"

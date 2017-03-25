@@ -4,7 +4,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -60,6 +62,11 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        //判断是否第一次启动
+        if("".equals(SharedPreferencesUtils.getParam(getApplicationContext(), "start", ""))){
+
+            startActivity(new Intent(LoginActivity.this,StartActivity.class));
+        }
         initJzmm();
         setState(App.LOGIN_TYPE_EMPLOYEES);
     }
@@ -71,13 +78,13 @@ public class LoginActivity extends BaseActivity {
     private void initJzmm() {
         loginjzmm = (int) SharedPreferencesUtils.getParam(getApplicationContext(), "loginjzmm", 0);
         //初始化账号密码
-//        etPhone.setText(SharedPreferencesUtils.getParam(getApplicationContext(), "phone", "") + "");
-        etPhone.setText(SharedPreferencesUtils.getParam(getApplicationContext(), "phone", "13419567515") + "");
+        etPhone.setText(SharedPreferencesUtils.getParam(getApplicationContext(), "phone", "") + "");
+//        etPhone.setText(SharedPreferencesUtils.getParam(getApplicationContext(), "phone", "13419567515") + "");
         if (loginjzmm == 1) {
             etVerify.setText(SharedPreferencesUtils.getParam(getApplicationContext(), "password", "") + "");
-        }else{
-//            etVerify.setText("");
-            etVerify.setText("666666");
+        } else {
+            etVerify.setText("");
+//            etVerify.setText("666666");
         }
         //初始化标记
         drawable_41 = getResources().getDrawable(R.mipmap.icon41);
@@ -90,6 +97,15 @@ public class LoginActivity extends BaseActivity {
         } else if (loginjzmm == 1) {
             tvJzmm.setCompoundDrawables(drawable_40, null, null, null);
         }
+
+        etVerify.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        etVerify.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                Login();
+                return false;
+            }
+        });
     }
 
     @OnClick({R.id.tv_wjmm, R.id.ll_dianyuan, R.id.ll_admin, R.id.btn_login, R.id.tv_zczh, R.id.tv_jzmm})
@@ -188,8 +204,9 @@ public class LoginActivity extends BaseActivity {
                         App.qrcode = data.optString("qrcode");
                         //绑定推送账号
                         App.bindAccount();
-                        //记住密码和手机号
+                        //记住手机号
                         SharedPreferencesUtils.setParam(getApplicationContext(), "phone", etPhone.getText().toString());
+                        //是否保存密码
                         if (loginjzmm == 0) {
                             SharedPreferencesUtils.setParam(getApplicationContext(), "password", "");
                         } else if (loginjzmm == 1) {
@@ -218,6 +235,5 @@ public class LoginActivity extends BaseActivity {
 
         });
     }
-
 
 }

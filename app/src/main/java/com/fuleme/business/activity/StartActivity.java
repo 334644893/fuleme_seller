@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
+import com.fuleme.business.utils.SharedPreferencesUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,7 +30,6 @@ public class StartActivity extends BaseActivity {
             switch (msg.what) {
 
                 case 0:
-                    startActivity(new Intent(StartActivity.this, LoginActivity.class));
                     finish();
                     break;
             }
@@ -42,6 +42,8 @@ public class StartActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
         ButterKnife.bind(this);
+        //关闭启动动画
+        SharedPreferencesUtils.setParam(getApplicationContext(), "start", "off");
         alphaAnimator(activityStart);
         Message message = new Message();
         message.what = 0;

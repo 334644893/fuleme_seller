@@ -48,7 +48,7 @@ public class TtsUtil {
         if (!user_input.equals("")) {
             mNlsRequest.authorize(authorize, secretKey);   //请替换为用户申请到的数加认证key和密钥
             mNlsRequest.setTtsEncodeType("pcm"); //返回语音数据格式，支持pcm,wav.alaw
-            mNlsRequest.setTtsVolume(50);   //音量大小默认50，阈值0-100
+            mNlsRequest.setTtsVolume(100);   //音量大小默认50，阈值0-100
             mNlsRequest.setTtsSpeechRate(0);//语速，阈值-500~500
             mNlsClient.PostTtsRequest(user_input); //用户输入文本
             audioTrack.play();

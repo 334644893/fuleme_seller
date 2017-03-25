@@ -75,8 +75,8 @@ public class EmployeeCollectionActivity extends AppCompatActivity {
             //店名
             tvStoreName.setText(App.merchant);
         }
-        //生成二维码
-//        ivBaQrCode.setImageBitmap(Zxing.getQrCode(storeName + "的二维码"));
+//        生成二维码
+        ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
 
     }
 
