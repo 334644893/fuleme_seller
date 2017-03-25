@@ -4,16 +4,24 @@
     android:id="@+id/activity_store_aggregation_query"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/evaluate_content_1"
+    android:orientation="vertical"
     tools:context="com.fuleme.business.activity.StoreAggregationQueryActivity">
+
+    <TextView
+        android:id="@+id/tv_ts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="您还没有店铺"
+        android:textSize="@dimen/text_size_35"
+        android:visibility="gone" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:overScrollMode="never"
-        android:scrollbars="none"
-         />
+        android:scrollbars="none" />
 
 </LinearLayout>

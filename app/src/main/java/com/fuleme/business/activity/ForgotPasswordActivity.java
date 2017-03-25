@@ -99,7 +99,10 @@ public class ForgotPasswordActivity extends BaseActivity {
      */
     private void forgetpwd() {
         LogUtil.i("/etFPPhone:" + etFPPhone + "/etFPV:" + etFPV + "/etFPPs:" + etFPPs);
-        Call<Object> call = getApi().forgetpwd(etFPPhone.getText().toString(), etFPV.getText().toString(), etFPPs.getText().toString());
+        Call<Object> call = getApi().forgetpwd(
+                etFPPhone.getText().toString(),
+                etFPV.getText().toString(),
+                etFPPs.getText().toString());
 
         call.enqueue(new Callback<Object>() {
             @Override

@@ -141,15 +141,17 @@ public class BFragment extends Fragment {
         ll_store = (LinearLayout) view.findViewById(R.id.ll_store);
         tv_storeName = (TextView) view.findViewById(R.id.tv_storeName);
         ivBaQrCode = (ImageView) view.findViewById(R.id.iv_ba_qr_code);
-        if (!App.PLACEHOLDER.equals(App.short_id)) {
-            //店名
-            if("0".equals(App.short_state)){
-                tv_storeName.setText(App.merchant+"(审核中)");
-            }else{
-                tv_storeName.setText(App.merchant+"(已审核)");
-            }
-            //生成二维码
-            LogUtil.i("生成二维码，店铺名"+App.merchant+"店铺ID"+App.short_id);
+        //店名
+        if ("0".equals(App.short_state)) {
+            tv_storeName.setText(App.merchant + "(审核中)");
+        } else if ("1".equals(App.short_state)) {
+            tv_storeName.setText(App.merchant + "(已审核)");
+        } else {
+            tv_storeName.setText("暂无店铺");
+        }
+        //生成二维码
+        LogUtil.i("生成二维码，店铺名" + App.merchant + "店铺ID" + App.short_id);
+        if (!TextUtils.isEmpty(App.qrcode)) {
             ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
         }
         //保存二维码
@@ -195,13 +197,18 @@ public class BFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TOSTORE) {
-            if("0".equals(App.short_state)){
-                tv_storeName.setText(App.merchant+"(审核中)");
-            }else{
-                tv_storeName.setText(App.merchant+"(已审核)");
+            if ("0".equals(App.short_state)) {
+                tv_storeName.setText(App.merchant + "(审核中)");
+            } else if ("1".equals(App.short_state)) {
+                tv_storeName.setText(App.merchant + "(已审核)");
+            } else {
+                tv_storeName.setText("暂无店铺");
             }
-            LogUtil.i("生成二维码，店铺名"+App.merchant+"店铺ID"+App.short_id);
-            ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
+
+            if (!TextUtils.isEmpty(App.qrcode)) {
+                LogUtil.i("生成二维码，店铺名" + App.merchant + "店铺ID" + App.short_id);
+                ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
+            }
         }
     }
 

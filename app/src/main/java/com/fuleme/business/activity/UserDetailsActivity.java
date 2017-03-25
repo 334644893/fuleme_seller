@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -48,10 +49,14 @@ public class UserDetailsActivity extends BaseActivity {
 
     public void initView() {
         tvTitle.setText("账号详情");
-        if("0".equals(App.short_state)){
-            tvStoreName.setText(App.merchant+"(审核中)");
-        }else{
-            tvStoreName.setText(App.merchant+"(已审核)");
+
+            if ("0".equals(App.short_state)) {
+                tvStoreName.setText(App.merchant + "(审核中)");
+            } else if("1".equals(App.short_state)){
+                tvStoreName.setText(App.merchant + "(已审核)");
+            }
+        else {
+            tvStoreName.setText("暂无店铺");
         }
         tvRegion.setText(App.short_area);
 
