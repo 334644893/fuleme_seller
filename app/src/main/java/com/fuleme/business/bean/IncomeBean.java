@@ -20,9 +20,17 @@ public class IncomeBean {
 
     private int error_code;
     private String message;
-    private String balance;
-    private String prompt;
+    private double totalAmount;
+//    private String prompt;
     private List<DataBean> data;
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
 
     public int getError_code() {
         return error_code;
@@ -40,21 +48,14 @@ public class IncomeBean {
         this.message = message;
     }
 
-    public String getBalance() {
-        return balance;
-    }
 
-    public void setBalance(String balance) {
-        this.balance = balance;
-    }
-
-    public String getPrompt() {
-        return prompt;
-    }
-
-    public void setPrompt(String prompt) {
-        this.prompt = prompt;
-    }
+//    public String getPrompt() {
+//        return prompt;
+//    }
+//
+//    public void setPrompt(String prompt) {
+//        this.prompt = prompt;
+//    }
 
     public List<DataBean> getData() {
         return data;
@@ -71,32 +72,32 @@ public class IncomeBean {
          * resultStatus : 1
          */
 
-        private String resultTime;
-        private double arrivalAmount;
-        private int resultStatus;
+        private String trading_time;
+        private double total_fee;
+        private int count;
 
         public String getResultTime() {
-            return resultTime;
+            return trading_time;
         }
 
         public void setResultTime(String resultTime) {
-            this.resultTime = resultTime;
+            this.trading_time = resultTime;
         }
 
         public double getArrivalAmount() {
-            return arrivalAmount;
+            return total_fee;
         }
 
         public void setArrivalAmount(double arrivalAmount) {
-            this.arrivalAmount = arrivalAmount;
+            this.total_fee = arrivalAmount;
         }
 
         public int getResultStatus() {
-            return resultStatus;
+            return count;
         }
 
         public void setResultStatus(int resultStatus) {
-            this.resultStatus = resultStatus;
+            this.count = resultStatus;
         }
     }
 }

@@ -317,8 +317,11 @@ public interface APIService {
     @FormUrlEncoded
     @POST("account/income")
     Call<IncomeBean> income(@Field("token") String token,
-                            @Field("page") int page,
-                            @Field("list_rows") int list_rows);
+                            @Field("year") int year,
+                            @Field("month") int month
+//                            @Field("page") int page,
+//                            @Field("list_rows") int list_rows
+    );
 
     /**
      * 汇总查询接口

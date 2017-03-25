@@ -3,16 +3,7 @@
     package="com.fuleme.business">
 
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
-    <!-- 选举使用，当应用有删除或者更新时需要重新选举，复用推送通道 -->
-    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_CHANGED" />
-    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REPLACED" />
-    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
-    <!-- 补偿通道小米PUSH使用，不用可去除 -->
-    <uses-permission android:name="android.permission.GET_TASKS" />
-    <!-- 允许监听启动完成事件 -->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!-- 允许task重排序 -->
-    <uses-permission android:name="android.permission.REORDER_TASKS" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -103,113 +94,6 @@
         <activity android:name=".activity.UploadPicturesActivity" />
         <activity android:name=".activity.PaymentCodeActivity" />
 
-        <!-- Push SDK 相关组件，required -->
-        <!-- 消息接收服务 -->
-        <service
-            android:name="com.alibaba.sdk.android.push.MsgService"
-            android:exported="false">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="com.taobao.accs.intent.action.RECEIVE" /> -->
-            <!-- </intent-filter> -->
-            <intent-filter>
-                <action android:name="com.alibaba.sdk.android.push.NOTIFY_ACTION" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.alibaba.sdk.android.push.channel.CheckService"
-            android:process=":channel">
-            <intent-filter>
-                <action android:name="com.alibaba.sdk.android.push.CHECK_SERVICE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.taobao.accs.ChannelService"
-            android:exported="true"
-            android:process=":channel">
-            <intent-filter>
-                <action android:name="com.taobao.accs.intent.action.SERVICE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.taobao.accs.ChannelService$KernelService"
-            android:exported="false"
-            android:process=":channel" />
-        <service
-            android:name="com.taobao.accs.data.MsgDistributeService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.taobao.accs.intent.action.RECEIVE" />
-            </intent-filter>
-        </service>
-
-        <receiver
-            android:name="com.taobao.accs.EventReceiver"
-            android:process=":channel">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name="com.taobao.accs.ServiceReceiver"
-            android:process=":channel">
-            <intent-filter>
-                <action android:name="com.taobao.accs.intent.action.COMMAND" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="com.taobao.accs.intent.action.START_FROM_AGOO" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name="org.android.agoo.accs.AgooService"
-            android:exported="true"
-            android:process=":channel">
-            <intent-filter>
-                <action android:name="com.taobao.accs.intent.action.RECEIVE" />
-            </intent-filter>
-        </service>
-        <service
-            android:name="com.alibaba.sdk.android.push.AliyunPushIntentService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="org.agoo.android.intent.action.RECEIVE" />
-            </intent-filter>
-        </service>
-
-        <receiver
-            android:name="com.taobao.agoo.AgooCommondReceiver"
-            android:exported="true"
-            android:process=":channel">
-            <intent-filter>
-                <action android:name="${applicationId}.intent.action.COMMAND" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
-                <data android:scheme="package" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name="com.alibaba.sdk.android.push.channel.TaobaoRecvService"
-            android:exported="true"
-            android:process=":channel">
-            <intent-filter>
-                <action android:name="org.android.agoo.client.MessageReceiverService" />
-            </intent-filter>
-        </service>
         //消息接收Receiver配置
         <receiver
             android:name=".MyMessageReceiver"
@@ -244,7 +128,6 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-
         <activity android:name=".activity.RegistrationStoreActivity" />
         <activity android:name=".activity.OrderDetailsActivity"></activity>
     </application>

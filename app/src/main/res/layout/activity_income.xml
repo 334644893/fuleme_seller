@@ -43,7 +43,7 @@
                     android:layout_weight="1"
                     android:paddingLeft="15dp"
                     android:paddingRight="10dp"
-                    android:text="账户余额:"
+                    android:text="本月流水总金额:"
                     android:textSize="@dimen/text_size_20" />
 
                 <TextView
@@ -60,70 +60,70 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_tips"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="vertical">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/ll_tips"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:orientation="vertical">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
 
-                android:background="@color/white"
-                android:orientation="horizontal"
-                android:padding="3dp">
-
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:src="@mipmap/icon29" />
+                <!--android:background="@color/white"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:padding="3dp">-->
 
 
-                <TextView
-                    android:id="@+id/tv_ag_today"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:paddingLeft="10dp"
-                    android:text="到账时间小贴士"
-                    android:textColor="@color/black" />
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:src="@mipmap/icon29" />-->
 
 
-                <ImageView
-                    android:id="@+id/iv_tubiao"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@mipmap/icon32" />
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_ag_today"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:paddingLeft="10dp"-->
+                    <!--android:text="到账时间小贴士"-->
+                    <!--android:textColor="@color/black" />-->
 
 
-            </LinearLayout>
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_tubiao"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:padding="10dp"-->
+                    <!--android:src="@mipmap/icon32" />-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:background="@color/white"
-                android:orientation="horizontal"
-                android:padding="5dp">
 
-                <TextView
-                    android:id="@+id/tv_tipstext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:paddingLeft="10dp" />
-            </LinearLayout>
-        </LinearLayout>
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="1dp"-->
+                <!--android:background="@color/white"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:padding="5dp">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/tv_tipstext"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:ellipsize="end"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:paddingLeft="10dp" />-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -163,7 +163,7 @@
                     android:text="结算时间" />
 
                 <TextView
-                    android:id="@+id/tv_i_amount"
+                    android:id="@+id/tv_i_state"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -171,10 +171,10 @@
                     android:ellipsize="end"
                     android:gravity="center"
                     android:lines="1"
-                    android:text="实际到账" />
+                    android:text="订单数" />
 
                 <TextView
-                    android:id="@+id/tv_i_state"
+                    android:id="@+id/tv_i_amount"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -182,8 +182,8 @@
                     android:ellipsize="end"
                     android:gravity="center|right"
                     android:lines="1"
-                    android:paddingRight="10dp"
-                    android:text="结算状态" />
+                    android:paddingRight="30dp"
+                    android:text="金额" />
 
             </LinearLayout>
 

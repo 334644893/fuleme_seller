@@ -1,20 +1,11 @@
 package com.fuleme.business;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-
 import com.alibaba.sdk.android.push.MessageReceiver;
 import com.alibaba.sdk.android.push.notification.CPushMessage;
-import com.fuleme.business.activity.IncomeActivity;
-import com.fuleme.business.fragment.FragmentActivity;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
-import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.utils.TtsUtil;
-import com.fuleme.business.widget.CustomDialog;
-import com.fuleme.business.widget.NoticeDialog;
-
 import java.util.Map;
 
 /**

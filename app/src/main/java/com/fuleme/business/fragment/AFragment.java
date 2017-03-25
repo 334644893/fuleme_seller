@@ -79,6 +79,7 @@ public class AFragment extends Fragment {
             public void onItemClick(View v, String itemText) {
 
                 if (mTextDatas[0].equals(itemText)) {
+
                     ToastUtil.showMessage("点击了" + itemText + ",mTextDatas[0]:" + mTextDatas[0]);
                     //我的账户
                     startActivity(new Intent(getActivity(), IncomeActivity.class));
