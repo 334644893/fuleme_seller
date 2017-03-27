@@ -64,7 +64,7 @@
     <color name="before_454">#E0454D</color>
     <color name="before_454_1">#CD4877</color>
     <color name="after">#3a589b</color>
-
+    <color name="mmm_transparent">#00000000</color>
     <color name="bgcolor">#232323</color>
     <color name="tab">#121212</color>
     <color name="content">#f5f5f5</color>

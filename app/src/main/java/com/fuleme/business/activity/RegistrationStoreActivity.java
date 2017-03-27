@@ -145,7 +145,7 @@ public class RegistrationStoreActivity extends BaseActivity {
                         ToastUtil.showMessage("获取失败");
                     }
                 } else {
-                    LogUtil.i("失败response.message():" + response.message());
+                    ToastUtil.showMessage("失败:" + response.message());
                 }
                 LoadingDialogUtils.closeDialog(mLoading);//取消等待框
             }

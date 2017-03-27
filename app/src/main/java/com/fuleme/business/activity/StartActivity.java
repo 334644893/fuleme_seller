@@ -30,6 +30,7 @@ public class StartActivity extends BaseActivity {
             switch (msg.what) {
 
                 case 0:
+                    startActivity(new Intent(StartActivity.this,GuideActivity.class));
                     finish();
                     break;
             }

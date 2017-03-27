@@ -147,7 +147,7 @@ public class BFragment extends Fragment {
         } else if ("1".equals(App.short_state)) {
             tv_storeName.setText(App.merchant + "(已审核)");
         } else {
-            tv_storeName.setText("暂无店铺");
+            tv_storeName.setText("请选择店铺");
         }
         //生成二维码
         LogUtil.i("生成二维码，店铺名" + App.merchant + "店铺ID" + App.short_id);
