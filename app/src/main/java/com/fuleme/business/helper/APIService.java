@@ -337,5 +337,48 @@ public interface APIService {
                                        @Field("starttime") String starttime,
                                        @Field("endtime") String endtime);
 
+    /**
+     * 威富通刷卡支付(统一支付接口)
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("wft/CreditCardPayment")
+    Call<Object> CreditCardPayment(@Field("token") String token,
+                                   @Field("auth_code") String auth_code,
+                                   @Field("total_fee") String total_fee,
+                                   @Field("body") String body,
+                                   @Field("mid") String mid,
+                                   @Field("account") String account
+
+    );
+
+    /**
+     * 生成微信扫码二维码支付接口
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("wft/WeixinSweepPayment")
+    Call<Object> WeixinSweepPayment(@Field("token") String token,
+                                    @Field("body") String body,
+                                    @Field("mid") String mid,
+                                    @Field("total_fee") String total_fee
+    );
+    /**
+     * 生成支付宝二维码支付接口
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("wft/AlipaySweepPayment")
+    Call<Object> AlipaySweepPayment(@Field("token") String token,
+                                    @Field("body") String body,
+                                    @Field("mid") String mid,
+                                    @Field("total_fee") String total_fee
+    );
+
 
 }

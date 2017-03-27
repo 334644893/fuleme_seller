@@ -52,7 +52,7 @@
         android:layout_marginRight="20dp"
         android:background="@drawable/shape_b_hui"
         android:hint="¥0.00"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:singleLine="true"

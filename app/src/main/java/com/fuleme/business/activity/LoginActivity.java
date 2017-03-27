@@ -53,7 +53,7 @@ public class LoginActivity extends BaseActivity {
     EditText etPhone;
     @Bind(R.id.et_verify)
     EditText etVerify;
-    private Dialog mLoading;
+
     private int loginjzmm;
     Drawable drawable_41, drawable_40;
 
@@ -177,6 +177,7 @@ public class LoginActivity extends BaseActivity {
     /**
      * 登录接口
      */
+    private Dialog mLoading;
     private void Login() {
         mLoading = LoadingDialogUtils.createLoadingDialog(LoginActivity.this, "登录中...");//添加等待框
         Call<Object> call = getApi().login(etPhone.getText().toString(),
