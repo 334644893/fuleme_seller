@@ -4,7 +4,6 @@ import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.BitmapFactory;
 
 import com.alibaba.idst.nls.NlsClient;
 import com.alibaba.sdk.android.push.CloudPushService;
@@ -15,6 +14,8 @@ import com.alibaba.sdk.android.push.notification.CustomNotificationBuilder;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.fuleme.business.helper.APIService;
+import com.fuleme.business.helper.TokenAPIService;
+import com.fuleme.business.helper.TokenInterceptor;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.utils.TtsUtil;
@@ -22,6 +23,7 @@ import com.fuleme.business.widget.LoadingDialogUtils;
 import com.fuleme.business.widget.NoticeDialog;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -50,11 +52,15 @@ public class App extends Application {
     public static final int LOGIN_TYPE_EMPLOYEES = 1;//登录状态  1：员工
     private static App instance;
     private APIService serverApi;
+    private TokenAPIService tokenapiservice;
     public static CloudPushService pushService;
     private static Dialog mLoading, mLoading_1;
 
     public APIService getServerApi() {
         return serverApi;
+    }
+    public TokenAPIService getTokenAPIService() {
+        return tokenapiservice;
     }
 
     public static App getInstance() {
@@ -81,11 +87,21 @@ public class App extends Application {
     }
 
     private void initRest() {
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new TokenInterceptor())
+                .build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(APIService.SERVER_IP)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
         serverApi = retrofit.create(APIService.class);
+        //获取token时用到
+        Retrofit retrofit_token = new Retrofit.Builder()
+                .baseUrl(APIService.SERVER_IP)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        tokenapiservice = retrofit_token.create(TokenAPIService.class);
     }
 
     /**
@@ -191,4 +207,6 @@ public class App extends Application {
         TtsUtil.audioTrack.release();//关闭语音播放
         super.onTerminate();
     }
+
+
 }

@@ -1,27 +1,16 @@
 package com.fuleme.business.activity;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.utils.Zxing;
-
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,7 +24,7 @@ public class EmployeeCollectionActivity extends AppCompatActivity {
     FrameLayout flSaveImage;
     @Bind(R.id.tv_title)
     TextView tvTitle;
-////    public static String storeID = App.PLACEHOLDER;//查询店铺ID·初始为占位符，表示全部店铺
+    ////    public static String storeID = App.PLACEHOLDER;//查询店铺ID·初始为占位符，表示全部店铺
 //    public static String storeName = App.PLACEHOLDER;//storeName·初始为占位符
     @Bind(R.id.tv_storeName)
     TextView tvStoreName;
@@ -45,6 +34,8 @@ public class EmployeeCollectionActivity extends AppCompatActivity {
     TextView tvText;
     @Bind(R.id.tv_bt_save)
     TextView tvBtSave;
+    @Bind(R.id.tv_name)
+    TextView tvName;
     private Handler mHandler = new Handler();
 
     @OnClick({R.id.tv_left})
@@ -74,6 +65,7 @@ public class EmployeeCollectionActivity extends AppCompatActivity {
         if (!App.PLACEHOLDER.equals(App.short_id)) {
             //店名
             tvStoreName.setText(App.merchant);
+            tvName.setText(App.merchant);
         }
 //        生成二维码
         ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));

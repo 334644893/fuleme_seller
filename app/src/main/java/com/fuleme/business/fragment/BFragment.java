@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 public class BFragment extends Fragment {
     private static final String TAG = "BFragment";
     FrameLayout flSaveImage;
-    TextView tv_bt_save, tv_storeName;
+    TextView tv_bt_save, tv_storeName,tv_name;
     Button btn_employee_1;
     Button btn_employee_2;
     private Handler mHandler = new Handler();
@@ -140,14 +140,18 @@ public class BFragment extends Fragment {
         tv_bt_save = (TextView) view.findViewById(R.id.tv_bt_save);
         ll_store = (LinearLayout) view.findViewById(R.id.ll_store);
         tv_storeName = (TextView) view.findViewById(R.id.tv_storeName);
+        tv_name = (TextView) view.findViewById(R.id.tv_name);
         ivBaQrCode = (ImageView) view.findViewById(R.id.iv_ba_qr_code);
         //店名
         if ("0".equals(App.short_state)) {
             tv_storeName.setText(App.merchant + "(审核中)");
+            tv_name.setText(App.merchant);
         } else if ("1".equals(App.short_state)) {
             tv_storeName.setText(App.merchant + "(已审核)");
+            tv_name.setText(App.merchant);
         } else {
             tv_storeName.setText("请选择店铺");
+            tv_name.setText("");
         }
         //生成二维码
         LogUtil.i("生成二维码，店铺名" + App.merchant + "店铺ID" + App.short_id);
@@ -199,10 +203,13 @@ public class BFragment extends Fragment {
         if (requestCode == TOSTORE) {
             if ("0".equals(App.short_state)) {
                 tv_storeName.setText(App.merchant + "(审核中)");
+                tv_name.setText(App.merchant);
             } else if ("1".equals(App.short_state)) {
                 tv_storeName.setText(App.merchant + "(已审核)");
+                tv_name.setText(App.merchant);
             } else {
                 tv_storeName.setText("暂无店铺");
+                tv_name.setText("");
             }
 
             if (!TextUtils.isEmpty(App.qrcode)) {

@@ -41,8 +41,8 @@ public class IncomeActivity extends BaseActivity {
 
 //    public boolean state = true;//是否刷新
 //    public static boolean textState = true;//true 显示正在加载，false显示 没有更多
-//    @Bind(R.id.demo_swiperefreshlayout)
-//    SwipeRefreshLayout demoSwiperefreshlayout;
+    @Bind(R.id.demo_swiperefreshlayout)
+    SwipeRefreshLayout demoSwiperefreshlayout;
 //    private int page = 1;//当前加载的页数
 //    public static int rows = 20;//传给服务器的需要加载的数量
 //    int text_state = 0;//0：收缩状态 1：伸张状态
@@ -89,18 +89,18 @@ public class IncomeActivity extends BaseActivity {
         mAdapter = new IncomeAdapter(IncomeActivity.this, mDatas);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(IncomeActivity.this, LinearLayoutManager.VERTICAL));
-//        //刷新控件
-//        demoSwiperefreshlayout.setColorSchemeResources(R.color.white);
-//        demoSwiperefreshlayout.setProgressBackgroundColorSchemeResource(R.color.theme);
-//        demoSwiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                //下拉重置数据
+        //刷新控件
+        demoSwiperefreshlayout.setColorSchemeResources(R.color.white);
+        demoSwiperefreshlayout.setProgressBackgroundColorSchemeResource(R.color.theme);
+        demoSwiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //下拉重置数据
 //                page = 1;
 //                state = true;
-//                income();
-//            }
-//        });
+                income();
+            }
+        });
 //        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //            @Override
 //            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -187,14 +187,14 @@ public class IncomeActivity extends BaseActivity {
                     LogUtil.i("失败response.message():" + response.message());
                 }
                 LoadingDialogUtils.closeDialog(mLoading);//取消等待框
-//                demoSwiperefreshlayout.setRefreshing(false);
+                demoSwiperefreshlayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<IncomeBean> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
                 LoadingDialogUtils.closeDialog(mLoading);//取消等待框
-//                demoSwiperefreshlayout.setRefreshing(false);
+                demoSwiperefreshlayout.setRefreshing(false);
                 ToastUtil.showMessage("超时");
             }
 

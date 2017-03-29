@@ -10,7 +10,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.alibaba.sdk.android.push.CommonCallback;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
@@ -19,7 +18,6 @@ import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
-import com.fuleme.business.utils.TtsUtil;
 import com.fuleme.business.widget.LoadingDialogUtils;
 
 import org.json.JSONObject;
@@ -30,9 +28,6 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.fuleme.business.App.pushService;
-
 
 /**
  * 登录页面
@@ -63,9 +58,9 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         //判断是否第一次启动
-        if("".equals(SharedPreferencesUtils.getParam(getApplicationContext(), "start", ""))){
+        if ("".equals(SharedPreferencesUtils.getParam(getApplicationContext(), "start", ""))) {
 
-            startActivity(new Intent(LoginActivity.this,StartActivity.class));
+            startActivity(new Intent(LoginActivity.this, StartActivity.class));
         }
         initJzmm();
         setState(App.LOGIN_TYPE_EMPLOYEES);
@@ -84,6 +79,7 @@ public class LoginActivity extends BaseActivity {
             etVerify.setText(SharedPreferencesUtils.getParam(getApplicationContext(), "password", "") + "");
         } else {
             etVerify.setText("");
+            SharedPreferencesUtils.setParam(getApplicationContext(), "password", "");
 //            etVerify.setText("666666");
         }
         //初始化标记
@@ -178,12 +174,12 @@ public class LoginActivity extends BaseActivity {
      * 登录接口
      */
     private Dialog mLoading;
+
     private void Login() {
         mLoading = LoadingDialogUtils.createLoadingDialog(LoginActivity.this, "登录中...");//添加等待框
         Call<Object> call = getApi().login(etPhone.getText().toString(),
                 etVerify.getText().toString(),
                 App.login_type);
-
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -203,15 +199,18 @@ public class LoginActivity extends BaseActivity {
                         App.short_area = data.optString("short_area");
                         App.token = data.optString("token");
                         App.qrcode = data.optString("qrcode");
+                        LogUtil.d("-------登录返回App.token---------", App.token);
                         //绑定推送账号
                         App.bindAccount();
                         //记住手机号
                         SharedPreferencesUtils.setParam(getApplicationContext(), "phone", etPhone.getText().toString());
-                        //是否保存密码
-                        if (loginjzmm == 0) {
-                            SharedPreferencesUtils.setParam(getApplicationContext(), "password", "");
-                        } else if (loginjzmm == 1) {
+                        //刷新TOKEN用密码
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "token_password", etVerify.getText().toString());
+                        //根据记住密码保存密码
+                        if (loginjzmm == 1) {
                             SharedPreferencesUtils.setParam(getApplicationContext(), "password", etVerify.getText().toString());
+                        } else {
+                            SharedPreferencesUtils.setParam(getApplicationContext(), "password", "");
                         }
                         //TODO 跳转主页
                         startActivity(new Intent(LoginActivity.this, FragmentActivity.class));

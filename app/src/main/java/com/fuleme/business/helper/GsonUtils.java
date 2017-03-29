@@ -14,11 +14,12 @@ import org.json.JSONObject;
 
 public class GsonUtils {
     public static final int SUCCESSFUL = 200;
+    public static final int TOKEN_OVERDUE = 300;
     //    public static final String SUCCESSFUL="0";
-    private static final String ERROR_CODE = "error_code";
-    private static final String DATA = "data";
-    private static final String ERRMSG = "errmsg";
-    private static Gson gson = new Gson();
+    public static final String ERROR_CODE = "error_code";
+    public static final String DATA = "data";
+    public static final String ERRMSG = "errmsg";
+    public static Gson gson = new Gson();
 
     public static JSONObject getResultData(Object responseBody) {
         JSONObject result = null;

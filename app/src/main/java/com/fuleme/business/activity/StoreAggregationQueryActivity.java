@@ -81,6 +81,7 @@ public class StoreAggregationQueryActivity extends BaseActivity {
                     case CLERKMANAGEMENTACTIVITY:
                         ClerkManagementActivity.storeName = bean.getName();
                         ClerkManagementActivity.storeID = bean.getId();
+                        ClerkManagementActivity.short_state = bean.getState();
                         break;
                 }
                 finish();

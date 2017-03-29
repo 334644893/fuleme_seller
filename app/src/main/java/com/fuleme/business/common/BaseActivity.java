@@ -2,7 +2,9 @@ package com.fuleme.business.common;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -17,11 +19,16 @@ import android.view.Window;
 
 import com.fuleme.business.App;
 import com.fuleme.business.R;
+import com.fuleme.business.activity.LoginActivity;
+import com.fuleme.business.fragment.FragmentActivity;
 import com.fuleme.business.helper.APIService;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.widget.LoadingDialogUtils;
+
+import org.json.JSONObject;
 
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -33,6 +40,8 @@ import retrofit2.Response;
  */
 
 public class BaseActivity extends AppCompatActivity {
+    private static final String TAG = "BaseActivity";
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -58,8 +67,8 @@ public class BaseActivity extends AppCompatActivity {
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (!response.isSuccessful()) {
                     ToastUtil.showMessage("验证码失败:" + GsonUtils.getErrmsg(response.body()));
-                }else{
-                    ToastUtil.showMessage("发送成功请稍等..." );
+                } else {
+                    ToastUtil.showMessage("发送成功请稍等...");
                 }
             }
 

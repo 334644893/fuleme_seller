@@ -57,6 +57,7 @@ public class ClerkManagementActivity extends BaseActivity {
     private Dialog mLoading, mLoading_2, mLoading_3;
     public static String storeID = "";
     public static String storeName = "";
+    public static String short_state = "";
     final int TOSTORE = 998;
     List<ClerkInfoBean.DataBean> dataList = new ArrayList<ClerkInfoBean.DataBean>();//数据集合
 
@@ -154,9 +155,9 @@ public class ClerkManagementActivity extends BaseActivity {
         }
         //刷新数据列表
         tvStoreName.setText(storeName);
-        if (mDatas.size() >0) {
+        if (mDatas.size() > 0) {
             none.setVisibility(View.GONE);
-        } else{
+        } else {
             none.setVisibility(View.VISIBLE);
         }
         mAdapter.notifyDataSetChanged();
@@ -177,31 +178,37 @@ public class ClerkManagementActivity extends BaseActivity {
                 startActivityForResult(intent, TOSTORE);
                 break;
             case R.id.rl_add:
+
                 if ("".equals(storeID)) {
                     ToastUtil.showMessage("请选择店铺");
                 } else {
-                    //添加员工
-                    final AddClerkDialog.Builder customBuilder = new
-                            AddClerkDialog.Builder(ClerkManagementActivity.this);
-                    customBuilder.setPositiveButton(new AddClerkDialog.Builder.OnClickListener() {
-                        @Override
-                        public void onClick(String etPhone, String etPassword, String etName, int state) {
-                            //添加店员
-                            if (TextUtils.isEmpty(etPhone)) {
-                                ToastUtil.showMessage("请填写手机号");
-                            } else if (TextUtils.isEmpty(etPassword)) {
-                                ToastUtil.showMessage("请填写密码");
-                            } else if (TextUtils.isEmpty(etName)) {
-                                ToastUtil.showMessage("请填写员工姓名");
-                            } else {
-                                addclerk(App.token, storeID, etName, etPassword, etPhone, state + "");
-                                addDialog.dismiss();
-                            }
+                    if ("0".equals(short_state)) {
+                        ToastUtil.showMessage("审核中店铺无法添加店员");
+                    } else if ("1".equals(short_state)) {
+                        //添加员工
+                        final AddClerkDialog.Builder customBuilder = new
+                                AddClerkDialog.Builder(ClerkManagementActivity.this);
+                        customBuilder.setPositiveButton(new AddClerkDialog.Builder.OnClickListener() {
+                            @Override
+                            public void onClick(String etPhone, String etPassword, String etName, int state) {
+                                //添加店员
+                                if (TextUtils.isEmpty(etPhone)) {
+                                    ToastUtil.showMessage("请填写手机号");
+                                } else if (TextUtils.isEmpty(etPassword)) {
+                                    ToastUtil.showMessage("请填写密码");
+                                } else if (TextUtils.isEmpty(etName)) {
+                                    ToastUtil.showMessage("请填写员工姓名");
+                                } else {
+                                    addclerk(App.token, storeID, etName, etPassword, etPhone, state + "");
+                                    addDialog.dismiss();
+                                }
 
-                        }
-                    });
-                    addDialog = customBuilder.create();
-                    addDialog.show();
+                            }
+                        });
+                        addDialog = customBuilder.create();
+                        addDialog.show();
+                    }
+
                 }
                 break;
         }

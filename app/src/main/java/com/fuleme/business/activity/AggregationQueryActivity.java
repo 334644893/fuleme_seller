@@ -364,7 +364,11 @@ public class AggregationQueryActivity extends BaseActivity {
                             }
                         }
                         mAdapter.notifyDataSetChanged();
-                    } else {
+                    }
+//                    else if(GsonUtils.getError_code(response.body()) == GsonUtils.TOKEN_OVERDUE){
+//                        LoginRefresh();
+//                    }
+                    else{
                         ToastUtil.showMessage("失败");
                     }
 
