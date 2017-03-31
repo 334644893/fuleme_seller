@@ -1,6 +1,5 @@
 package com.fuleme.business.fragment;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +21,7 @@ import com.fuleme.business.activity.ClerkManagementActivity;
 import com.fuleme.business.activity.LoginActivity;
 import com.fuleme.business.activity.RegistrationStoreActivity;
 import com.fuleme.business.activity.UserDetailsActivity;
+import com.fuleme.business.download.DeviceUtils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -47,6 +47,8 @@ public class CFragment extends Fragment {
     LinearLayout llAddstore;
     @Bind(R.id.v_add_line)
     View vAddLine;
+    @Bind(R.id.tv_version)
+    TextView tvVersion;
 
     @Nullable
     @Override
@@ -68,6 +70,7 @@ public class CFragment extends Fragment {
     public void initView() {
         tvPhone.setText(App.phone);
         tvFulemenumber.setText(App.username);
+        tvVersion.setText("当前版本号:"+DeviceUtils.getVersionName(getActivity()));
         //根据登录类型显示隐藏员工管理
         if ("2".equals(App.role)) {
             llSetDygl.setVisibility(View.GONE);

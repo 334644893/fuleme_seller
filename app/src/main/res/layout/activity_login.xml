@@ -170,7 +170,7 @@
             android:layout_marginRight="10dp"
             android:background="@color/theme"
             android:gravity="center"
-            android:text="登录"
+            android:text="登sdsdsdsdsdsd录"
             android:textColor="@color/white"
             android:textSize="18sp" />
 

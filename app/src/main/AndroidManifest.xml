@@ -46,6 +46,7 @@
             android:name="com.alibaba.app.appsecret"
             android:value="44251471e875432d116765e2f5b75583" /> <!-- 请填写你自己的appSecret -->
         <!-- <activity android:name=".MainActivity" /> -->
+        <service android:name=".download.DownLoadService"/>
         <activity android:name=".activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

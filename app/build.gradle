@@ -15,8 +15,6 @@ android {
             abiFilters 'armeabi', 'x86'
         }
 //        multiDexEnabled true
-
-
     }
     sourceSets {
         main {
@@ -32,6 +30,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    // apk name def
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(output.outputFile.parent, "fuleme"  + "-v" +
+                    defaultConfig.versionName + "-" + defaultConfig.versionCode + ".apk" );
         }
     }
 }
@@ -56,4 +61,7 @@ dependencies {
     compile 'com.aliyun.ams:alicloud-android-utdid:1.1.5.3'
     compile 'com.aliyun.ams:alicloud-android-ut:5.0.0'
     compile 'com.google.code.gson:gson:2.8.0'
+    compile 'io.reactivex:rxjava:1.1.5'
+    compile 'io.reactivex:rxandroid:1.2.0'
+    compile 'com.squareup.okhttp3:okhttp:3.3.0'
 }

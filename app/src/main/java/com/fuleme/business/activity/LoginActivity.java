@@ -1,11 +1,15 @@
 package com.fuleme.business.activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -13,6 +17,8 @@ import android.widget.TextView;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
+import com.fuleme.business.download.DownLoadService;
+import com.fuleme.business.download.UpdateManager;
 import com.fuleme.business.fragment.FragmentActivity;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
@@ -34,6 +40,8 @@ import retrofit2.Response;
  */
 public class LoginActivity extends BaseActivity {
     private static final String TAG = "LoginActivity";
+    public static boolean MANDATORY = false;//是否是强制更新，如果是则登录不可用
+    public static  Dialog mUpdateLoading;
     @Bind(R.id.tv_dianyuan)
     TextView tvDianyuan;
     @Bind(R.id.tv_dianyuan_l)
@@ -64,6 +72,9 @@ public class LoginActivity extends BaseActivity {
         }
         initJzmm();
         setState(App.LOGIN_TYPE_EMPLOYEES);
+        //更新
+//       new UpdateManager(LoginActivity.this).checkUpdate(2, "啦啦啦啦", 1, "download/com.fuleme.business-release-v1.0-1.apk", false);
+        version();
     }
 
     /**
@@ -114,10 +125,12 @@ public class LoginActivity extends BaseActivity {
                 setState(App.LOGIN_TYPE_ADMIN);
                 break;
             case R.id.btn_login:
-
                 //TODO 发送登录请求并跳转主页
-                Login();
-
+                if (MANDATORY) {
+                    ToastUtil.showMessage("请安装最新版本");
+                } else {
+                    Login();
+                }
                 break;
             case R.id.tv_zczh:
                 startActivity(new Intent(LoginActivity.this, RegisteredActivity.class));
@@ -235,5 +248,59 @@ public class LoginActivity extends BaseActivity {
 
         });
     }
+
+    int type = -1;
+    private void version() {
+        getApi().version().enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful()) {
+                    if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
+                        // do SomeThing
+                        LogUtil.i("获取更新信息成功");
+                        //TODO 初始化数据
+                        JSONObject data = GsonUtils.getResultData(response.body());
+                        LogUtil.d("---data--", data.toString());
+                        int version = data.optInt("androidVersion");//版本标识
+                        String prompt = data.optString("prompt");
+                        type = data.optInt("type");
+                        String url = data.optString("android");
+                        LogUtil.d("---------", "-version:" + version + "-prompt:" + prompt + "-type:" + type + "-android:" + url);
+                        if (type == 1) {
+                            MANDATORY = true;
+                        }
+                        //信息对比是否更新
+                        new UpdateManager(LoginActivity.this).checkUpdate(version, prompt, type, url, false);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                if (type == 1) {
+                    // 构造对话框
+                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+
+                    builder.setTitle("检查更新提示");
+                    builder.setMessage("网络出现了问题");
+                    // 更新
+                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            System.exit(0);
+                        }
+                    });
+                    Dialog noticeDialog = builder.create();
+                    noticeDialog.setCancelable(false);
+                    noticeDialog.show();
+                }else{
+                    LogUtil.d("检测更新失败",t.toString());
+                }
+            }
+
+        });
+    }
+
 
 }

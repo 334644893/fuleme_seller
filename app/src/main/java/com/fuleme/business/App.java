@@ -13,6 +13,7 @@ import com.alibaba.sdk.android.push.notification.BasicCustomPushNotification;
 import com.alibaba.sdk.android.push.notification.CustomNotificationBuilder;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.fuleme.business.download.DeviceUtils;
 import com.fuleme.business.helper.APIService;
 import com.fuleme.business.helper.TokenAPIService;
 import com.fuleme.business.helper.TokenInterceptor;
@@ -22,6 +23,8 @@ import com.fuleme.business.utils.TtsUtil;
 import com.fuleme.business.widget.LoadingDialogUtils;
 import com.fuleme.business.widget.NoticeDialog;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
+
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -33,6 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class App extends Application {
     private static final String TAG = "App";
+    public static  String VERSIONNAME = "";//版本名
     public static String PLACEHOLDER = "";//占位符
     public static int uid = 0;//用户id
     public static String token = "";//用户标识，该token在其他用于获取用户信息的接口时必带
@@ -71,6 +75,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        VERSIONNAME= DeviceUtils.getVersionName(this);
         initFresco();//初始化图片加载
         initRest();//初始化网络通信
         initCloudChannel(this);//阿里云
@@ -89,6 +94,7 @@ public class App extends Application {
     private void initRest() {
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new TokenInterceptor())
+                .connectTimeout(15, TimeUnit.SECONDS)
                 .build();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(APIService.SERVER_IP)
