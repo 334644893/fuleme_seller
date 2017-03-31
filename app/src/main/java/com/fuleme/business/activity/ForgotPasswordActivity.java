@@ -46,7 +46,6 @@ public class ForgotPasswordActivity extends BaseActivity {
     LinearLayout activityForgotPassword;
     private int time;
     private Timer timer;
-    private Dialog mLoading;
 
     public void initView() {
         tvTitle.setText("忘记密码");
@@ -98,6 +97,7 @@ public class ForgotPasswordActivity extends BaseActivity {
      * 忘记密码接口
      */
     private void forgetpwd() {
+        showLoading("请稍等...");
         LogUtil.i("/etFPPhone:" + etFPPhone + "/etFPV:" + etFPV + "/etFPPs:" + etFPPs);
         Call<Object> call = getApi().forgetpwd(
                 etFPPhone.getText().toString(),
@@ -120,15 +120,15 @@ public class ForgotPasswordActivity extends BaseActivity {
 
 
                 } else {
-                    LogUtil.i("失败response.message():" + response.message());
+                    ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                 }
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 ToastUtil.showMessage("超时");
             }
 

@@ -1,19 +1,15 @@
 package com.fuleme.business.activity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ScrollView;
-
 import com.fuleme.business.R;
 import com.fuleme.business.bean.CMBean;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.utils.ToastUtil;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

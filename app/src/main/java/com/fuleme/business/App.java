@@ -36,7 +36,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class App extends Application {
     private static final String TAG = "App";
-    public static  String VERSIONNAME = "";//版本名
+    public static  String VERSIONNAME = "";//
     public static String PLACEHOLDER = "";//占位符
     public static int uid = 0;//用户id
     public static String token = "";//用户标识，该token在其他用于获取用户信息的接口时必带
@@ -144,7 +144,7 @@ public class App extends Application {
      * 绑定阿里云推送账号（为登录手机号）
      */
     public static void bindAccount() {
-        mLoading_1 = LoadingDialogUtils.createLoadingDialog(instance, "请等待...");//添加等待框
+        mLoading_1 = LoadingDialogUtils.createLoadingDialog(instance, "请等待...",true);//添加等待框
         pushService.bindAccount(App.phone, new CommonCallback() {
             @Override
             public void onSuccess(String s) {
@@ -168,7 +168,7 @@ public class App extends Application {
      * 解除绑定阿里云推送账号
      */
     public static void unbindAccount() {
-        mLoading = LoadingDialogUtils.createLoadingDialog(instance, "请等待...");//添加等待框
+        mLoading = LoadingDialogUtils.createLoadingDialog(instance, "请等待...",true);//添加等待框
         pushService.unbindAccount(new CommonCallback() {
             @Override
             public void onSuccess(String s) {

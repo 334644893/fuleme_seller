@@ -48,7 +48,6 @@ public class UploadPicturesActivity extends BaseActivity {
     private ArrayList<String> mDatas = new ArrayList<String>();
     private UploadPicturesAdapter mAdapter;
     public int ACTIVITY_REQUEST_SELECT_PHOTO = 1000;
-    private Dialog mLoading;
     GridLayoutManager mGridLayoutManager;
     @Bind(R.id.recyclerview)
     RecyclerView recyclerview;
@@ -99,7 +98,7 @@ public class UploadPicturesActivity extends BaseActivity {
             case R.id.btn:
                 if (mDatas.size() - 1 == IMAGE_NUM) {
                     //当图片集合减去“加号”图片后 等于需要上传的数量时  开始上传图片
-                    mLoading = LoadingDialogUtils.createLoadingDialog(UploadPicturesActivity.this, "上传中...");//添加等待框
+                    showLoading("上传中...");
                     index_successful = 0;
                     urlImg_identity_card.clear();
                     for (int i = 0; i < mDatas.size() - 1; i++) {
@@ -277,14 +276,15 @@ public class UploadPicturesActivity extends BaseActivity {
                     }
                     index_successful++;
                     if (index_successful == mDatas.size() - 1) {
-                        LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                        closeLoading();//取消等待框
                         finish();
                     }
                 } else {
                     RegistrationStoreActivity.url_identity_card.clear();
                     urlImg_identity_card.clear();
                     ToastUtil.showMessage("上传失败");
-                    LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                    ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
+                    closeLoading();//取消等待框
                     finish();
                 }
             }
@@ -293,7 +293,7 @@ public class UploadPicturesActivity extends BaseActivity {
                 RegistrationStoreActivity.url_identity_card.clear();
                 urlImg_identity_card.clear();
                 LogUtil.e(TAG, t.toString());
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 ToastUtil.showMessage("图片上传失败");
                 finish();
             }

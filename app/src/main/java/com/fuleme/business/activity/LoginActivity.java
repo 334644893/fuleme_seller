@@ -2,29 +2,24 @@ package com.fuleme.business.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
-import com.fuleme.business.download.DownLoadService;
 import com.fuleme.business.download.UpdateManager;
 import com.fuleme.business.fragment.FragmentActivity;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
-import com.fuleme.business.widget.LoadingDialogUtils;
 
 import org.json.JSONObject;
 
@@ -127,7 +122,7 @@ public class LoginActivity extends BaseActivity {
             case R.id.btn_login:
                 //TODO 发送登录请求并跳转主页
                 if (MANDATORY) {
-                    ToastUtil.showMessage("请安装最新版本");
+                    version();
                 } else {
                     Login();
                 }
@@ -141,7 +136,6 @@ public class LoginActivity extends BaseActivity {
 
                 break;
             case R.id.tv_jzmm:
-                LogUtil.i("jzmmmmmmmm", loginjzmm + "");
                 if (loginjzmm == 0) {
                     loginjzmm = 1;
                     SharedPreferencesUtils.setParam(getApplicationContext(), "loginjzmm", 1);
@@ -186,10 +180,11 @@ public class LoginActivity extends BaseActivity {
     /**
      * 登录接口
      */
-    private Dialog mLoading;
 
     private void Login() {
-        mLoading = LoadingDialogUtils.createLoadingDialog(LoginActivity.this, "登录中...");//添加等待框
+        showLoading("登录中...");
+//        closeLoading();//取消等待框
+//        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
         Call<Object> call = getApi().login(etPhone.getText().toString(),
                 etVerify.getText().toString(),
                 App.login_type);
@@ -214,6 +209,7 @@ public class LoginActivity extends BaseActivity {
                         App.qrcode = data.optString("qrcode");
                         LogUtil.d("-------登录返回App.token---------", App.token);
                         //绑定推送账号
+
                         App.bindAccount();
                         //记住手机号
                         SharedPreferencesUtils.setParam(getApplicationContext(), "phone", etPhone.getText().toString());
@@ -229,20 +225,20 @@ public class LoginActivity extends BaseActivity {
                         startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
                         finish();
                     } else {
-                        ToastUtil.showMessage("登录失败");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
 
                 } else {
                     LogUtil.i("登陆失败response.message():" + response.message());
 
                 }
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 ToastUtil.showMessage("登录超时");
             }
 

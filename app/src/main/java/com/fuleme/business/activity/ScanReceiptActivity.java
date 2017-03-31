@@ -157,10 +157,9 @@ public class ScanReceiptActivity extends BaseActivity {
      * auth_code 扫码支付授权码， 设备读取用户展示的条码或者二维码信息
      * total_fee 总金额，以分为单位，不允许包含任何字、符号
      */
-    private Dialog mLoading;
 
     private void CreditCardPayment(String auth_code, String total_fee) {
-        mLoading = LoadingDialogUtils.createLoadingDialog(ScanReceiptActivity.this, "收款中...");//添加等待框
+        showLoading("收款中...");
         Call<Object> call = getApi().CreditCardPayment(
                 App.token,
                 auth_code,
@@ -185,17 +184,18 @@ public class ScanReceiptActivity extends BaseActivity {
                         ToastUtil.showMessage("收款成功");
                     } else {
                         ToastUtil.showMessage("收款失败");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
                 } else {
                     ToastUtil.showMessage("收款失败：" + response.message());
                 }
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 ToastUtil.showMessage("超时");
             }
 

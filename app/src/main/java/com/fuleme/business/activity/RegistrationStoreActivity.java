@@ -117,10 +117,9 @@ public class RegistrationStoreActivity extends BaseActivity {
     /**
      * 添加店铺接口
      */
-    private Dialog mLoading;
 
     private void addmerchant(String url_business_licence_string, String url_identity_card_string) {
-        mLoading = LoadingDialogUtils.createLoadingDialog(RegistrationStoreActivity.this, "获取中...");//添加等待框
+        showLoading("获取中...");
         Call<Object> call =
                 getApi().addmerchant(
                         shortName.getText().toString(),
@@ -142,18 +141,18 @@ public class RegistrationStoreActivity extends BaseActivity {
                         ToastUtil.showMessage("已提交..请耐心等待");
                         finish();
                     } else {
-                        ToastUtil.showMessage("获取失败");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
                 } else {
                     ToastUtil.showMessage("失败:" + response.message());
                 }
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 ToastUtil.showMessage("超时");
             }
 

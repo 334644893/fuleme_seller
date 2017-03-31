@@ -150,10 +150,9 @@ public class IncomeActivity extends BaseActivity {
     /**
      * 获取收入记录接口
      */
-    private Dialog mLoading;
 
     private void income() {
-        mLoading = LoadingDialogUtils.createLoadingDialog(IncomeActivity.this, "获取中...");//添加等待框
+        showLoading("获取中...");
         Call<IncomeBean> call = getApi().income(App.token, startYear, startMonth);
 
         call.enqueue(new Callback<IncomeBean>() {
@@ -181,19 +180,19 @@ public class IncomeActivity extends BaseActivity {
                         mDatas.addAll(response.body().getData());
                         mAdapter.notifyDataSetChanged();
                     } else {
-                        ToastUtil.showMessage("获取失败");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
                 } else {
                     LogUtil.i("失败response.message():" + response.message());
                 }
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 demoSwiperefreshlayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<IncomeBean> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 demoSwiperefreshlayout.setRefreshing(false);
                 ToastUtil.showMessage("超时");
             }

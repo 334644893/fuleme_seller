@@ -96,10 +96,9 @@ public class RegisteredActivity extends BaseActivity {
     /**
      * 注册接口
      */
-    private Dialog mLoading;
 
     private void Register() {
-        mLoading = LoadingDialogUtils.createLoadingDialog(context, "获取中...");//添加等待框
+        showLoading("获取中...");
         LogUtil.i("/etFPPhone:" + etFPPhone + "/etFPNickname:" + etFPNickname + "/etFPPs:" + etFPPs);
         Call<Object> call = getApi().register(
                 etFPPhone.getText().toString(),
@@ -124,16 +123,16 @@ public class RegisteredActivity extends BaseActivity {
 
 
                 } else {
-                    ToastUtil.showMessage("注册失败");
+                    ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     LogUtil.i("注册失败response.message():" + response.message());
                 }
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 ToastUtil.showMessage("超时");
             }
 

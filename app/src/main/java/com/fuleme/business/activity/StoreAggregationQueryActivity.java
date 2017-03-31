@@ -93,10 +93,9 @@ public class StoreAggregationQueryActivity extends BaseActivity {
     /**
      * 店员管理接口获取店铺
      */
-    private Dialog mLoading;
 
     private void getmerchantclerkinfo() {
-        mLoading = LoadingDialogUtils.createLoadingDialog(context, "获取中...");//添加等待框
+        showLoading("获取中...");
         Call<ClerkInfoBean> call = getApi().getmerchantclerkinfo(App.token);
 
         call.enqueue(new Callback<ClerkInfoBean>() {
@@ -125,7 +124,7 @@ public class StoreAggregationQueryActivity extends BaseActivity {
 
 
                     } else {
-                        ToastUtil.showMessage("失败");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
 
                 } else {
@@ -133,13 +132,13 @@ public class StoreAggregationQueryActivity extends BaseActivity {
                     LogUtil.i("失败response.message():" + response.message());
 
                 }
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
             }
 
             @Override
             public void onFailure(Call<ClerkInfoBean> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 ToastUtil.showMessage("超时");
             }
 

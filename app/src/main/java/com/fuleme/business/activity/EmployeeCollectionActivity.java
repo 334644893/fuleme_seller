@@ -10,16 +10,16 @@ import android.widget.TextView;
 
 import com.fuleme.business.App;
 import com.fuleme.business.R;
+import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.utils.Zxing;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
 /**
  * 员工收款-收款码页面
  */
-public class EmployeeCollectionActivity extends AppCompatActivity {
+public class EmployeeCollectionActivity extends BaseActivity {
     @Bind(R.id.fl_save_image)
     FrameLayout flSaveImage;
     @Bind(R.id.tv_title)

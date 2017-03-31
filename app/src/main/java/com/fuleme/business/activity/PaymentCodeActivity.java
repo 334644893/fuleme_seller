@@ -72,10 +72,9 @@ public class PaymentCodeActivity extends BaseActivity {
     /**
      * 生成微信扫码二维码支付接口
      */
-    private Dialog mLoading;
 
     private void WeixinSweepPayment(String total_fee) {
-        mLoading = LoadingDialogUtils.createLoadingDialog(PaymentCodeActivity.this, "生成中...");//添加等待框
+        showLoading("生成中...");
         Call<Object> call = getApi().WeixinSweepPayment(
                 App.token,
                 App.merchant,
@@ -93,18 +92,18 @@ public class PaymentCodeActivity extends BaseActivity {
                         JSONObject data = GsonUtils.getResultData(response.body());
                         ivBaQrCode.setImageBitmap(Zxing.getQrCode(data.optString("code_url")));
                     } else {
-                        ToastUtil.showMessage("生成二维码失败");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
                 } else {
                     ToastUtil.showMessage("生成二维码失败：" + response.message());
                 }
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 ToastUtil.showMessage("超时");
             }
 
@@ -116,7 +115,7 @@ public class PaymentCodeActivity extends BaseActivity {
      */
 
     private void AlipaySweepPayment(String total_fee) {
-        mLoading = LoadingDialogUtils.createLoadingDialog(PaymentCodeActivity.this, "生成中...");//添加等待框
+        showLoading("生成中...");
         Call<Object> call = getApi().AlipaySweepPayment(
                 App.token,
                 App.merchant,
@@ -134,18 +133,18 @@ public class PaymentCodeActivity extends BaseActivity {
                         JSONObject data = GsonUtils.getResultData(response.body());
                         ivBaQrCode.setImageBitmap(Zxing.getQrCode(data.optString("code_url")));
                     } else {
-                        ToastUtil.showMessage("生成二维码失败");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
                 } else {
                     ToastUtil.showMessage("生成二维码失败：" + response.message());
                 }
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 ToastUtil.showMessage("超时");
             }
 

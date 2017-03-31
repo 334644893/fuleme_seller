@@ -15,7 +15,9 @@ import com.fuleme.business.R;
 
 public class LoadingDialogUtils {
 
-    public static Dialog createLoadingDialog(Context context, String msg) {
+    public static Dialog createLoadingDialog(Context context, String msg
+            ,boolean type_system_alert
+    ) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View v = inflater.inflate(R.layout.dialog_loading, null);// 得到加载view
         LinearLayout layout = (LinearLayout) v
@@ -24,12 +26,18 @@ public class LoadingDialogUtils {
         tipTextView.setText(msg);// 设置加载信息
 
         Dialog loadingDialog = new Dialog(context, R.style.MyDialogStyle);// 创建自定义样式dialog
-        loadingDialog.setCancelable(true); // 是否可以按“返回键”消失
+
         loadingDialog.setCanceledOnTouchOutside(false); // 点击加载框以外的区域
         loadingDialog.setContentView(layout, new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));// 设置布局
-//        loadingDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        if(type_system_alert){
+            loadingDialog.setCancelable(true); // 是否可以按“返回键”消失
+            loadingDialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+        }else{
+            loadingDialog.setCancelable(false); // 是否可以按“返回键”消失
+        }
+
         /**
          *将显示Dialog的方法封装在这里面
          */

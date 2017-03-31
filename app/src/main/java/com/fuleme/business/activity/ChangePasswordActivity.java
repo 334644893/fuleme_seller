@@ -1,22 +1,16 @@
 package com.fuleme.business.activity;
-
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.ToastUtil;
-import com.fuleme.business.widget.LoadingDialogUtils;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -26,7 +20,6 @@ import retrofit2.Response;
 
 public class ChangePasswordActivity extends BaseActivity {
     private static final String TAG = "ChangePasswordActivity";
-    private Context context = ChangePasswordActivity.this;
     @Bind(R.id.tv_title)
     TextView tvTitle;
     @Bind(R.id.et_f_p_phone)
@@ -68,9 +61,8 @@ public class ChangePasswordActivity extends BaseActivity {
     /**
      * 修改密码接口
      */
-    private Dialog mLoading;
     private void modifypwd() {
-        mLoading = LoadingDialogUtils.createLoadingDialog(context, "获取中...");//添加等待框
+        showLoading("获取中...");
         Call<Object> call = getApi().modifypwd(App.token,
                 etFPPhone.getText().toString(),
                 etFPPs.getText().toString());
@@ -85,7 +77,7 @@ public class ChangePasswordActivity extends BaseActivity {
                         ToastUtil.showMessage("重置成功");
                         finish();
                     } else {
-                        ToastUtil.showMessage("重置失败");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                         etFPPhone.setText("");
                     }
 
@@ -94,13 +86,13 @@ public class ChangePasswordActivity extends BaseActivity {
                     ToastUtil.showMessage("重置失败");
                     LogUtil.i("重置失败response.message():" + response.message());
                 }
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 ToastUtil.showMessage("超时");
             }
 

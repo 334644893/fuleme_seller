@@ -5,15 +5,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
-
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.adapter.AggQueryAdapter;
@@ -25,21 +22,16 @@ import com.fuleme.business.utils.DateUtil;
 import com.fuleme.business.utils.DividerItemDecoration;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.ToastUtil;
-import com.fuleme.business.widget.LoadingDialogUtils;
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import java.lang.reflect.Field;
 
 /**
  * 汇总查询
@@ -303,10 +295,8 @@ public class AggregationQueryActivity extends BaseActivity {
     /**
      * 汇总查询接口
      */
-    private Dialog mLoading;
-
     private void getmerchantclerkinfo() {
-        mLoading = LoadingDialogUtils.createLoadingDialog(context, "获取中...");//添加等待框
+        showLoading("获取中...");
         Call<AggregationQueryBean> call = getApi().queries(App.token, storeID, startTime, endTime);
 
         call.enqueue(new Callback<AggregationQueryBean>() {
@@ -369,7 +359,7 @@ public class AggregationQueryActivity extends BaseActivity {
 //                        LoginRefresh();
 //                    }
                     else{
-                        ToastUtil.showMessage("失败");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
 
                 } else {
@@ -377,13 +367,13 @@ public class AggregationQueryActivity extends BaseActivity {
                     LogUtil.i("失败response.message():" + response.message());
 
                 }
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
             }
 
             @Override
             public void onFailure(Call<AggregationQueryBean> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                LoadingDialogUtils.closeDialog(mLoading);//取消等待框
+                closeLoading();//取消等待框
                 ToastUtil.showMessage("超时");
             }
 
