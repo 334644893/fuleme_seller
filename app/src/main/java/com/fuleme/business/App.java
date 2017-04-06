@@ -50,8 +50,8 @@ public class App extends Application {
     public static String role = "";//用户角色，0 管理员，1店长，2店员
     public static int login_type = 1;//登录状态 0:管理员 1：员工
     public static boolean bindAccount = true;//通知开关
-    final public static String alipay = "pay.alipay.jspay";
-    final public static String weixin = "pay.weixin.jspay";
+    final public static String alipay = "alipay";
+    final public static String weixin = "weixin";
     public static final int LOGIN_TYPE_ADMIN = 0;//登录状态 0:管理员
     public static final int LOGIN_TYPE_EMPLOYEES = 1;//登录状态  1：员工
     private static App instance;

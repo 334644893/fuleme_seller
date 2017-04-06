@@ -76,15 +76,44 @@ public class FragmentActivity extends BaseActivity {
     OrderFragment orderFragment;
     BFragment bFragment;
     CFragment cFragment;
+    /**
+     * 上一次界面 onSaveInstanceState 之前的tab被选中的状态 key 和 value
+     */
+    private static final String PRV_SELINDEX = "PREV_SELINDEX";
+    private int selindex = 0;
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        //保存tab选中的状态
+        outState.putInt(PRV_SELINDEX, selindex);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
         ButterKnife.bind(this);
         initView();
-
+        // 选中index
+        //根据登录类型显示隐藏首页导航
+        if (App.login_type == App.LOGIN_TYPE_ADMIN) {
+            tvBut1.setVisibility(View.VISIBLE);
+            tvButOrder.setVisibility(View.VISIBLE);
+            selindex = 0;
+        } else if (App.login_type == App.LOGIN_TYPE_EMPLOYEES) {
+            tvBut1.setVisibility(View.GONE);
+            tvButOrder.setVisibility(View.GONE);
+            selindex = 2;
+        }
+        if (savedInstanceState != null) {
+            //读取上一次界面Save的时候tab选中的状态
+            selindex = savedInstanceState.getInt(PRV_SELINDEX, selindex);
+        }
+        select(selindex);
     }
+
 
     @Override
     protected void onResume() {
@@ -106,21 +135,11 @@ public class FragmentActivity extends BaseActivity {
         tvButImOrder.setImageResource(mItemImage[1]);
         tvButIm2.setImageResource(mItemImage[2]);
         tvButIm3.setImageResource(mItemImage[3]);
-        //根据登录类型显示隐藏首页导航
-        if (App.login_type == App.LOGIN_TYPE_ADMIN) {
-            tvBut1.setVisibility(View.VISIBLE);
-            tvButOrder.setVisibility(View.VISIBLE);
-            select(0);
-        } else if (App.login_type == App.LOGIN_TYPE_EMPLOYEES) {
-            tvBut1.setVisibility(View.GONE);
-            tvButOrder.setVisibility(View.GONE);
-            select(2);
-        }
+
     }
 
     private void select(int i) {
-
-
+        selindex=i;
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         switch (i) {
@@ -196,7 +215,7 @@ public class FragmentActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_but_1,R.id.tv_but_order, R.id.tv_but_2, R.id.tv_but_3, R.id.tv_left, R.id.tv_right})
+    @OnClick({R.id.tv_but_1, R.id.tv_but_order, R.id.tv_but_2, R.id.tv_but_3, R.id.tv_left, R.id.tv_right})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_but_1:

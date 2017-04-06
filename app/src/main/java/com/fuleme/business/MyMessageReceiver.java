@@ -1,11 +1,13 @@
 package com.fuleme.business;
 
 import android.content.Context;
+
 import com.alibaba.sdk.android.push.MessageReceiver;
 import com.alibaba.sdk.android.push.notification.CPushMessage;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.TtsUtil;
+
 import java.util.Map;
 
 /**
@@ -33,10 +35,13 @@ public class MyMessageReceiver extends MessageReceiver {
     @Override
     public void onNotificationOpened(Context context, String title, String summary, String extraMap) {
         LogUtil.e("MyMessageReceiver", "onNotificationOpened, title: " + title + ", summary: " + summary + ", extraMap:" + extraMap);
+        String type = GsonUtils.getStringV(extraMap, "type");
         String total_fee = GsonUtils.getStringV(extraMap, "total_fee");
-        App.NoticeDialog(context, total_fee, summary);
-        TtsUtil.play("收到" + total_fee + "元");
-
+        String out_trade_no = GsonUtils.getStringV(extraMap, "out_trade_no");
+        if ("100".equals(type)) {
+            App.NoticeDialog(context, total_fee, out_trade_no);
+            TtsUtil.play("收到" + total_fee + "元");
+        }
     }
 
     @Override
@@ -45,10 +50,13 @@ public class MyMessageReceiver extends MessageReceiver {
     }
 
     @Override
-    protected void onNotificationReceivedInApp(Context context, String title, String summary, Map<String, String> extraMap, int openType, String openActivity, String openUrl) {
+    protected void onNotificationReceivedInApp(Context  context, String title, String summary, Map<String, String> extraMap, int openType, String openActivity, String openUrl) {
         LogUtil.e("MyMessageReceiver", "onNotificationReceivedInApp, title: " + title + ", summary: " + summary + ", extraMap:" + extraMap + ", openType:" + openType + ", openActivity:" + openActivity + ", openUrl:" + openUrl);
-        App.NoticeDialog(context, extraMap.get("total_fee"), summary);
-        TtsUtil.play("收到" + extraMap.get("total_fee") + "元");
+        if ("100".equals(extraMap.get("type"))) {
+            App.NoticeDialog(context, extraMap.get("total_fee"), extraMap.get("out_trade_no"));
+            TtsUtil.play("收到" + extraMap.get("total_fee") + "元");
+        }
+
     }
 
     @Override

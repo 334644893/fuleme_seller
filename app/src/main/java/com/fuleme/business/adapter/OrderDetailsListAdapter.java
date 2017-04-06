@@ -13,6 +13,7 @@ import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.bean.OrderDetailsBean;
 import com.fuleme.business.utils.DateUtil;
+import com.fuleme.business.utils.LogUtil;
 
 import java.text.NumberFormat;
 import java.util.List;
@@ -46,6 +47,7 @@ public class OrderDetailsListAdapter extends RecyclerView.Adapter<OrderDetailsLi
         TextView tv2;
         @Bind(R.id.tv_3)
         TextView tv3;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -62,19 +64,20 @@ public class OrderDetailsListAdapter extends RecyclerView.Adapter<OrderDetailsLi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        if (App.weixin.equals(mDatas.get(position).getTrade_type())) {
+        if (App.weixin.equals(mDatas.get(position).getTrade_type().split("\\.")[1])) {
             holder.iv1.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon13));
-        } else if(App.alipay.equals(mDatas.get(position).getTrade_type()))  {
+        } else if (App.alipay.equals(mDatas.get(position).getTrade_type().split("\\.")[1])) {
             holder.iv1.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon12));
         }
+
         //订单时间
-        holder.tv1.setText(DateUtil.stampToDate(mDatas.get(position).getTime_end(),DateUtil.DATE_3));
+        holder.tv1.setText(DateUtil.stampToDate(mDatas.get(position).getTime_end(), DateUtil.DATE_3));
         //订单金额
         holder.tv2.setText("¥ " + nf.format(mDatas.get(position).getTotal_fee()));
         //订单尾号
-        String str=mDatas.get(position).getOut_trade_no();
-        if(!TextUtils.isEmpty(str)){
-            holder.tv3.setText(str.substring(str.length()-4,str.length()));
+        String str = mDatas.get(position).getOut_trade_no();
+        if (!TextUtils.isEmpty(str)) {
+            holder.tv3.setText(str.substring(str.length() - 4, str.length()));
         }
 
 

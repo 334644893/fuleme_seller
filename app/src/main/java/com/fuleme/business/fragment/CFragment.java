@@ -70,7 +70,7 @@ public class CFragment extends Fragment {
     public void initView() {
         tvPhone.setText(App.phone);
         tvFulemenumber.setText(App.username);
-        tvVersion.setText("当前版本号:"+DeviceUtils.getVersionName(getActivity()));
+        tvVersion.setText("当前版本:"+DeviceUtils.getVersionName(getActivity()));
         //根据登录类型显示隐藏员工管理
         if ("2".equals(App.role)) {
             llSetDygl.setVisibility(View.GONE);

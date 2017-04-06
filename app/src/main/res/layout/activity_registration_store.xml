@@ -118,7 +118,6 @@
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:singleLine="true"
-                    android:text="test"
                     android:textColorHint="@color/black_26"
                     android:textSize="14sp" />
             </LinearLayout>

@@ -112,6 +112,11 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             if (OrderDetailsActivity.textState) {
                 footViewHolder.tvName.setText("正在加载更多数据...");
             } else {
+                if(mDatas.size()==0){
+                    footViewHolder.tvName.setVisibility(View.GONE);
+                }else{
+                    footViewHolder.tvName.setVisibility(View.VISIBLE);
+                }
                 footViewHolder.tvName.setText("不用扯了，加载完了...");
             }
         }
