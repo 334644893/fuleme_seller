@@ -1,10 +1,8 @@
 package com.fuleme.business.activity;
-
-import android.app.Dialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
@@ -13,10 +11,7 @@ import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.NumberUtils;
 import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.utils.Zxing;
-import com.fuleme.business.widget.LoadingDialogUtils;
-
 import org.json.JSONObject;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -87,10 +82,17 @@ public class PaymentCodeActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("成功");
-                        ToastUtil.showMessage("生成微信码成功");
+
+
                         //TODO 初始化数据
                         JSONObject data = GsonUtils.getResultData(response.body());
-                        ivBaQrCode.setImageBitmap(Zxing.getQrCode(data.optString("code_url")));
+                        if (!TextUtils.isEmpty(data.optString("code_url"))) {
+                            ToastUtil.showMessage("生成微信码成功");
+                            ivBaQrCode.setImageBitmap(Zxing.getQrCode(data.optString("code_url")));
+                        } else {
+                            ToastUtil.showMessage("生成微信码失败");
+                        }
+
                     } else {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
@@ -129,9 +131,15 @@ public class PaymentCodeActivity extends BaseActivity {
                         // do SomeThing
                         LogUtil.i("成功");
                         //TODO 初始化数据
-                        ToastUtil.showMessage("生成支付宝码成功");
+
                         JSONObject data = GsonUtils.getResultData(response.body());
-                        ivBaQrCode.setImageBitmap(Zxing.getQrCode(data.optString("code_url")));
+
+                        if (!TextUtils.isEmpty(data.optString("code_url"))) {
+                            ToastUtil.showMessage("生成支付宝码成功");
+                            ivBaQrCode.setImageBitmap(Zxing.getQrCode(data.optString("code_url")));
+                        } else {
+                            ToastUtil.showMessage("生成支付宝码失败");
+                        }
                     } else {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }

@@ -87,12 +87,12 @@ public class ScanReceiptActivity extends BaseActivity {
         switch (state) {
             case SAOYISAO:
                 //改变UI(下同)
-                tvSaoyisao.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_b_cheng));
-                tvZhifuma.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_b_hui));
+                tvSaoyisao.setBackgroundResource(R.drawable.shape_b_cheng);
+                tvZhifuma.setBackgroundResource(R.drawable.shape_b_hui);
                 break;
             case ZHIFUMA:
-                tvSaoyisao.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_b_hui));
-                tvZhifuma.setBackgroundDrawable(getResources().getDrawable(R.drawable.shape_b_cheng));
+                tvSaoyisao.setBackgroundResource(R.drawable.shape_b_hui);
+                tvZhifuma.setBackgroundResource(R.drawable.shape_b_cheng);
                 break;
         }
     }
