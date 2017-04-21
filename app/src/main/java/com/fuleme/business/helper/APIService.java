@@ -2,9 +2,13 @@ package com.fuleme.business.helper;
 
 import com.fuleme.business.bean.AggregationQueryBean;
 import com.fuleme.business.bean.ClerkInfoBean;
+import com.fuleme.business.bean.ContractBean;
 import com.fuleme.business.bean.IncomeBean;
+import com.fuleme.business.bean.MemberManagementBean;
 import com.fuleme.business.bean.OrderBean;
 import com.fuleme.business.bean.OrderDetailsBean;
+import com.fuleme.business.bean.SinceMediaBean;
+import com.fuleme.business.bean.bannerBean;
 
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -128,6 +132,12 @@ public interface APIService {
     @POST("user/upload")
     Call<Object> uploadMemberIcon(@Part MultipartBody.Part part);
 
+    /**
+     * 获取轮播图接口
+     */
+    @GET("system/banner")
+    Call<bannerBean> banner();
+
 
     /**
      * 版本更新接口
@@ -150,6 +160,17 @@ public interface APIService {
                                      @Field("shopid") String shopid,
                                      @Field("page") int page,
                                      @Field("list_rows") int list_rows);
+    /**
+     * 获取店铺用户接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("merchant/getmchuser")
+    Call<MemberManagementBean> getmchuser(@Field("token") String token,
+                                         @Field("mid") String mid,
+                                         @Field("page") int page,
+                                         @Field("list_rows") int list_rows);
 
     /**
      * 门店列表接口
@@ -310,7 +331,7 @@ public interface APIService {
                           @Field("role") String role);
 
     /**
-     * 我的账户收入接口
+     * 累计收入
      *
      * @param
      * @return
@@ -318,10 +339,9 @@ public interface APIService {
     @FormUrlEncoded
     @POST("account/income")
     Call<IncomeBean> income(@Field("token") String token,
-                            @Field("year") int year,
-                            @Field("month") int month
-//                            @Field("page") int page,
-//                            @Field("list_rows") int list_rows
+                            @Field("shopid") String shopid,
+                            @Field("starttime") int starttime,
+                            @Field("endtime") int endtime
     );
 
     /**
@@ -339,6 +359,7 @@ public interface APIService {
 
     /**
      * 威富通刷卡支付(统一支付接口)
+     *
      * @param
      * @return
      */
@@ -366,6 +387,7 @@ public interface APIService {
                                     @Field("mid") String mid,
                                     @Field("total_fee") String total_fee
     );
+
     /**
      * 生成支付宝二维码支付接口
      *
@@ -379,6 +401,35 @@ public interface APIService {
                                     @Field("mid") String mid,
                                     @Field("total_fee") String total_fee
     );
+    /**
+     * 自媒体
+     *
+     * @param
+     * @return
+     */
+    @GET("system/selfmedia")
+    Call<SinceMediaBean> selfmedia();
 
-
+    /**
+     * 获取签约信息
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("merchant/getcontractrate")
+    Call<Object> getcontractrate(@Field("token") String token,
+                                       @Field("merchant_id") String merchant_id
+    );
+    /**
+     * 获取店铺基本信息
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("merchant/basicinfo")
+    Call<Object> basicinfo(@Field("token") String token,
+                                       @Field("merchant_id") String merchant_id
+    );
 }

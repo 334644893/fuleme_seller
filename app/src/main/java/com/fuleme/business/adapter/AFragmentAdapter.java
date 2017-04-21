@@ -45,6 +45,8 @@ public class AFragmentAdapter extends RecyclerView.Adapter<AFragmentAdapter.MyVi
         ImageView ivAFragment;
         @Bind(R.id.tv_a_fragment)
         TextView tvAFragment;
+        @Bind(R.id.tv_a_fragment_text)
+        TextView tvAFragment_text;
         @Bind(R.id.ll_a_fragment)
         LinearLayout llAFragment;
 
@@ -66,6 +68,7 @@ public class AFragmentAdapter extends RecyclerView.Adapter<AFragmentAdapter.MyVi
 
         holder.ivAFragment.setImageResource(mDatas.get(position).getmItemImage());
         holder.tvAFragment.setText(mDatas.get(position).getmItemText());
+        holder.tvAFragment_text.setText(mDatas.get(position).getmItemTextContent());
         holder.llAFragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -40,7 +40,10 @@ public class MyMessageReceiver extends MessageReceiver {
         String out_trade_no = GsonUtils.getStringV(extraMap, "out_trade_no");
         if ("100".equals(type)) {
             App.NoticeDialog(context, total_fee, out_trade_no);
-            TtsUtil.play("收到" + total_fee + "元");
+            if (App.bindYY) {
+                TtsUtil.play("收到" + total_fee + "元");
+            }
+
         }
     }
 
@@ -50,11 +53,13 @@ public class MyMessageReceiver extends MessageReceiver {
     }
 
     @Override
-    protected void onNotificationReceivedInApp(Context  context, String title, String summary, Map<String, String> extraMap, int openType, String openActivity, String openUrl) {
+    protected void onNotificationReceivedInApp(Context context, String title, String summary, Map<String, String> extraMap, int openType, String openActivity, String openUrl) {
         LogUtil.e("MyMessageReceiver", "onNotificationReceivedInApp, title: " + title + ", summary: " + summary + ", extraMap:" + extraMap + ", openType:" + openType + ", openActivity:" + openActivity + ", openUrl:" + openUrl);
         if ("100".equals(extraMap.get("type"))) {
             App.NoticeDialog(context, extraMap.get("total_fee"), extraMap.get("out_trade_no"));
-            TtsUtil.play("收到" + extraMap.get("total_fee") + "元");
+            if (App.bindYY) {
+                TtsUtil.play("收到" + extraMap.get("total_fee") + "元");
+            }
         }
 
     }

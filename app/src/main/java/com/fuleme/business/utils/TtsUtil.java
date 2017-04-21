@@ -35,7 +35,7 @@ public class TtsUtil {
 
     private static NlsRequest initNlsRequest() {
         NlsRequestProto proto = new NlsRequestProto(App.getInstance());
-        proto.setApp_user_id("xxx"); //设置用户名
+        proto.setApp_user_id(App.phone); //设置用户名
         return new NlsRequest(proto);
 
     }

@@ -64,11 +64,11 @@ public class FragmentActivity extends BaseActivity {
     TextView tvButTvOrder;
     @Bind(R.id.tv_but_order)
     LinearLayout tvButOrder;
-    private int[] mItemImage = {R.mipmap.icon26, R.mipmap.icon_order,
-            R.mipmap.icon25, R.mipmap.icon39};
-    private int[] mItemCheckedImage = {R.mipmap.icon37, R.mipmap.icon_order_1,
-            R.mipmap.icon27, R.mipmap.icon24};
-    private String[] mItemText = {"首页", "订单", "收款", "我的"};
+    private int[] mItemImage = {R.mipmap.icon_n_11_38, R.mipmap.icon_n_12_92,
+            R.mipmap.icon_n_13_66, R.mipmap.icon_n_14_32};
+    private int[] mItemCheckedImage = {R.mipmap.icon_n_11, R.mipmap.icon_n_12,
+            R.mipmap.icon_n_13, R.mipmap.icon_n_14};
+    private String[] mItemText = {"首页", "商城", "自媒体", "我的"};
     private long exitTime;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;

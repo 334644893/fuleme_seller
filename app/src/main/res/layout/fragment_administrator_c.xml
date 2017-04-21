@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/gray_1"
     android:orientation="vertical">
 
     <ScrollView
@@ -16,23 +16,19 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/black_26" />
-
             <LinearLayout
                 android:id="@+id/ll_set_zh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
 
-                android:paddingRight="10dp">
+                >
 
                 <ImageView
                     android:layout_width="50dp"
@@ -67,40 +63,100 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@mipmap/icon3" />
             </LinearLayout>
 
-            <View
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="5dp"
-                android:background="@color/black_26" />
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
 
+                <LinearLayout
+                    android:id="@+id/ll_title_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="15dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_qianyue" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="签约信息"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/black_26" />
+                <LinearLayout
+                    android:id="@+id/ll_title_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="15dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_guanli" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="店员管理"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_title_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="15dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon_jibenziliao" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:text="基本信息"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_set_s_a"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
                 android:orientation="horizontal"
-                android:padding="15dp">
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@mipmap/icon21" />
+                    android:src="@mipmap/icon_fuwu" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -112,65 +168,30 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="20dp"
+                    android:layout_height="15dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:src="@mipmap/icon3" />
             </LinearLayout>
 
-            <View
-                android:id="@+id/ll_set_dygl_line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black_26" />
 
-            <LinearLayout
-                android:id="@+id/ll_set_dygl"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="15dp">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@mipmap/icon43" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="4"
-                    android:paddingLeft="10dp"
-                    android:text="店员管理" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="20dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@mipmap/icon3" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black_26" />
             <LinearLayout
                 android:id="@+id/ll_addstore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="horizontal"
-                android:padding="15dp">
+                android:layout_marginTop="1dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@mipmap/icon_add" />
+                    android:src="@mipmap/icon_tianjia_92" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -182,31 +203,97 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="20dp"
+                    android:layout_height="15dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:src="@mipmap/icon3" />
             </LinearLayout>
-
-            <View
-                android:id="@+id/v_add_line"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black_26" />
-
             <LinearLayout
-                android:id="@+id/ll_tongzhi"
+                android:id="@+id/ll_zhsz"
+                android:layout_marginTop="1dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="horizontal"
-                android:padding="15dp">
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@mipmap/icon22" />
+                    android:src="@mipmap/icon_zhanghao" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="4"
+                    android:paddingLeft="10dp"
+                    android:text="账号设置" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon3" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_yuyin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon_yuying" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="4"
+                    android:paddingLeft="10dp"
+                    android:text="语音播报" />
+
+                <ImageView
+                    android:id="@+id/iv_btm_yy"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon_on" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_tongzhi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:layout_marginTop="1dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon_tongzhi_28" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -222,35 +309,25 @@
                     android:layout_height="20dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@mipmap/icon_on"
-                    />
+                    android:src="@mipmap/icon_on" />
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black_26" />
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="30dp"
-                android:background="@color/black_26" />
-
             <LinearLayout
                 android:id="@+id/ll_guanyuwomen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 android:orientation="horizontal"
-                android:padding="15dp">
+                android:layout_marginTop="1dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
 
                 <ImageView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:src="@mipmap/icon23" />
+                    android:src="@mipmap/icon_guanyuwomen" />
 
                 <TextView
                     android:layout_width="0dp"
@@ -262,30 +339,20 @@
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="20dp"
+                    android:layout_height="15dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:src="@mipmap/icon3" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/black_26" />
 
             <TextView
                 android:id="@+id/tv_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
-                android:gravity="center"
-                 />
+                android:gravity="center" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="25dp"
-                android:background="@color/black_26" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class LogUtil {
 
-    private static boolean isPrint = true;
+    public static boolean isPrint = true;
     private static boolean isDebug = false;
 
     public static final String TAG = "fuleme";

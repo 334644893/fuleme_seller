@@ -45,7 +45,6 @@ public class AboutUsActivity extends BaseActivity {
      * 关于我们接口
      */
     private void init() {
-        webView = (WebView) findViewById(R.id.webView);
         //WebView加载web资源
         webView.loadUrl(APIService.SERVER_IP+APIService.ABOUT);
         //覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开

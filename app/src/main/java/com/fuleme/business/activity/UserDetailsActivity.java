@@ -1,33 +1,28 @@
 package com.fuleme.business.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.alibaba.sdk.android.push.CommonCallback;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.fragment.FragmentActivity;
-import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.widget.CustomDialog;
-import com.fuleme.business.widget.NoticeDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static com.fuleme.business.App.pushService;
 
 /**
  * 账号详情
  */
 public class UserDetailsActivity extends BaseActivity {
     private static final String TAG = "UserDetailsActivity";
+    private Context context;
     @Bind(R.id.tv_store_name)
     TextView tvStoreName;
     @Bind(R.id.tv_region)
@@ -38,31 +33,31 @@ public class UserDetailsActivity extends BaseActivity {
     final int EXIT_USERDETAIL = 100;//退出
     @Bind(R.id.tv_title)
     TextView tvTitle;
-
+     int TOSTORE = 998;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
         ButterKnife.bind(this);
+        context=this;
         initView();
     }
 
     public void initView() {
         tvTitle.setText("账号详情");
 
-            if ("0".equals(App.short_state)) {
-                tvStoreName.setText(App.merchant + "(审核中)");
-            } else if("1".equals(App.short_state)){
-                tvStoreName.setText(App.merchant + "(已审核)");
-            }
-        else {
+        if ("0".equals(App.short_state)) {
+            tvStoreName.setText(App.merchant + "(审核中)");
+        } else if ("1".equals(App.short_state)) {
+            tvStoreName.setText(App.merchant + "(已审核)");
+        } else {
             tvStoreName.setText("暂无店铺");
         }
         tvRegion.setText(App.short_area);
 
     }
 
-    @OnClick({R.id.tv_left, R.id.btn_login, R.id.ll_forgotpassword})
+    @OnClick({R.id.tv_left, R.id.btn_login, R.id.ll_forgotpassword,R.id.shmc})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_left:
@@ -96,7 +91,19 @@ public class UserDetailsActivity extends BaseActivity {
                 // 修改密码
                 startActivity(new Intent(UserDetailsActivity.this, ChangePasswordActivity.class));
                 break;
+            case R.id.shmc:
+                //查询店铺
+                StoreAggregationQueryActivity.intentType = StoreAggregationQueryActivity.USERDETAILSACTIVITY;
+                Intent intent = new Intent(context, StoreAggregationQueryActivity.class);
+                startActivityForResult(intent, TOSTORE);
+                break;
         }
     }
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TOSTORE) {
+            initView();
+        }
+    }
 }

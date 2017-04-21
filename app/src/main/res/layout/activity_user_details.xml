@@ -9,6 +9,7 @@
     tools:context="com.fuleme.business.activity.UserDetailsActivity">
     <include layout="@layout/item_actionbar" />
     <LinearLayout
+        android:id="@+id/shmc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"

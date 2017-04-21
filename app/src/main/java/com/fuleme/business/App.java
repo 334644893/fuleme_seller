@@ -45,10 +45,11 @@ public class App extends Application {
     public static String username = "";//昵称(付了么号)
     public static String short_id = "";//商户ID
     public static String merchant = "";//商户名称
-    public static String short_state = "";//商户名称
+    public static String short_state = "";//商户审核状态
     public static String short_area = "";//商户地址
     public static String role = "";//用户角色，0 管理员，1店长，2店员
     public static int login_type = 1;//登录状态 0:管理员 1：员工
+    public static boolean bindYY = true;//语音开关
     public static boolean bindAccount = true;//通知开关
     final public static String alipay = "alipay";
     final public static String weixin = "weixin";
@@ -81,6 +82,8 @@ public class App extends Application {
         initCloudChannel(this);//阿里云
         NlsClient.configure(this); //语音合成全局配置
         ZXingLibrary.initDisplayOpinion(this);//二维码
+        LogUtil.isPrint=true;// 设置开启日志,发布时请关闭日志
+//        LogUtil.isPrint=false;// 设置开启日志,发布时请关闭日志
 
     }
 

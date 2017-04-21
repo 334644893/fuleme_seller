@@ -7,6 +7,15 @@ package com.fuleme.business.bean;
 public class AFragmentImageBean {
     private int mItemImage;
     private String mItemText;
+    private String mItemTextContent;
+
+    public String getmItemTextContent() {
+        return mItemTextContent;
+    }
+
+    public void setmItemTextContent(String mItemTextContent) {
+        this.mItemTextContent = mItemTextContent;
+    }
 
     public String getmItemText() {
         return mItemText;

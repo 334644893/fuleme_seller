@@ -39,6 +39,7 @@ public class StoreAggregationQueryActivity extends BaseActivity {
     public static final int AGGREGATIONQUERYACTIVITY = 1;
     public static final int BFRAGMENT = 2;
     public static final int CLERKMANAGEMENTACTIVITY = 3;
+    public static final int USERDETAILSACTIVITY = 4;
     @Bind(R.id.recyclerview)
     RecyclerView mRecyclerView;
     private List<ClerkInfoBean.DataBean> mDatas = new ArrayList<ClerkInfoBean.DataBean>();
@@ -67,24 +68,38 @@ public class StoreAggregationQueryActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new StoreAQAdapter.onRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v, ClerkInfoBean.DataBean bean) {
-                switch (intentType) {
-                    case AGGREGATIONQUERYACTIVITY:
-                        AggregationQueryActivity.storeName = bean.getName();
-                        AggregationQueryActivity.storeID = bean.getId();
-                        break;
-                    case BFRAGMENT:
-                        App.merchant = bean.getName();
-                        App.short_id = bean.getId();
-                        App.qrcode = bean.getQrcode();
-                        App.short_state = bean.getState();
-                        break;
-                    case CLERKMANAGEMENTACTIVITY:
-                        ClerkManagementActivity.storeName = bean.getName();
-                        ClerkManagementActivity.storeID = bean.getId();
-                        ClerkManagementActivity.short_state = bean.getState();
-                        break;
+                if ("0".equals(bean.getState())) {
+                    ToastUtil.showMessage("店铺正在审核中");
+                } else if ("1".equals(bean.getState())) {
+                    switch (intentType) {
+                        case AGGREGATIONQUERYACTIVITY:
+                            AggregationQueryActivity.storeName = bean.getName();
+                            AggregationQueryActivity.storeID = bean.getId();
+                            break;
+                        case BFRAGMENT:
+                            App.merchant = bean.getName();
+                            App.short_id = bean.getId();
+                            App.qrcode = bean.getQrcode();
+                            App.short_state = bean.getState();
+                            App.short_area = bean.getAddress();
+
+                            break;
+                        case CLERKMANAGEMENTACTIVITY:
+                            ClerkManagementActivity.storeName = bean.getName();
+                            ClerkManagementActivity.storeID = bean.getId();
+                            ClerkManagementActivity.short_state = bean.getState();
+                            break;
+                        case USERDETAILSACTIVITY:
+                            App.merchant = bean.getName();
+                            App.short_id = bean.getId();
+                            App.qrcode = bean.getQrcode();
+                            App.short_state = bean.getState();
+                            App.short_area = bean.getAddress();
+                            break;
+                    }
+                    finish();
                 }
-                finish();
+
             }
         });
 
@@ -108,7 +123,7 @@ public class StoreAggregationQueryActivity extends BaseActivity {
                         //TODO 初始化数据
                         mDatas.clear();
                         mDatas.addAll(response.body().getData());
-                        if (intentType != BFRAGMENT) {
+                        if (intentType == AGGREGATIONQUERYACTIVITY || intentType == CLERKMANAGEMENTACTIVITY) {
                             ClerkInfoBean.DataBean bean = new ClerkInfoBean.DataBean();
                             bean.setName("全部店铺");
                             bean.setId(App.PLACEHOLDER);

@@ -64,9 +64,7 @@
         <!-- android:windowSoftInputMode="stateHidden|stateUnchanged" /> -->
         <activity android:name=".fragment.FragmentActivity" />
         <activity android:name=".activity.AggregationQueryActivity" />
-        <activity
-            android:name=".activity.StoreAggregationQueryActivity"
-             />
+        <activity android:name=".activity.StoreAggregationQueryActivity" />
         <activity android:name=".activity.BusinessApplicationActivity" />
         <activity android:name=".activity.IncomeActivity" />
         <activity android:name=".activity.AboutUsActivity" />
@@ -136,6 +134,12 @@
         <activity
             android:name=".activity.GuideActivity"
             android:theme="@style/TranslucentTheme" />
+        <activity android:name=".activity.OrdersActivity" />
+        <activity android:name=".activity.WebActivity" />
+        <activity android:name=".activity.ContractrateActivity" />
+        <activity android:name=".activity.BasicInformationActivity" />
+        <activity android:name=".activity.MemberManagementActivity" />
+        <activity android:name=".activity.ReportActivity"></activity>
     </application>
 
 </manifest>

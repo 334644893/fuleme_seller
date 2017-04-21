@@ -10,15 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fuleme.business.R;
-import com.fuleme.business.activity.IncomeActivity;
 import com.fuleme.business.activity.OrderDetailsActivity;
-import com.fuleme.business.bean.IncomeBean;
 import com.fuleme.business.bean.OrderDetailsBean;
-import com.fuleme.business.utils.DateUtil;
 import com.fuleme.business.utils.DividerItemDecoration;
-
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -31,7 +26,7 @@ import butterknife.ButterKnife;
 public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     NumberFormat nf = NumberFormat.getInstance();
     private static final int TYPE_ITEM = 0;  //普通Item View
-    private static final int TYPE_FOOTER = 1;  //顶部FootView
+    private static final int TYPE_FOOTER = 1;  //底部FootView
 
 
 
@@ -65,7 +60,6 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
              */
             linearLayoutManager = new LinearLayoutManager(context);
             mRecyclerView.setLayoutManager(linearLayoutManager);
-
             mRecyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
         }
     }

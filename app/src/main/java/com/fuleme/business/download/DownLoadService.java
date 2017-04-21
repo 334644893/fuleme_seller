@@ -80,7 +80,9 @@ public class DownLoadService extends Service {
         if (retrofit == null) {
             retrofit = new Retrofit.Builder();
         }
-        retrofit.baseUrl(APIService.SERVER_IP)
+        retrofit.baseUrl(
+                APIService.SERVER_IP
+        )
                 .client(initOkHttpClient())
                 .build()
                 .create(IFileLoad.class)
@@ -184,7 +186,6 @@ public class DownLoadService extends Service {
         notificationManager.cancel(NOTIFY_ID);
 
     }
-
 
 
 }

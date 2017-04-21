@@ -26,7 +26,7 @@ public class Zxing {
 //    }
 
 
-        return CodeUtils.createImage(content, 400, 400, BitmapFactory.decodeResource(activity.getResources(), R.mipmap.ic_launcher));
+        return CodeUtils.createImage(content, 400, 400, BitmapFactory.decodeResource(activity.getResources(), R.mipmap.logo));
 
     }
 

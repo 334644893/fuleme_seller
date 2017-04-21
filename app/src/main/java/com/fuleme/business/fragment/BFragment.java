@@ -1,222 +1,121 @@
 package com.fuleme.business.fragment;
 
+import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.fuleme.business.App;
 import com.fuleme.business.R;
-import com.fuleme.business.activity.EmployeeCollectionActivity;
-import com.fuleme.business.activity.ScanReceiptActivity;
-import com.fuleme.business.activity.StoreAggregationQueryActivity;
+import com.fuleme.business.activity.OrderDetailsActivity;
+import com.fuleme.business.adapter.OrderAdapter;
+import com.fuleme.business.adapter.SinceMediaAdapter;
+import com.fuleme.business.bean.OrderBean;
+import com.fuleme.business.bean.SinceMediaBean;
+import com.fuleme.business.bean.bannerBean;
+import com.fuleme.business.helper.GsonUtils;
+import com.fuleme.business.utils.DividerItemDecoration;
 import com.fuleme.business.utils.LogUtil;
-import com.fuleme.business.utils.Zxing;
+import com.fuleme.business.utils.ToastUtil;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BFragment extends Fragment {
     private static final String TAG = "BFragment";
-    FrameLayout flSaveImage;
-    TextView tv_bt_save, tv_storeName,tv_name;
-    Button btn_employee_1;
-    Button btn_employee_2;
-    private Handler mHandler = new Handler();
     View view = null;
-    LinearLayout ll_store;
-    final int TOSTORE = 998;
-    ImageView ivBaQrCode;
-
-//    public static String storeID = App.PLACEHOLDER;//查询店铺ID·初始为占位符，表示全部店铺
-//    public static String storeName = App.PLACEHOLDER;//storeName·初始为占位符
+    private Context context;
+    LinearLayoutManager linearLayoutManager;
+    @Bind(R.id.m_recyclerview)
+    RecyclerView mRecyclerview;
+    SinceMediaAdapter mAdapter;
+    private List<SinceMediaBean.DataBean> mDatas = new ArrayList<>();
+//    private int[] mImageDatas = {R.mipmap.icon_zhifu, R.mipmap.icon_weixin_54, R.mipmap.icon_dazhong, R.mipmap.icon_jinri, R.mipmap.icon_koubei};
+//    private String[] mTextDatas = {"支付宝服务窗口", "微信公众号管理", "大众点评", "今日头条", "口碑客"};
+//    private String[] mTextContentDatas = {"每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销"};
+//    private String[] mUrlDatas = {"每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销"};
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        if (App.login_type == App.LOGIN_TYPE_ADMIN) {
-            // TODO 管理员登录
-            view = inflater.inflate(R.layout.fragment_administrator_b, container, false);
-            view.findViewById(R.id.ll_title).setVisibility(View.GONE);
-
-            initAdminView();
-        } else if (App.login_type == App.LOGIN_TYPE_EMPLOYEES) {
-            // TODO 员工登录
-            view = inflater.inflate(R.layout.fragment_employee_b, container, false);
-            initEmployeeView();
-        }
-
-
+        view = inflater.inflate(R.layout.fragment_administrator_b, container, false);
+        context = getActivity();
         ButterKnife.bind(this, view);
+        init();
         return view;
     }
 
-    private void saveView() {
-        // 获取图片某布局
 
-        flSaveImage.setDrawingCacheEnabled(true);
-        flSaveImage.buildDrawingCache();
-
-        mHandler.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                // 要在运行在子线程中
-                final Bitmap bmp = flSaveImage.getDrawingCache(); // 获取图片
-
-                savePicture(bmp, System.currentTimeMillis() + ".jpg");// 保存图片
-                flSaveImage.destroyDrawingCache(); // 保存过后释放资源
-            }
-        }, 0);
-    }
-
-
-    public void savePicture(Bitmap bm, String fileName) {
-        String imageurl = Environment.getExternalStorageDirectory().getAbsolutePath() + "/fuleme";
-        if (bm == null) {
-            Toast.makeText(getActivity(), "savePicture null !", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        File foder = new File(imageurl);
-        if (!foder.exists()) {
-            foder.mkdirs();
-        }
-        File myCaptureFile = new File(foder, fileName);
-        try {
-            if (!myCaptureFile.exists()) {
-                myCaptureFile.createNewFile();
-            }
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
-            bm.compress(Bitmap.CompressFormat.PNG, 100, bos);
-            bos.flush();
-            bos.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        if (!TextUtils.isEmpty(imageurl)) {
-            Toast.makeText(getActivity(), "保存成功!图片路径:" + imageurl, Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-            Uri uri = Uri.fromFile(myCaptureFile);
-            intent.setData(uri);
-            getActivity().sendBroadcast(intent);
-
-            getActivity().sendBroadcast(
-                    new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File("/sdcard/fuleme/" + fileName)))
-            );
-
-
-        } else {
-            Toast.makeText(getActivity(), "保存失败!", Toast.LENGTH_SHORT).show();
-        }
-
-
+    public void init() {
+        selfmedia();
     }
 
     /**
-     * 管理员页面
+     *
      */
-    public void initAdminView() {
-        //初始化
-        flSaveImage = (FrameLayout) view.findViewById(R.id.fl_save_image);
-        tv_bt_save = (TextView) view.findViewById(R.id.tv_bt_save);
-        ll_store = (LinearLayout) view.findViewById(R.id.ll_store);
-        tv_storeName = (TextView) view.findViewById(R.id.tv_storeName);
-        tv_name = (TextView) view.findViewById(R.id.tv_name);
-        ivBaQrCode = (ImageView) view.findViewById(R.id.iv_ba_qr_code);
-        //店名
-        if ("0".equals(App.short_state)) {
-            tv_storeName.setText(App.merchant + "(审核中)");
-            tv_name.setText(App.merchant);
-        } else if ("1".equals(App.short_state)) {
-            tv_storeName.setText(App.merchant + "(已审核)");
-            tv_name.setText(App.merchant);
-        } else {
-            tv_storeName.setText("请选择店铺");
-            tv_name.setText("");
-        }
-        //生成二维码
-        LogUtil.i("生成二维码，店铺名" + App.merchant + "店铺ID" + App.short_id);
-        if (!TextUtils.isEmpty(App.qrcode)) {
-            ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
-        }
-        //保存二维码
-        tv_bt_save.setOnClickListener(new View.OnClickListener() {
+    public void initView() {
+        /**
+         * 设置列表
+         */
+        linearLayoutManager = new LinearLayoutManager(context);
+        mRecyclerview.setLayoutManager(linearLayoutManager);
+        mAdapter = new SinceMediaAdapter(context, mDatas);
+        mRecyclerview.setAdapter(mAdapter);
+        mRecyclerview.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
+        mAdapter.setOnItemClickListener(new SinceMediaAdapter.onRecyclerViewItemClickListener() {
             @Override
-            public void onClick(View v) {
-                saveView();
-            }
-        });
-        //切换店铺
-        ll_store.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //查询店铺
-                StoreAggregationQueryActivity.intentType = StoreAggregationQueryActivity.BFRAGMENT;
-                Intent intent = new Intent(getActivity(), StoreAggregationQueryActivity.class);
-                startActivityForResult(intent, TOSTORE);
+            public void onItemClick(View v, String url) {
+
             }
         });
     }
 
     /**
-     * 员工页面
+     * 获取自媒体
      */
-    public void initEmployeeView() {
-        btn_employee_1 = (Button) view.findViewById(R.id.btn_employee_1);
-        btn_employee_2 = (Button) view.findViewById(R.id.btn_employee_2);
-        btn_employee_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ScanReceiptActivity.class));
-            }
-        });
-        btn_employee_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), EmployeeCollectionActivity.class));
-            }
-        });
-    }
+    private void selfmedia() {
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == TOSTORE) {
-            if ("0".equals(App.short_state)) {
-                tv_storeName.setText(App.merchant + "(审核中)");
-                tv_name.setText(App.merchant);
-            } else if ("1".equals(App.short_state)) {
-                tv_storeName.setText(App.merchant + "(已审核)");
-                tv_name.setText(App.merchant);
-            } else {
-                tv_storeName.setText("暂无店铺");
-                tv_name.setText("");
+        ((FragmentActivity) getActivity()).showLoading("加载中...");
+        Call<SinceMediaBean> call = ((FragmentActivity) getActivity()).getApi().selfmedia();
+        call.enqueue(new Callback<SinceMediaBean>() {
+            @Override
+            public void onResponse(Call<SinceMediaBean> call, Response<SinceMediaBean> response) {
+                if (response.isSuccessful()) {
+                    if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
+                        // do SomeThing
+                        LogUtil.i("登陆成功");
+                        //TODO 初始化数据
+                        mDatas = response.body().getData();
+                        initView();
+                    } else {
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
+                    }
+
+                } else {
+                    LogUtil.i(response.message());
+                }
+                ((FragmentActivity) getActivity()).closeLoading();//取消等待框
             }
 
-            if (!TextUtils.isEmpty(App.qrcode)) {
-                LogUtil.i("生成二维码，店铺名" + App.merchant + "店铺ID" + App.short_id);
-                ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
+            @Override
+            public void onFailure(Call<SinceMediaBean> call, Throwable t) {
+                LogUtil.e(TAG, t.toString());
+                ((FragmentActivity) getActivity()).closeLoading();//取消等待框
+                ToastUtil.showMessage("超时");
             }
-        }
+
+        });
     }
 
     @Override

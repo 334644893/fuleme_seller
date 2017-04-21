@@ -43,7 +43,7 @@ import retrofit2.Response;
 
 public class BaseActivity extends AppCompatActivity {
     private static final String TAG = "BaseActivity";
-    private Dialog mLoading;
+    private Dialog mLoading,trueLoading;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -63,9 +63,16 @@ public class BaseActivity extends AppCompatActivity {
                 , false
         );//添加等待框
     }
-
+    public void showLoadingTrue(String text) {
+        trueLoading = LoadingDialogUtils.createLoadingDialog(BaseActivity.this, text
+                , true
+        );//添加等待框
+    }
     public void closeLoading() {
         mLoading.dismiss();
+    }
+    public void closetrueLoading() {
+        trueLoading.dismiss();
     }
 
     /**

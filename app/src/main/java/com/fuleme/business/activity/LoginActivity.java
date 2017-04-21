@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -124,7 +125,13 @@ public class LoginActivity extends BaseActivity {
                 if (MANDATORY) {
                     version();
                 } else {
-                    Login();
+                    if (TextUtils.isEmpty(etPhone.getText().toString()) || etPhone.getText().toString().length() != 11) {
+                        ToastUtil.showMessage("手机号格式错误");
+                    } else if (TextUtils.isEmpty(etVerify.getText().toString())) {
+                        ToastUtil.showMessage("密码不能为空");
+                    } else {
+                        Login();
+                    }
                 }
                 break;
             case R.id.tv_zczh:
