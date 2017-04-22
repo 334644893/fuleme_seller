@@ -13,6 +13,7 @@ public class DateUtil {
     public static final String DATE_1 = "yyyy-MM-dd HH:mm:ss";
     public static final String DATE_2 = "yyyy-MM-dd";
     public static final String DATE_3 = "HH:mm:ss";
+    public static final String DATE_4 = "yyyy-MM";
 
     /*
     * 将时间戳转换为时间type
@@ -115,5 +116,36 @@ public class DateUtil {
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.MILLISECOND, 0);
         return ((cal.getTimeInMillis() + 7 * 24 * 60 * 60 * 1000 - 1000) / 1000) + "";
+    }
+
+    /**
+     * 月开始时间戳
+     */
+    public static String getMonthStartTime(int year,int month) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        return (cal.getTimeInMillis() / 1000) + "";
+    }
+
+    /**
+     * 月结束时间戳
+     */
+    public static String getMonthEndTime(int year,int month) {
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.MONTH, month);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        return ((cal.getTimeInMillis() + 24 * 60 * 60 * 1000 - 1000) / 1000) + "";
     }
 }

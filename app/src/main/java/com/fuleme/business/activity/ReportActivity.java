@@ -2,19 +2,17 @@ package com.fuleme.business.activity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fuleme.business.App;
 import com.fuleme.business.R;
-import com.fuleme.business.adapter.AFragmentAdapter;
 import com.fuleme.business.adapter.ReportRAdapter;
-import com.fuleme.business.bean.AFragmentImageBean;
 import com.fuleme.business.bean.IncomeBean;
 import com.fuleme.business.bean.ReportRBean;
 import com.fuleme.business.common.BaseActivity;
@@ -58,6 +56,22 @@ public class ReportActivity extends BaseActivity {
     TextView tv8;
     @Bind(R.id.rv_af)
     RecyclerView mRecyclerView;
+    @Bind(R.id.ll_day)
+    LinearLayout llDay;
+    @Bind(R.id.tv_month_1)
+    TextView tvMonth1;
+    @Bind(R.id.tv_month_2)
+    TextView tvMonth2;
+    @Bind(R.id.tv_month_3)
+    TextView tvMonth3;
+    @Bind(R.id.ll_month)
+    LinearLayout llMonth;
+    @Bind(R.id.v_month_1)
+    View vMonth1;
+    @Bind(R.id.v_month_2)
+    View vMonth2;
+    @Bind(R.id.v_month_3)
+    View vMonth3;
     private int[] mImageDatas = {R.mipmap.icon_weixin, R.mipmap.icon_zhifubao, R.mipmap.icon_baidu, R.mipmap.icon_jindong, R.mipmap.icon_qq};
     private String[] mTitleDatas = {"微信支付", "支付宝", "百度钱包", "京东钱包", "QQ钱包"};
     ReportRAdapter mAdapter;
@@ -68,6 +82,7 @@ public class ReportActivity extends BaseActivity {
     private static final int DAY = 0;
     private static final int MOTH = 1;
     int Year, Month, Day;
+    Calendar ca;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,20 +90,19 @@ public class ReportActivity extends BaseActivity {
         setContentView(R.layout.activity_report);
         ButterKnife.bind(this);
         tvTitle.setText("报表");
-        initTime();
+        ca = Calendar.getInstance();
         initRecyclerView();
-
     }
 
     public void initTime() {
-
-        Calendar ca = Calendar.getInstance();
         Year = ca.get(Calendar.YEAR);
         Month = ca.get(Calendar.MONTH);
         Day = ca.get(Calendar.DAY_OF_MONTH);
-        startTime = DateUtil.getTimesmorning();//开始查询时间设为今日0点的时间戳
-        endTime = DateUtil.getTimesnight();//结束查询时间设为今日23点59分59秒的时间戳
-        tv4.setText(DateUtil.stampToDate(startTime + "", DateUtil.DATE_2));//初始化页面日期
+
+        tvMonth1.setText(DateUtil.stampToDate(DateUtil.getMonthStartTime(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH) - 1), DateUtil.DATE_4));
+        tvMonth2.setText(DateUtil.stampToDate(DateUtil.getMonthStartTime(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH)), DateUtil.DATE_4));
+        tvMonth3.setText(DateUtil.stampToDate(DateUtil.getMonthStartTime(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH) + 1), DateUtil.DATE_4));
+        setState(DAY);
     }
 
     public void initRecyclerView() {
@@ -100,7 +114,7 @@ public class ReportActivity extends BaseActivity {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(ReportActivity.this, GridLayoutManager.VERTICAL));
         IncomeBean bean = null;
         initData(bean);
-        income();
+        initTime();
     }
 
     public void initData(IncomeBean bean) {
@@ -146,7 +160,7 @@ public class ReportActivity extends BaseActivity {
         mAdapter.notifyDataSetChanged();
     }
 
-    @OnClick({R.id.tv_left, R.id.tv_1, R.id.tv_2, R.id.tv_3, R.id.tv_4, R.id.tv_5})
+    @OnClick({R.id.tv_left, R.id.tv_1, R.id.tv_2, R.id.tv_3, R.id.tv_4, R.id.tv_5, R.id.tv_month_1, R.id.tv_month_2, R.id.tv_month_3})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_left:
@@ -174,6 +188,16 @@ public class ReportActivity extends BaseActivity {
                 endTime += 24 * 60 * 60;
                 tv4.setText(DateUtil.stampToDate(startTime + "", DateUtil.DATE_2));
                 income();
+                break;
+            case R.id.tv_month_1:
+                setMonthState(0);
+
+                break;
+            case R.id.tv_month_2:
+                setMonthState(1);
+                break;
+            case R.id.tv_month_3:
+                setMonthState(2);
                 break;
         }
     }
@@ -232,12 +256,64 @@ public class ReportActivity extends BaseActivity {
                 tv2.setTextColor(getResources().getColor(R.color.black_87));
                 v1.setBackgroundColor(getResources().getColor(R.color.red));
                 v2.setBackgroundColor(getResources().getColor(R.color.black_87));
+                llDay.setVisibility(View.VISIBLE);
+                llMonth.setVisibility(View.GONE);
+                startTime = DateUtil.getTimesmorning();//开始查询时间设为今日0点的时间戳
+                endTime = DateUtil.getTimesnight();//结束查询时间设为今日23点59分59秒的时间戳
+                tv4.setText(DateUtil.stampToDate(startTime + "", DateUtil.DATE_2));//初始化页面日期
+                income();
                 break;
             case MOTH:
                 tv1.setTextColor(getResources().getColor(R.color.black_87));
                 tv2.setTextColor(getResources().getColor(R.color.red));
                 v1.setBackgroundColor(getResources().getColor(R.color.black_87));
                 v2.setBackgroundColor(getResources().getColor(R.color.red));
+                llDay.setVisibility(View.GONE);
+                llMonth.setVisibility(View.VISIBLE);
+                setMonthState(2);
+                break;
+        }
+    }
+
+    /**
+     * 改变月日期
+     *
+     * @param type
+     */
+    private void setMonthState(int type) {
+        switch (type) {
+            case 0:
+                tvMonth1.setTextColor(getResources().getColor(R.color.red));
+                tvMonth2.setTextColor(getResources().getColor(R.color.black_87));
+                tvMonth3.setTextColor(getResources().getColor(R.color.black_87));
+                vMonth1.setBackgroundColor(getResources().getColor(R.color.red));
+                vMonth2.setBackgroundColor(getResources().getColor(R.color.evaluate_content_1));
+                vMonth3.setBackgroundColor(getResources().getColor(R.color.evaluate_content_1));
+                startTime = new Integer(DateUtil.getMonthStartTime(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH) - 1));
+                endTime = new Integer(DateUtil.getMonthEndTime(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH) - 1));
+                income();
+                break;
+            case 1:
+                tvMonth2.setTextColor(getResources().getColor(R.color.red));
+                tvMonth1.setTextColor(getResources().getColor(R.color.black_87));
+                tvMonth3.setTextColor(getResources().getColor(R.color.black_87));
+                vMonth2.setBackgroundColor(getResources().getColor(R.color.red));
+                vMonth3.setBackgroundColor(getResources().getColor(R.color.evaluate_content_1));
+                vMonth1.setBackgroundColor(getResources().getColor(R.color.evaluate_content_1));
+                startTime = new Integer(DateUtil.getMonthStartTime(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH)));
+                endTime = new Integer(DateUtil.getMonthEndTime(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH)));
+                income();
+                break;
+            case 2:
+                tvMonth3.setTextColor(getResources().getColor(R.color.red));
+                tvMonth1.setTextColor(getResources().getColor(R.color.black_87));
+                tvMonth2.setTextColor(getResources().getColor(R.color.black_87));
+                vMonth3.setBackgroundColor(getResources().getColor(R.color.red));
+                vMonth2.setBackgroundColor(getResources().getColor(R.color.evaluate_content_1));
+                vMonth1.setBackgroundColor(getResources().getColor(R.color.evaluate_content_1));
+                startTime = new Integer(DateUtil.getMonthStartTime(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH) + 1));
+                endTime = new Integer(DateUtil.getMonthEndTime(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH) + 1));
+                income();
                 break;
         }
     }
@@ -247,7 +323,7 @@ public class ReportActivity extends BaseActivity {
      */
 
     private void income() {
-        showLoading("获取中...");
+        showLoadingTrue("获取中...");
         Call<IncomeBean> call = getApi().income(App.token, App.short_id, startTime, endTime);
         LogUtil.d("---------startTime", DateUtil.stampToDate(startTime + "", DateUtil.DATE_1));
         LogUtil.d("---------endTime", DateUtil.stampToDate(endTime + "", DateUtil.DATE_1));
@@ -273,16 +349,17 @@ public class ReportActivity extends BaseActivity {
                     LogUtil.i("失败response.message():" + response.message());
                 }
                 ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
-                closeLoading();//取消等待框
+                closetrueLoading();//取消等待框
             }
 
             @Override
             public void onFailure(Call<IncomeBean> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                closeLoading();//取消等待框
+                closetrueLoading();//取消等待框
                 ToastUtil.showMessage("超时");
             }
 
         });
     }
+
 }
