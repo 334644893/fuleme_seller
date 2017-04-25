@@ -27,6 +27,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 会员管理
+ */
 public class MemberManagementActivity extends BaseActivity {
     private static final String TAG = "MemberManagementActivit";
     @Bind(R.id.tv_1)
@@ -139,6 +142,7 @@ public class MemberManagementActivity extends BaseActivity {
                         tv3.setText(response.body().getShopuser()+"");
                         mDatas.addAll(response.body().getData());
                         mAdapter.notifyDataSetChanged();
+
                     } else {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }

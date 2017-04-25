@@ -2,12 +2,15 @@ package com.fuleme.business.activity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.fuleme.business.App;
@@ -30,6 +33,18 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import lecho.lib.hellocharts.formatter.LineChartValueFormatter;
+import lecho.lib.hellocharts.formatter.SimpleLineChartValueFormatter;
+import lecho.lib.hellocharts.gesture.ContainerScrollType;
+import lecho.lib.hellocharts.gesture.ZoomType;
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.ValueShape;
+import lecho.lib.hellocharts.model.Viewport;
+import lecho.lib.hellocharts.view.LineChartView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,17 +87,36 @@ public class ReportActivity extends BaseActivity {
     View vMonth2;
     @Bind(R.id.v_month_3)
     View vMonth3;
+    @Bind(R.id.line_chart_amout)
+    LineChartView lineChartAmout;
+    @Bind(R.id.line_chart_number)
+    LineChartView lineChartNumber;
+    @Bind(R.id.slview)
+    ScrollView slview;
     private int[] mImageDatas = {R.mipmap.icon_weixin, R.mipmap.icon_zhifubao, R.mipmap.icon_baidu, R.mipmap.icon_jindong, R.mipmap.icon_qq};
     private String[] mTitleDatas = {"微信支付", "支付宝", "百度钱包", "京东钱包", "QQ钱包"};
     ReportRAdapter mAdapter;
     GridLayoutManager mGridLayoutManager;
     private List<ReportRBean> mDatas = new ArrayList<>();
-    private static int startTime = 0;//查询开始时间戳
-    private static int endTime = 0;//查询结束时间戳
+    private int startTime = 0;//查询开始时间戳
+    private int endTime = 0;//查询结束时间戳
     private static final int DAY = 0;
     private static final int MOTH = 1;
     int Year, Month, Day;
     Calendar ca;
+    //报表
+    List<String> date = new ArrayList<>();
+    List<Float> weather = new ArrayList<>();
+    List<Integer> numberWeather = new ArrayList<>();
+    //        String[] date = {"10-22", "11-22", "12-22", "1-22", "6-22", "5-23", "5-22", "6-22", "5-23", "5-22"};//X轴的标注
+//    float[] weather = {0.05f, 1.2f, 0f, 1f, 1f, 1f, 1f, 1f, 1f, 11f};//金额图表
+//    int[] numberWeather = {500, 120, 190, 101, 110, 114, 110, 118, 10, 110};//笔数图表
+    private List<PointValue> mPointValues = new ArrayList<>();
+    private List<AxisValue> mAxisXValues = new ArrayList<>();
+    private List<PointValue> mNumberPointValues = new ArrayList<>();
+    private List<AxisValue> mNumberAxisXValues = new ArrayList<>();
+    private Float weatherMax = 0f;
+    private int textsize = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +126,7 @@ public class ReportActivity extends BaseActivity {
         tvTitle.setText("报表");
         ca = Calendar.getInstance();
         initRecyclerView();
+        lineChartAmout();
     }
 
     public void initTime() {
@@ -103,6 +138,39 @@ public class ReportActivity extends BaseActivity {
         tvMonth2.setText(DateUtil.stampToDate(DateUtil.getMonthStartTime(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH)), DateUtil.DATE_4));
         tvMonth3.setText(DateUtil.stampToDate(DateUtil.getMonthStartTime(ca.get(Calendar.YEAR), ca.get(Calendar.MONTH) + 1), DateUtil.DATE_4));
         setState(DAY);
+    }
+
+    public void initReportData(List<IncomeBean.DataBean.EveryDayBean> beanList) {
+        date.clear();
+        weather.clear();
+        numberWeather.clear();
+        for (IncomeBean.DataBean.EveryDayBean bean : beanList) {
+            date.add(bean.getTime_end());
+            weather.add(bean.getTotal_fee());
+            numberWeather.add(bean.getNumber());
+            if (weatherMax < bean.getTotal_fee()) {
+                weatherMax = bean.getTotal_fee();
+            }
+        }
+        if (weatherMax < 1000) {
+            textsize = 12;
+        } else if (weatherMax < 10000) {
+            textsize = 10;
+        } else if (weatherMax < 100000) {
+            textsize = 8;
+        }
+        lineChartAmout();
+    }
+
+    public void lineChartAmout() {
+        //金额表
+        getAxisXLables();//获取x轴的标注
+        getAxisPoints();//获取坐标点
+        initLineChart(textsize);//初始化
+        //笔数表
+        getNumberAxisXLables();//获取x轴的标注
+        getNumberAxisPoints();//获取坐标点
+        initNumberLineChart(10);//初始化
     }
 
     public void initRecyclerView() {
@@ -323,7 +391,7 @@ public class ReportActivity extends BaseActivity {
      */
 
     private void income() {
-        showLoadingTrue("获取中...");
+        showLoading("获取中...");
         Call<IncomeBean> call = getApi().income(App.token, App.short_id, startTime, endTime);
         LogUtil.d("---------startTime", DateUtil.stampToDate(startTime + "", DateUtil.DATE_1));
         LogUtil.d("---------endTime", DateUtil.stampToDate(endTime + "", DateUtil.DATE_1));
@@ -342,6 +410,10 @@ public class ReportActivity extends BaseActivity {
                          *
                          */
                         initData(response.body());
+                        /**
+                         * 解析数据绘制图标
+                         */
+                        initReportData(response.body().getData().getEveryDay());
                     } else {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
@@ -349,17 +421,191 @@ public class ReportActivity extends BaseActivity {
                     LogUtil.i("失败response.message():" + response.message());
                 }
                 ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
-                closetrueLoading();//取消等待框
+                closeLoading();//取消等待框
             }
 
             @Override
             public void onFailure(Call<IncomeBean> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
-                closetrueLoading();//取消等待框
+                closeLoading();//取消等待框
                 ToastUtil.showMessage("超时");
             }
 
         });
     }
 
+    /**
+     * 设置X 轴的显示(金额)
+     */
+    private void getAxisXLables() {
+        mAxisXValues.clear();
+        for (int i = 0; i < date.size(); i++) {
+            mAxisXValues.add(new AxisValue(i).setLabel(date.get(i)));
+        }
+    }
+
+    /**
+     * 图表的每个点的显示(金额)
+     */
+    private void getAxisPoints() {
+        mPointValues.clear();
+        for (int i = 0; i < weather.size(); i++) {
+            mPointValues.add(new PointValue(i, weather.get(i)));
+        }
+    }
+
+    /**
+     * 设置X 轴的显示(笔数)
+     */
+    private void getNumberAxisXLables() {
+        mNumberAxisXValues.clear();
+        for (int i = 0; i < date.size(); i++) {
+            mNumberAxisXValues.add(new AxisValue(i).setLabel(date.get(i)));
+        }
+    }
+
+    /**
+     * 图表的每个点的显示(笔数)
+     */
+    private void getNumberAxisPoints() {
+        mNumberPointValues.clear();
+        for (int i = 0; i < numberWeather.size(); i++) {
+            mNumberPointValues.add(new PointValue(i, numberWeather.get(i)));
+        }
+    }
+
+    private void initLineChart(int size) {
+        Line line = new Line(mPointValues).setColor(Color.parseColor("#00A0E8"));  //折线的颜色
+        List<Line> lines = new ArrayList<>();
+        line.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
+        line.setCubic(false);//曲线是否平滑，即是曲线还是折线
+        line.setFilled(false);//是否填充曲线的面积
+        line.setHasLabels(true);//曲线的数据坐标是否加上备注
+        line.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
+        line.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
+        LineChartValueFormatter chartValueFormatter = new SimpleLineChartValueFormatter(2);
+        line.setFormatter(chartValueFormatter);//显示小数点
+        lines.add(line);
+        LineChartData data = new LineChartData();
+        data.setLines(lines);
+        //坐标轴
+        Axis axisX = new Axis(); //X轴
+        axisX.setHasTiltedLabels(false);  //X坐标轴字体是斜的显示还是直的，true是斜的显示
+        axisX.setTextColor(Color.BLACK);  //设置字体颜色
+        axisX.setName("交易时间");  //表格名称
+        axisX.setTextSize(size);//设置字体大小
+        axisX.setMaxLabelChars(7); //最多几个X轴坐标，意思就是你的缩放让X轴上数据的个数7<=x<=mAxisXValues.length
+        axisX.setValues(mAxisXValues);  //填充X轴的坐标名称
+        data.setAxisXBottom(axisX); //x 轴在底部
+        //data.setAxisXTop(axisX);  //x 轴在顶部
+        axisX.setHasLines(true); //x 轴分割线
+        // Y轴是根据数据的大小自动设置Y轴上限(在下面我会给出固定Y轴数据个数的解决方案)
+        Axis axisY = new Axis();  //Y轴
+        axisY.setName("交易金额");//y轴标注
+        axisY.setTextSize(size);//设置字体大小
+        axisY.setTextColor(Color.BLACK);
+        data.setAxisYLeft(axisY);  //Y轴设置在左边
+        //data.setAxisYRight(axisY);  //y轴设置在右边
+        data.setValueLabelBackgroundAuto(false);//设置数据背景是否跟随节点颜色
+        data.setValueLabelBackgroundColor(Color.TRANSPARENT);//设置数据背景颜色
+        data.setValueLabelsTextColor(Color.BLACK);//设置数据文字颜色
+        //设置行为属性，支持缩放、滑动以及平移
+        lineChartAmout.setInteractive(true);
+        lineChartAmout.setZoomType(ZoomType.HORIZONTAL);
+        lineChartAmout.setMaxZoom((float) 2);//最大方法比例
+        lineChartAmout.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
+        lineChartAmout.setLineChartData(data);
+        lineChartAmout.setVisibility(View.VISIBLE);
+
+
+        lineChartAmout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int n = event.getPointerCount();
+                if (n == 1) {
+                    //允许ScrollView截断点击事件，ScrollView可滑动
+                    slview.requestDisallowInterceptTouchEvent(false);
+                } else {
+                    //不允许ScrollView截断点击事件，点击事件由子View处理
+                    slview.requestDisallowInterceptTouchEvent(true);
+                }
+                return false;
+            }
+        });
+        /**注：下面的7，10只是代表一个数字去类比而已
+         * 当时是为了解决X轴固定数据个数。见（http://forum.xda-developers.com/tools/programming/library-hellocharts-charting-library-t2904456/page2）;
+         */
+        Viewport v = new Viewport(lineChartAmout.getMaximumViewport());
+        v.left = 0;                             //坐标原点在左下
+        v.bottom = 0;
+        v.top = lineChartAmout.getMaximumViewport().height();                            //最高点为100
+        v.right = 7;           //右边为点 坐标从0开始 点号从1 需要 -1
+//        lineChartAmout.setMaximumViewport(v);   //给最大的视图设置 相当于原图
+        lineChartAmout.setCurrentViewport(v);   //给当前的视图设置 相当于当前展示的图
+    }
+
+    private void initNumberLineChart(int size) {
+        Line line = new Line(mNumberPointValues).setColor(Color.parseColor("#00A0E8"));  //折线的颜色
+        List<Line> lines = new ArrayList<>();
+        line.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
+        line.setCubic(false);//曲线是否平滑，即是曲线还是折线
+        line.setFilled(false);//是否填充曲线的面积
+        line.setHasLabels(true);//曲线的数据坐标是否加上备注
+        line.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
+        line.setHasPoints(true);//是否显示圆点 如果为false 则没有原点只有点显示（每个数据点都是个大的圆点）
+        lines.add(line);
+        LineChartData data = new LineChartData();
+        data.setLines(lines);
+        //坐标轴
+        Axis axisX = new Axis(); //X轴
+        axisX.setHasTiltedLabels(true);  //X坐标轴字体是斜的显示还是直的，true是斜的显示
+        axisX.setTextColor(Color.BLACK);  //设置字体颜色
+        axisX.setName("交易时间");  //表格名称
+        axisX.setTextSize(size);//设置字体大小
+        axisX.setMaxLabelChars(7); //最多几个X轴坐标，意思就是你的缩放让X轴上数据的个数7<=x<=mAxisXValues.length
+        axisX.setValues(mAxisXValues);  //填充X轴的坐标名称
+        data.setAxisXBottom(axisX); //x 轴在底部
+        axisX.setHasLines(true); //x 轴分割线
+        // Y轴是根据数据的大小自动设置Y轴上限(在下面我会给出固定Y轴数据个数的解决方案)
+        Axis axisY = new Axis();  //Y轴
+        axisY.setName("交易笔数");//y轴标注
+        axisY.setTextSize(size);//设置字体大小
+        axisY.setTextColor(Color.BLACK);
+        data.setAxisYLeft(axisY);  //Y轴设置在左边
+        data.setValueLabelBackgroundAuto(false);//设置数据背景是否跟随节点颜色
+        data.setValueLabelBackgroundColor(Color.TRANSPARENT);//设置数据背景颜色
+        data.setValueLabelsTextColor(Color.BLACK);//设置数据文字颜色
+        //设置行为属性，支持缩放、滑动以及平移
+        lineChartNumber.setInteractive(true);
+        lineChartNumber.setZoomType(ZoomType.HORIZONTAL);
+        lineChartNumber.setMaxZoom((float) 2);//最大方法比例
+        lineChartNumber.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
+        lineChartNumber.setLineChartData(data);
+        lineChartNumber.setVisibility(View.VISIBLE);
+
+        lineChartNumber.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int n = event.getPointerCount();
+                if (n == 1) {
+                    //允许ScrollView截断点击事件，ScrollView可滑动
+                    slview.requestDisallowInterceptTouchEvent(false);
+                } else {
+                    //不允许ScrollView截断点击事件，点击事件由子View处理
+                    slview.requestDisallowInterceptTouchEvent(true);
+                }
+                return false;
+            }
+        });
+        /**注：下面的7，10只是代表一个数字去类比而已
+         * 当时是为了解决X轴固定数据个数。见（http://forum.xda-developers.com/tools/programming/library-hellocharts-charting-library-t2904456/page2）;
+         */
+        Viewport v = new Viewport(lineChartNumber.getMaximumViewport());
+        v.left = 0;                             //坐标原点在左下
+        v.bottom = 0;
+        v.top = lineChartNumber.getMaximumViewport().height();                            //最高点为100
+        v.right = 7;           //右边为点 坐标从0开始 点号从1 需要 -1
+//        lineChartAmout.setMaximumViewport(v);   //给最大的视图设置 相当于原图
+        lineChartNumber.setCurrentViewport(v);   //给当前的视图设置 相当于当前展示的图
+    }
 }

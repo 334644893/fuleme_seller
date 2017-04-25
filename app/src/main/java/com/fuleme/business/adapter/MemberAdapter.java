@@ -93,7 +93,7 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 myViewHolder.ivHead.setImageURI(mDatas.get(position).getHead_img());
             }
             if (!TextUtils.isEmpty(mDatas.get(position).getNick_name())) {
-                myViewHolder.tvName.setText("报名量(test)");
+                myViewHolder.tvName.setText(mDatas.get(position).getNick_name());
             } else {
                 myViewHolder.tvName.setText(App.merchant + "用户");
             }

@@ -98,13 +98,12 @@ public class OrderFragment extends Fragment {
                 WebActivity.url = url;
                 WebActivity.title = "商城";
                 startActivity(new Intent(context, WebActivity.class));
-//                view.loadUrl(url);
                 return true;
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                ((BaseActivity) context).closetrueLoading();//取消等待框
+                ((BaseActivity) context).closeLoading();//取消等待框
                 demoSwiperefreshlayout.setRefreshing(false);
                 if (errFlag) {
                     webView1.setVisibility(View.GONE);
@@ -129,10 +128,13 @@ public class OrderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((BaseActivity) context).showLoadingTrue("加载中...");
-        //WebView加载web资源
-        webView1.loadUrl(URL);
-        LogUtil.d(URL);
+        if (((FragmentActivity) context).flagFragment == 1) {
+            ((BaseActivity) context).showLoading("加载中...");
+            //WebView加载web资源
+            webView1.loadUrl(URL);
+            LogUtil.d(URL);
+        }
+
     }
 
     @Override

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
@@ -37,7 +38,7 @@ import retrofit2.Response;
 public class LoginActivity extends BaseActivity {
     private static final String TAG = "LoginActivity";
     public static boolean MANDATORY = false;//是否是强制更新，如果是则登录不可用
-    public static  Dialog mUpdateLoading;
+    public static Dialog mUpdateLoading;
     @Bind(R.id.tv_dianyuan)
     TextView tvDianyuan;
     @Bind(R.id.tv_dianyuan_l)
@@ -61,6 +62,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        verifyStoragePermissions(this);
         //判断是否第一次启动
         if ("".equals(SharedPreferencesUtils.getParam(getApplicationContext(), "start", ""))) {
 
@@ -69,8 +71,39 @@ public class LoginActivity extends BaseActivity {
         initJzmm();
         setState(App.LOGIN_TYPE_EMPLOYEES);
         //更新
-//       new UpdateManager(LoginActivity.this).checkUpdate(2, "啦啦啦啦", 1, "download/com.fuleme.business-release-v1.0-1.apk", false);
         version();
+        AutomaticLogin();
+    }
+
+    private void AutomaticLogin() {
+        App.uid = (int) SharedPreferencesUtils.getParam(getApplicationContext(), "uid", App.uid);
+        App.phone = SharedPreferencesUtils.getParam(getApplicationContext(), "phone", App.phone).toString();
+        App.username = SharedPreferencesUtils.getParam(getApplicationContext(), "username", App.username).toString();
+        App.role = SharedPreferencesUtils.getParam(getApplicationContext(), "role", App.role).toString();
+        App.short_id = SharedPreferencesUtils.getParam(getApplicationContext(), "short_id", App.short_id).toString();
+        App.merchant = SharedPreferencesUtils.getParam(getApplicationContext(), "merchant", App.merchant).toString();
+        App.short_state = SharedPreferencesUtils.getParam(getApplicationContext(), "short_state", App.short_state).toString();
+        App.short_area = SharedPreferencesUtils.getParam(getApplicationContext(), "short_area", App.short_area).toString();
+        App.token = SharedPreferencesUtils.getParam(getApplicationContext(), "token", App.token).toString();
+        App.qrcode = SharedPreferencesUtils.getParam(getApplicationContext(), "qrcode", App.qrcode).toString();
+        if (App.uid != 0 &&
+                !TextUtils.isEmpty(App.phone) &&
+                !TextUtils.isEmpty(App.username) &&
+                !TextUtils.isEmpty(App.role) &&
+                !TextUtils.isEmpty(App.short_id) &&
+                !TextUtils.isEmpty(App.merchant) &&
+                !TextUtils.isEmpty(App.short_state) &&
+                !TextUtils.isEmpty(App.short_area) &&
+                !TextUtils.isEmpty(App.token) &&
+                !TextUtils.isEmpty(App.qrcode)
+                ) {
+            //绑定推送账号
+            if (App.bindAccount) {
+                App.bindAccount();
+            }
+            startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
+            finish();
+        }
     }
 
     /**
@@ -81,13 +114,11 @@ public class LoginActivity extends BaseActivity {
         loginjzmm = (int) SharedPreferencesUtils.getParam(getApplicationContext(), "loginjzmm", 0);
         //初始化账号密码
         etPhone.setText(SharedPreferencesUtils.getParam(getApplicationContext(), "phone", "") + "");
-//        etPhone.setText(SharedPreferencesUtils.getParam(getApplicationContext(), "phone", "13419567515") + "");
         if (loginjzmm == 1) {
             etVerify.setText(SharedPreferencesUtils.getParam(getApplicationContext(), "password", "") + "");
         } else {
             etVerify.setText("");
             SharedPreferencesUtils.setParam(getApplicationContext(), "password", "");
-//            etVerify.setText("666666");
         }
         //初始化标记
         drawable_41 = getResources().getDrawable(R.mipmap.icon41);
@@ -105,7 +136,17 @@ public class LoginActivity extends BaseActivity {
         etVerify.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                Login();
+                if (MANDATORY) {
+                    version();
+                } else {
+                    if (TextUtils.isEmpty(etPhone.getText().toString()) || etPhone.getText().toString().length() != 11) {
+                        ToastUtil.showMessage("手机号格式错误");
+                    } else if (TextUtils.isEmpty(etVerify.getText().toString())) {
+                        ToastUtil.showMessage("密码不能为空");
+                    } else {
+                        Login();
+                    }
+                }
                 return false;
             }
         });
@@ -121,7 +162,6 @@ public class LoginActivity extends BaseActivity {
                 setState(App.LOGIN_TYPE_ADMIN);
                 break;
             case R.id.btn_login:
-                //TODO 发送登录请求并跳转主页
                 if (MANDATORY) {
                     version();
                 } else {
@@ -190,8 +230,6 @@ public class LoginActivity extends BaseActivity {
 
     private void Login() {
         showLoading("登录中...");
-//        closeLoading();//取消等待框
-//        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
         Call<Object> call = getApi().login(etPhone.getText().toString(),
                 etVerify.getText().toString(),
                 App.login_type);
@@ -205,41 +243,52 @@ public class LoginActivity extends BaseActivity {
                         //TODO 初始化数据
                         JSONObject data = GsonUtils.getResultData(response.body());
                         App.uid = data.optInt("uid");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "uid", App.uid);
                         App.phone = data.optString("phone");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "phone", App.phone);
                         App.username = data.optString("username");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "username", App.username);
                         App.role = data.optString("role");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "role", App.role);
                         App.short_id = data.optString("short_id");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "short_id", App.short_id);
                         App.merchant = data.optString("short_name");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "merchant", App.merchant);
                         App.short_state = data.optString("short_state");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "short_state", App.short_state);
                         App.short_area = data.optString("short_area");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "short_area", App.short_area);
                         App.token = data.optString("token");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "token", App.token);
                         App.qrcode = data.optString("qrcode");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "qrcode", App.qrcode);
                         LogUtil.d("-------登录返回App.token---------", App.token);
                         //绑定推送账号
-
-                        App.bindAccount();
-                        //记住手机号
-                        SharedPreferencesUtils.setParam(getApplicationContext(), "phone", etPhone.getText().toString());
+                            App.bindAccount();
                         //刷新TOKEN用密码
                         SharedPreferencesUtils.setParam(getApplicationContext(), "token_password", etVerify.getText().toString());
+
                         //根据记住密码保存密码
                         if (loginjzmm == 1) {
                             SharedPreferencesUtils.setParam(getApplicationContext(), "password", etVerify.getText().toString());
                         } else {
                             SharedPreferencesUtils.setParam(getApplicationContext(), "password", "");
                         }
+                        closeLoading();//取消等待框
                         //TODO 跳转主页
                         startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
                         finish();
+
                     } else {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
+                        closeLoading();//取消等待框
                     }
 
                 } else {
                     LogUtil.i("登陆失败response.message():" + response.message());
-
+                    closeLoading();//取消等待框
                 }
-                closeLoading();//取消等待框
+
             }
 
             @Override
@@ -253,6 +302,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     int type = -1;
+
     private void version() {
         getApi().version().enqueue(new Callback<Object>() {
             @Override
@@ -268,6 +318,7 @@ public class LoginActivity extends BaseActivity {
                         String prompt = data.optString("prompt");
                         type = data.optInt("type");
                         String url = data.optString("android");
+                        BusinessApplicationActivity.url = data.optString("android");
                         LogUtil.d("---------", "-version:" + version + "-prompt:" + prompt + "-type:" + type + "-android:" + url);
                         if (type == 1) {
                             MANDATORY = true;
@@ -297,8 +348,8 @@ public class LoginActivity extends BaseActivity {
                     Dialog noticeDialog = builder.create();
                     noticeDialog.setCancelable(false);
                     noticeDialog.show();
-                }else{
-                    LogUtil.d("检测更新失败",t.toString());
+                } else {
+                    LogUtil.d("检测更新失败", t.toString());
                 }
             }
 

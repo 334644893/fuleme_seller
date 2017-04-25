@@ -29,9 +29,8 @@
                 >
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center|left"
                     android:text="所属店铺"
                     android:textColor="@color/bgcolor"
@@ -75,7 +74,7 @@
 
                     <TextView
                         android:id="@+id/tv_name"
-                        android:layout_width="200dp"
+                        android:layout_width="260dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginBottom="10dp"
@@ -84,7 +83,7 @@
                         android:lines="1"
                         android:text="永和大王永和永和永和大王永和永和"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_size_25" />
+                        android:textSize="@dimen/text_size_20" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"

@@ -11,6 +11,7 @@ import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.fragment.FragmentActivity;
+import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.widget.CustomDialog;
 
 import butterknife.Bind;
@@ -33,13 +34,14 @@ public class UserDetailsActivity extends BaseActivity {
     final int EXIT_USERDETAIL = 100;//退出
     @Bind(R.id.tv_title)
     TextView tvTitle;
-     int TOSTORE = 998;
+    int TOSTORE = 998;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_details);
         ButterKnife.bind(this);
-        context=this;
+        context = this;
         initView();
     }
 
@@ -57,31 +59,44 @@ public class UserDetailsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_left, R.id.btn_login, R.id.ll_forgotpassword,R.id.shmc})
+    @OnClick({R.id.tv_left, R.id.btn_login, R.id.ll_forgotpassword, R.id.shmc})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_left:
                 finish();
                 break;
             case R.id.btn_login:
-                //TODO 退出登录
+                // 退出登录
                 CustomDialog.Builder customBuilder = new
                         CustomDialog.Builder(UserDetailsActivity.this);
                 customBuilder
-                        .setTitle("确定退出")
-                        .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        .setTitle("退出")
+                        .setMessage("您确认退出该账号吗?")
+                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
+                                Intent intent = new Intent(UserDetailsActivity.this, FragmentActivity.class);
+                                setResult(EXIT_USERDETAIL, intent);
+                                //绑定推送账号
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "uid", 0);
+//                                SharedPreferencesUtils.setParam(getApplicationContext(), "phone", "");
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "username", "");
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "role", "");
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "short_id", "");
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "merchant", "");
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "short_state", "");
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "short_area", "");
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "token", "");
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "qrcode", "");
+                                App.unbindAccount();
+                                finish();
                             }
                         })
-                        .setPositiveButton("确定",
+                        .setPositiveButton("取消",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        Intent intent = new Intent(UserDetailsActivity.this, FragmentActivity.class);
-                                        setResult(EXIT_USERDETAIL, intent);
-                                        //绑定推送账号
-                                        App.unbindAccount();
-                                        finish();
+
+                                        dialog.dismiss();
                                     }
                                 });
                 dialog = customBuilder.create();
@@ -99,6 +114,7 @@ public class UserDetailsActivity extends BaseActivity {
                 break;
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

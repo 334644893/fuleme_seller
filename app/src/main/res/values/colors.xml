@@ -135,6 +135,7 @@
 
     <color name="btn_voice_n">#66CD00</color>
     <color name="btn_voice_p">#76EE00</color>
+    <color name="btn_voice_p_1">#7FC787</color>
 
 
     <color name="evaluate_border">#bebebe</color>

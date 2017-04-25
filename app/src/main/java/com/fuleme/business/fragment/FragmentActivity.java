@@ -76,18 +76,7 @@ public class FragmentActivity extends BaseActivity {
     OrderFragment orderFragment;
     BFragment bFragment;
     CFragment cFragment;
-    /**
-     * 上一次界面 onSaveInstanceState 之前的tab被选中的状态 key 和 value
-     */
-    private static final String PRV_SELINDEX = "PREV_SELINDEX";
-    private int selindex = 0;
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        //保存tab选中的状态
-        outState.putInt(PRV_SELINDEX, selindex);
-        super.onSaveInstanceState(outState);
-    }
+    public static int flagFragment = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,23 +84,10 @@ public class FragmentActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
         ButterKnife.bind(this);
+        verifyStoragePermissions(this);
         initView();
-        // 选中index
-        //根据登录类型显示隐藏首页导航
-        if (App.login_type == App.LOGIN_TYPE_ADMIN) {
-            tvBut1.setVisibility(View.VISIBLE);
-            tvButOrder.setVisibility(View.VISIBLE);
-            selindex = 0;
-        } else if (App.login_type == App.LOGIN_TYPE_EMPLOYEES) {
-            tvBut1.setVisibility(View.GONE);
-            tvButOrder.setVisibility(View.GONE);
-            selindex = 2;
-        }
-        if (savedInstanceState != null) {
-            //读取上一次界面Save的时候tab选中的状态
-            selindex = savedInstanceState.getInt(PRV_SELINDEX, selindex);
-        }
-        select(selindex);
+
+        select(0);
     }
 
 
@@ -130,7 +106,6 @@ public class FragmentActivity extends BaseActivity {
         tvButTvOrder.setText(mItemText[1]);
         tvButTv2.setText(mItemText[2]);
         tvButTv3.setText(mItemText[3]);
-//        tvButTv1.setTextColor(getResources().getColor(R.color.theme));
         tvButIm1.setImageResource(mItemImage[0]);
         tvButImOrder.setImageResource(mItemImage[1]);
         tvButIm2.setImageResource(mItemImage[2]);
@@ -138,8 +113,8 @@ public class FragmentActivity extends BaseActivity {
 
     }
 
-    private void select(int i) {
-        selindex=i;
+    public void select(int i) {
+        flagFragment=i;
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         switch (i) {
@@ -215,7 +190,7 @@ public class FragmentActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_but_1, R.id.tv_but_order, R.id.tv_but_2, R.id.tv_but_3, R.id.tv_left, R.id.tv_right})
+    @OnClick({R.id.tv_but_1, R.id.tv_but_order, R.id.tv_but_2, R.id.tv_but_3})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_but_1:
@@ -231,11 +206,6 @@ public class FragmentActivity extends BaseActivity {
                 break;
             case R.id.tv_but_3:
                 select(3);
-                break;
-            case R.id.tv_left:
-                finish();
-                break;
-            case R.id.tv_right:
                 break;
         }
     }
@@ -318,7 +288,6 @@ public class FragmentActivity extends BaseActivity {
     /**
      * 退出接口
      */
-    Dialog mLoading;
 
     private void logout() {
         Call<Object> call = getApi().logout(App.token);

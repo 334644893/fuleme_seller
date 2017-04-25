@@ -28,7 +28,6 @@
             android:layout_weight="6"
             android:gravity="center"
             android:padding="5dp"
-            android:text="title"
             android:textSize="@dimen/text_size_20"
             android:textColor="@color/white" />
 

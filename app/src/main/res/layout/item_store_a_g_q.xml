@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
-        card_view:cardBackgroundColor="#F37E5D"
+        card_view:cardBackgroundColor="@color/theme"
         card_view:cardCornerRadius="12dp"
         card_view:cardElevation="6dp">
 

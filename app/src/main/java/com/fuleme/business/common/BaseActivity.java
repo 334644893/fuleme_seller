@@ -7,10 +7,12 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -60,21 +62,34 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showLoading(String text) {
         mLoading = LoadingDialogUtils.createLoadingDialog(BaseActivity.this, text
-                , false
-        );//添加等待框
-    }
-    public void showLoadingTrue(String text) {
-        trueLoading = LoadingDialogUtils.createLoadingDialog(BaseActivity.this, text
                 , true
         );//添加等待框
     }
     public void closeLoading() {
         mLoading.dismiss();
     }
-    public void closetrueLoading() {
-        trueLoading.dismiss();
-    }
+    /**
+     * 手动添加SD卡权限
+     */
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE"};
 
+    public static void verifyStoragePermissions(BaseActivity activity) {
+
+        try {
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(activity,
+                    "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * 短信接口
      */
@@ -88,13 +103,14 @@ public class BaseActivity extends AppCompatActivity {
                 if (!response.isSuccessful()) {
                     ToastUtil.showMessage("验证码失败:" + GsonUtils.getErrmsg(response.body()));
                 } else {
-                    ToastUtil.showMessage("发送成功请稍等...");
+                    ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                 }
             }
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 LogUtil.e(TAG, t.toString());
+                ToastUtil.showMessage("获取验证码失败");
             }
 
         });

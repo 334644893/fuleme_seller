@@ -157,8 +157,8 @@ public class IncomeBean {
              */
 
             private String time_end;
-            private String number;
-            private double total_fee;
+            private int number;
+            private float total_fee;
 
             public String getTime_end() {
                 return time_end;
@@ -168,19 +168,19 @@ public class IncomeBean {
                 this.time_end = time_end;
             }
 
-            public String getNumber() {
+            public int getNumber() {
                 return number;
             }
 
-            public void setNumber(String number) {
+            public void setNumber(int number) {
                 this.number = number;
             }
 
-            public double getTotal_fee() {
+            public float getTotal_fee() {
                 return total_fee;
             }
 
-            public void setTotal_fee(double total_fee) {
+            public void setTotal_fee(float total_fee) {
                 this.total_fee = total_fee;
             }
         }

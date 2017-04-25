@@ -25,6 +25,7 @@ import com.fuleme.business.activity.LoginActivity;
 import com.fuleme.business.activity.RegistrationStoreActivity;
 import com.fuleme.business.activity.UserDetailsActivity;
 import com.fuleme.business.download.DeviceUtils;
+import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
 
 import butterknife.Bind;
@@ -49,6 +50,12 @@ public class CFragment extends Fragment {
     LinearLayout llAddstore;
     @Bind(R.id.tv_version)
     TextView tvVersion;
+    @Bind(R.id.ll_title_1)
+    LinearLayout llTitle1;
+    @Bind(R.id.ll_title_2)
+    LinearLayout llTitle2;
+    @Bind(R.id.ll_title_3)
+    LinearLayout llTitle3;
 
     @Nullable
     @Override
@@ -71,9 +78,28 @@ public class CFragment extends Fragment {
         tvPhone.setText(App.phone);
         tvFulemenumber.setText(App.username);
         tvVersion.setText("当前版本:" + DeviceUtils.getVersionName(getActivity()));
+        if (App.bindAccount) {
+            ivBtmTongzhi.setImageResource(R.mipmap.icon_on);
+        } else {
+            ivBtmTongzhi.setImageResource(R.mipmap.icon_off);
+        }
+        if (App.bindYY) {
+            ivBtmYY.setImageResource(R.mipmap.icon_on);
+        } else {
+            ivBtmYY.setImageResource(R.mipmap.icon_off);
+        }
         //根据登录类型显示隐藏员工管理
         if ("2".equals(App.role)) {
+            llTitle2.setVisibility(View.GONE);
         } else {
+            llTitle2.setVisibility(View.VISIBLE);
+        }
+        if ("0".equals(App.role)) {
+            llTitle1.setVisibility(View.VISIBLE);
+            llAddstore.setVisibility(View.VISIBLE);
+        } else {
+            llTitle1.setVisibility(View.GONE);
+            llAddstore.setVisibility(View.GONE);
         }
     }
 
@@ -83,28 +109,28 @@ public class CFragment extends Fragment {
         switch (view.getId()) {
             case R.id.ll_title_1:
                 //签约信息
-                if(!TextUtils.isEmpty(App.short_id)){
+                if (!TextUtils.isEmpty(App.short_id)) {
                     startActivity(new Intent(getActivity(), ContractrateActivity.class));
-                }else{
-                    ToastUtil.showMessage("您还没有店铺，快去添加一个吧");
+                } else {
+                    ToastUtil.showMessage(getActivity().getResources().getString(R.string.nostore));
                 }
 
                 break;
             case R.id.ll_title_2:
                 // 店员管理
-                if(!TextUtils.isEmpty(App.short_id)){
+                if (!TextUtils.isEmpty(App.short_id)) {
                     startActivity(new Intent(getActivity(), ClerkManagementActivity.class));
-                }else{
-                    ToastUtil.showMessage("您还没有店铺，快去添加一个吧");
+                } else {
+                    ToastUtil.showMessage(getActivity().getResources().getString(R.string.nostore));
                 }
 
                 break;
             case R.id.ll_title_3:
                 //店铺基本信息
-                if(!TextUtils.isEmpty(App.short_id)){
+                if (!TextUtils.isEmpty(App.short_id)) {
                     startActivity(new Intent(getActivity(), BasicInformationActivity.class));
-                }else{
-                    ToastUtil.showMessage("您还没有店铺，快去添加一个吧");
+                } else {
+                    ToastUtil.showMessage(getActivity().getResources().getString(R.string.nostore));
                 }
 
                 break;
@@ -152,9 +178,11 @@ public class CFragment extends Fragment {
     private void setYY() {
         if (App.bindYY) {
             ivBtmYY.setImageResource(R.mipmap.icon_off);
+            SharedPreferencesUtils.setParam(getActivity().getApplicationContext(), "bindYY", false);
             App.bindYY = false;
         } else {
             ivBtmYY.setImageResource(R.mipmap.icon_on);
+            SharedPreferencesUtils.setParam(getActivity().getApplicationContext(), "bindYY", true);
             App.bindYY = true;
         }
     }

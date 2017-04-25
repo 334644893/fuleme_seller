@@ -2,5 +2,6 @@
     <string name="app_name">付了么商户</string>
     <string name="weixin">微信</string>
     <string name="zhifubao">支付宝</string>
+    <string name="nostore">您还没有店铺，快去添加一个吧</string>
 
 </resources>

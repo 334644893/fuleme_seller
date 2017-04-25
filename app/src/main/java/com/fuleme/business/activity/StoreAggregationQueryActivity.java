@@ -28,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * 汇总查询-查询店铺
+ * 查询店铺
  */
 public class StoreAggregationQueryActivity extends BaseActivity {
     private static final String TAG = "StoreAggregationQueryAc";
@@ -36,7 +36,7 @@ public class StoreAggregationQueryActivity extends BaseActivity {
     TextView tvTs;
     private Context context = StoreAggregationQueryActivity.this;
     public static int intentType = 0;//判断从哪个页面过来查询
-    public static final int AGGREGATIONQUERYACTIVITY = 1;
+//    public static final int AGGREGATIONQUERYACTIVITY = 1;
     public static final int BFRAGMENT = 2;
     public static final int CLERKMANAGEMENTACTIVITY = 3;
     public static final int USERDETAILSACTIVITY = 4;
@@ -72,10 +72,10 @@ public class StoreAggregationQueryActivity extends BaseActivity {
                     ToastUtil.showMessage("店铺正在审核中");
                 } else if ("1".equals(bean.getState())) {
                     switch (intentType) {
-                        case AGGREGATIONQUERYACTIVITY:
-                            AggregationQueryActivity.storeName = bean.getName();
-                            AggregationQueryActivity.storeID = bean.getId();
-                            break;
+//                        case AGGREGATIONQUERYACTIVITY:
+//                            AggregationQueryActivity.storeName = bean.getName();
+//                            AggregationQueryActivity.storeID = bean.getId();
+//                            break;
                         case BFRAGMENT:
                             App.merchant = bean.getName();
                             App.short_id = bean.getId();
@@ -123,10 +123,13 @@ public class StoreAggregationQueryActivity extends BaseActivity {
                         //TODO 初始化数据
                         mDatas.clear();
                         mDatas.addAll(response.body().getData());
-                        if (intentType == AGGREGATIONQUERYACTIVITY || intentType == CLERKMANAGEMENTACTIVITY) {
+                        if (
+//                                intentType == AGGREGATIONQUERYACTIVITY ||
+                                        intentType == CLERKMANAGEMENTACTIVITY) {
                             ClerkInfoBean.DataBean bean = new ClerkInfoBean.DataBean();
                             bean.setName("全部店铺");
                             bean.setId(App.PLACEHOLDER);
+                            bean.setState("1");
                             mDatas.add(0, bean);
                         } else {
                             if (mDatas != null && mDatas.size() > 0) {

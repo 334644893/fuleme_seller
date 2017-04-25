@@ -97,7 +97,7 @@ public class PaymentCodeActivity extends BaseActivity {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
                 } else {
-                    ToastUtil.showMessage("生成二维码失败：" + response.message());
+                    ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                 }
                 closeLoading();//取消等待框
             }

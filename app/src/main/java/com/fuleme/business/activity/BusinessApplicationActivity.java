@@ -1,20 +1,27 @@
 package com.fuleme.business.activity;
+
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
+import com.fuleme.business.helper.APIService;
+import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.Zxing;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 /**
  * 商户应用
  */
 public class BusinessApplicationActivity extends BaseActivity {
 
-
+    private static final String TAG = "BusinessApplicationActi";
     @Bind(R.id.tv_title)
     TextView tvTitle;
     @Bind(R.id.tv_ba_but_1)
@@ -29,6 +36,7 @@ public class BusinessApplicationActivity extends BaseActivity {
     ImageView ivBaQrCode;
     @Bind(R.id.tv_ba_codetext)
     TextView tvBaCodetext;
+    public static String url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +53,13 @@ public class BusinessApplicationActivity extends BaseActivity {
 
 
     public void onClickApp() {
-        ivBaQrCode.setImageBitmap(Zxing.getQrCode("test商户App"));
+        if (TextUtils.isEmpty(url)) {
+            ivBaQrCode.setImageBitmap(Zxing.getQrCode("test商户App"));
+        } else {
+            ivBaQrCode.setImageBitmap(Zxing.getQrCode(APIService.SERVER_IP + url));
+            LogUtil.d("下载地址------------", APIService.SERVER_IP + url);
+        }
+
         tvBaCodetext.setText("扫描二维码，下载最新商户App");
 
 
@@ -66,7 +80,7 @@ public class BusinessApplicationActivity extends BaseActivity {
         tvBaBut2.setTextColor(getResources().getColor(R.color.theme));
     }
 
-    @OnClick({R.id.tv_ba_but_1, R.id.tv_ba_but_2,R.id.tv_left})
+    @OnClick({R.id.tv_ba_but_1, R.id.tv_ba_but_2, R.id.tv_left})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_ba_but_1:

@@ -78,6 +78,7 @@
         android:layout_marginTop="1dp"
         android:background="@color/black_26"/>
     <LinearLayout
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
@@ -106,11 +107,6 @@
             android:textSize="@dimen/text_size_15"
              />
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/black_26"/>
     <LinearLayout
         android:id="@+id/ll_forgotpassword"
         android:layout_width="match_parent"

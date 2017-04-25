@@ -35,7 +35,7 @@
                     android:id="@+id/tv_but_im_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icon26" />
+                     />
 
                 <TextView
                     android:id="@+id/tv_but_tv_1"
@@ -59,7 +59,7 @@
                     android:id="@+id/tv_but_im_order"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_order" />
+                    />
 
                 <TextView
                     android:id="@+id/tv_but_tv_order"
@@ -84,7 +84,7 @@
                     android:id="@+id/tv_but_im_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icon25" />
+                     />
 
                 <TextView
                     android:id="@+id/tv_but_tv_2"
@@ -109,7 +109,7 @@
                     android:id="@+id/tv_but_im_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icon39" />
+                     />
 
                 <TextView
                     android:id="@+id/tv_but_tv_3"

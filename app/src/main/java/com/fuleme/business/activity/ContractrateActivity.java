@@ -24,6 +24,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 签约信息
+ */
 public class ContractrateActivity extends BaseActivity {
     private static final String TAG = "ContractrateActivity";
     @Bind(R.id.tv_title)
@@ -74,10 +77,10 @@ public class ContractrateActivity extends BaseActivity {
                         JSONObject data = GsonUtils.getResultData(response.body());
                         ContractBean alipayrateContractBean=new ContractBean();
                         alipayrateContractBean.setName("支付宝");
-                        alipayrateContractBean.setRate(data.optString("alipayrate")+"‰");
+                        alipayrateContractBean.setRate(data.optDouble("alipayrate")/10+"%");
                         ContractBean wechatrateContractBean=new ContractBean();
                         wechatrateContractBean.setName("微信");
-                        wechatrateContractBean.setRate(data.optString("wechatrate")+"‰");
+                        wechatrateContractBean.setRate(data.optDouble("wechatrate")/10+"%");
                         mDatas.add(alipayrateContractBean);
                         mDatas.add(wechatrateContractBean);
                         initView();

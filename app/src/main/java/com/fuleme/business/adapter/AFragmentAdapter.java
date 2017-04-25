@@ -12,10 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fuleme.business.R;
-import com.fuleme.business.activity.AggregationQueryActivity;
-import com.fuleme.business.activity.StartActivity;
 import com.fuleme.business.bean.AFragmentImageBean;
-import com.fuleme.business.utils.ToastUtil;
 
 import java.util.List;
 

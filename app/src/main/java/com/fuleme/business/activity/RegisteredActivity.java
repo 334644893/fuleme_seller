@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.helper.GsonUtils;
@@ -70,7 +71,7 @@ public class RegisteredActivity extends BaseActivity {
                 if (TextUtils.isEmpty(etFPPhone.getText().toString()) || etFPPhone.getText().toString().length() != 11) {
                     ToastUtil.showMessage("手机号格式错误");
                 } else {
-                    startTimer(10);
+                    startTimer(App.ver);
                     send(TAG, etFPPhone.getText().toString());
                 }
                 break;

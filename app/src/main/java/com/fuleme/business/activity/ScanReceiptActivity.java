@@ -178,7 +178,7 @@ public class ScanReceiptActivity extends BaseActivity {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
                 } else {
-                    ToastUtil.showMessage("收款失败：" + response.message());
+                    ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                 }
                 closeLoading();//取消等待框
             }

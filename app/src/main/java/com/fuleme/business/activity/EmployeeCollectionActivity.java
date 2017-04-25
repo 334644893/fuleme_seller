@@ -168,9 +168,11 @@ public class EmployeeCollectionActivity extends BaseActivity {
                 break;
             case R.id.ll_store:
                 //查询店铺
-                StoreAggregationQueryActivity.intentType = StoreAggregationQueryActivity.BFRAGMENT;
-                Intent intent = new Intent(context, StoreAggregationQueryActivity.class);
-                startActivityForResult(intent, TOSTORE);
+                if ("0".equals(App.role)) {
+                    StoreAggregationQueryActivity.intentType = StoreAggregationQueryActivity.BFRAGMENT;
+                    Intent intent = new Intent(context, StoreAggregationQueryActivity.class);
+                    startActivityForResult(intent, TOSTORE);
+                }
                 break;
             case R.id.tv_bt_save:
                 saveView();

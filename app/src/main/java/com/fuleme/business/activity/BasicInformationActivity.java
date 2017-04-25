@@ -28,6 +28,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 店铺基本资料
+ */
 public class BasicInformationActivity extends BaseActivity {
     private static final String TAG = "ContractrateActivity";
     @Bind(R.id.tv_title)

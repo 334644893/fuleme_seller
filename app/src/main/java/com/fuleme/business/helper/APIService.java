@@ -1,8 +1,9 @@
 package com.fuleme.business.helper;
 
-import com.fuleme.business.bean.AggregationQueryBean;
+import com.fuleme.business.bean.AnalysecouponBean;
 import com.fuleme.business.bean.ClerkInfoBean;
 import com.fuleme.business.bean.ContractBean;
+import com.fuleme.business.bean.CouponsBean;
 import com.fuleme.business.bean.IncomeBean;
 import com.fuleme.business.bean.MemberManagementBean;
 import com.fuleme.business.bean.OrderBean;
@@ -26,7 +27,8 @@ import retrofit2.http.Part;
 public interface APIService {
     //    String SERVER_IP = "http://192.168.1.138/";
 //    String SERVER_IP = "http://192.168.1.155/";
-    String SERVER_IP = "https://dev.fuleme.com/";//TEST
+//    String SERVER_IP = "https://dev.fuleme.com/";//TEST
+    String SERVER_IP = "https://pay.fuleme.com/";
     /**
      * 关于我们接口
      *
@@ -160,6 +162,7 @@ public interface APIService {
                                      @Field("shopid") String shopid,
                                      @Field("page") int page,
                                      @Field("list_rows") int list_rows);
+
     /**
      * 获取店铺用户接口
      *
@@ -168,9 +171,9 @@ public interface APIService {
     @FormUrlEncoded
     @POST("merchant/getmchuser")
     Call<MemberManagementBean> getmchuser(@Field("token") String token,
-                                         @Field("mid") String mid,
-                                         @Field("page") int page,
-                                         @Field("list_rows") int list_rows);
+                                          @Field("mid") String mid,
+                                          @Field("page") int page,
+                                          @Field("list_rows") int list_rows);
 
     /**
      * 门店列表接口
@@ -316,6 +319,17 @@ public interface APIService {
     Call<ClerkInfoBean> getmerchantclerkinfo(@Field("token") String token);
 
     /**
+     * 活动列表接口
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("coupon/list")
+    Call<CouponsBean> coupon(@Field("token") String token,
+                             @Field("merchant_id") String merchant_id);
+
+    /**
      * 添加店铺员工接口
      *
      * @param
@@ -345,17 +359,51 @@ public interface APIService {
     );
 
     /**
-     * 汇总查询接口
+     * 添加优惠券
      *
      * @param
      * @return
      */
     @FormUrlEncoded
-    @POST("aggregate/queries")
-    Call<AggregationQueryBean> queries(@Field("token") String token,
-                                       @Field("shopid") String shopid,
-                                       @Field("starttime") String starttime,
-                                       @Field("endtime") String endtime);
+    @POST("coupon/add")
+    Call<Object> addcoupon(@Field("token") String token,
+                           @Field("type") String type,
+                           @Field("name") String name,
+                           @Field("merchant_id") String merchant_id,
+                           @Field("term") String term,
+                           @Field("reduce") String reduce,
+                           @Field("total") String total,
+                           @Field("start") int start,
+                           @Field("end") int end
+    );
+
+    /**
+     * 优惠券分析接口
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("coupon/analysecoupon")
+    Call<AnalysecouponBean> analysecoupon(@Field("token") String token,
+                                          @Field("merchant_id") String merchant_id,
+                                          @Field("coupon_id") String coupon_id
+    );
+
+    /**
+     * 删除暂停或打开活动接口
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("coupon/opencoupon")
+    Call<Object> opencoupon(@Field("token") String token,
+                            @Field("merchant_id") String merchant_id,
+                            @Field("coupon_id") String coupon_id,
+                            @Field("state") int state
+    );
+
 
     /**
      * 威富通刷卡支付(统一支付接口)
@@ -401,6 +449,7 @@ public interface APIService {
                                     @Field("mid") String mid,
                                     @Field("total_fee") String total_fee
     );
+
     /**
      * 自媒体
      *
@@ -419,8 +468,9 @@ public interface APIService {
     @FormUrlEncoded
     @POST("merchant/getcontractrate")
     Call<Object> getcontractrate(@Field("token") String token,
-                                       @Field("merchant_id") String merchant_id
+                                 @Field("merchant_id") String merchant_id
     );
+
     /**
      * 获取店铺基本信息
      *
@@ -430,6 +480,6 @@ public interface APIService {
     @FormUrlEncoded
     @POST("merchant/basicinfo")
     Call<Object> basicinfo(@Field("token") String token,
-                                       @Field("merchant_id") String merchant_id
+                           @Field("merchant_id") String merchant_id
     );
 }

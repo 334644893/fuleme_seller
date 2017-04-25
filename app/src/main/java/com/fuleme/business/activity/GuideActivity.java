@@ -17,6 +17,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * 欢迎页面
+ */
 public class GuideActivity extends BaseActivity {
     @Bind(R.id.m_view_pager)
     ViewPager mViewPager;

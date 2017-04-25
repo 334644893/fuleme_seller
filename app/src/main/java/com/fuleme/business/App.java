@@ -18,6 +18,7 @@ import com.fuleme.business.helper.APIService;
 import com.fuleme.business.helper.TokenAPIService;
 import com.fuleme.business.helper.TokenInterceptor;
 import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.utils.TtsUtil;
 import com.fuleme.business.widget.LoadingDialogUtils;
@@ -36,7 +37,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class App extends Application {
     private static final String TAG = "App";
-    public static  String VERSIONNAME = "";//
+    public static int ver = 60;//验证码时间
+    public static String VERSIONNAME = "";//
     public static String PLACEHOLDER = "";//占位符
     public static int uid = 0;//用户id
     public static String token = "";//用户标识，该token在其他用于获取用户信息的接口时必带
@@ -49,21 +51,22 @@ public class App extends Application {
     public static String short_area = "";//商户地址
     public static String role = "";//用户角色，0 管理员，1店长，2店员
     public static int login_type = 1;//登录状态 0:管理员 1：员工
-    public static boolean bindYY = true;//语音开关
-    public static boolean bindAccount = true;//通知开关
+    public static boolean bindYY;//语音开关
+    public static boolean bindAccount;//通知开关
     final public static String alipay = "alipay";
     final public static String weixin = "weixin";
     public static final int LOGIN_TYPE_ADMIN = 0;//登录状态 0:管理员
     public static final int LOGIN_TYPE_EMPLOYEES = 1;//登录状态  1：员工
     private static App instance;
+    private static NoticeDialog dialog1;
     private APIService serverApi;
     private TokenAPIService tokenapiservice;
     public static CloudPushService pushService;
-    private static Dialog mLoading, mLoading_1;
 
     public APIService getServerApi() {
         return serverApi;
     }
+
     public TokenAPIService getTokenAPIService() {
         return tokenapiservice;
     }
@@ -76,13 +79,15 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        VERSIONNAME= DeviceUtils.getVersionName(this);
+        VERSIONNAME = DeviceUtils.getVersionName(this);
         initFresco();//初始化图片加载
         initRest();//初始化网络通信
+        bindAccount = (boolean) SharedPreferencesUtils.getParam(getApplicationContext(), "bindAccount", true);
+        bindYY = (boolean) SharedPreferencesUtils.getParam(getApplicationContext(), "bindYY", true);
         initCloudChannel(this);//阿里云
         NlsClient.configure(this); //语音合成全局配置
         ZXingLibrary.initDisplayOpinion(this);//二维码
-        LogUtil.isPrint=true;// 设置开启日志,发布时请关闭日志
+        LogUtil.isPrint = true;// 设置开启日志,发布时请关闭日志
 //        LogUtil.isPrint=false;// 设置开启日志,发布时请关闭日志
 
     }
@@ -147,44 +152,37 @@ public class App extends Application {
      * 绑定阿里云推送账号（为登录手机号）
      */
     public static void bindAccount() {
-        mLoading_1 = LoadingDialogUtils.createLoadingDialog(instance, "请等待...",true);//添加等待框
         pushService.bindAccount(App.phone, new CommonCallback() {
             @Override
             public void onSuccess(String s) {
-
-                LogUtil.d(TAG + "bindAccount()", s);
-                bindAccount = true;
-                mLoading_1.dismiss();
+                LogUtil.d("---绑定成功----bindAccount()", "绑定成功" + s);
+                App.bindAccount = true;
+                SharedPreferencesUtils.setParam(getInstance().getApplicationContext(), "bindAccount", true);
             }
 
             @Override
             public void onFailed(String s, String s1) {
                 LogUtil.d(TAG + "bindAccount()onFailed", "s:" + s + "s1:" + s1);
-                mLoading_1.dismiss();
                 ToastUtil.showMessage("通知暂时无法使用");
             }
         });
     }
-
-
     /**
      * 解除绑定阿里云推送账号
      */
     public static void unbindAccount() {
-        mLoading = LoadingDialogUtils.createLoadingDialog(instance, "请等待...",true);//添加等待框
         pushService.unbindAccount(new CommonCallback() {
             @Override
             public void onSuccess(String s) {
-
-                LogUtil.d(TAG + "unbindAccount()", s);
-                bindAccount = false;
-                mLoading.dismiss();
+                App.bindAccount = false;
+                SharedPreferencesUtils.setParam(getInstance().getApplicationContext(), "bindAccount", false);
+                LogUtil.d("---解绑成功----unbindAccount()", s);
             }
 
             @Override
             public void onFailed(String s, String s1) {
                 LogUtil.d(TAG + "unbindAccount()onFailed", "s:" + s + "s1:" + s1);
-                mLoading.dismiss();
+                ToastUtil.showMessage("解除失败");
             }
 
         });
@@ -193,8 +191,11 @@ public class App extends Application {
     /**
      * 收款成功弹窗
      */
+
     public static void NoticeDialog(Context context, String amount, String order) {
-        NoticeDialog dialog1;
+        if (dialog1 != null) {
+            dialog1.dismiss();
+        }
         NoticeDialog.Builder noticeBuilder = new
                 NoticeDialog.Builder(context);
         noticeBuilder

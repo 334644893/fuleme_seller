@@ -38,6 +38,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ *上传图片
+ */
 public class UploadPicturesActivity extends BaseActivity {
     private static final String TAG = "UploadPicturesActivity";
     public static String urlImg_business_licence = "";//营业证显示图片地址

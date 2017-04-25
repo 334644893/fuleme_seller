@@ -18,6 +18,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 修改密码
+ */
 public class ChangePasswordActivity extends BaseActivity {
     private static final String TAG = "ChangePasswordActivity";
     @Bind(R.id.tv_title)

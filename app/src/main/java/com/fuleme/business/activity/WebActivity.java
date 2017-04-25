@@ -38,12 +38,12 @@ public class WebActivity extends BaseActivity {
         setContentView(R.layout.activity_web);
         ButterKnife.bind(this);
         tvTitle.setText(title);
-        webView1 = new ScrollWebView(getApplicationContext());
+        webView1 = new ScrollWebView(WebActivity.this);
         activityWeb.addView(webView1);
         webView1.setVerticalScrollBarEnabled(false);
         webView1.setHorizontalScrollBarEnabled(false);
         webView1.getSettings().setJavaScriptEnabled(true); //加上这句话才能使用JavaScript方法
-        showLoadingTrue("加载中...");
+        showLoading("加载中...");
         //WebView加载web资源
         webView1.loadUrl(url);
         LogUtil.d(url);
@@ -68,7 +68,7 @@ public class WebActivity extends BaseActivity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                closetrueLoading();//取消等待框
+                closeLoading();//取消等待框
                 if (errFlag) {
                     webView1.setVisibility(View.GONE);
                     errFlag = false;
