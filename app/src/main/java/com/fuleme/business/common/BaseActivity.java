@@ -51,7 +51,9 @@ public class BaseActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+
         super.onCreate(savedInstanceState, persistentState);
+
         ButterKnife.bind(this);
 
     }

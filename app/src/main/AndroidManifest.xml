@@ -35,6 +35,7 @@
     <application
         android:name=".App"
         android:allowBackup="true"
+
         android:icon="@mipmap/logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -48,8 +49,9 @@
         <!-- <activity android:name=".MainActivity" /> -->
         <service android:name=".download.DownLoadService" />
 
-        <activity android:name=".activity.LoginActivity"
-           >
+        <activity
+            android:name=".activity.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,29 +60,57 @@
         </activity>
         <activity
             android:name=".activity.StartActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/TranslucentTheme" />
-        <activity android:name=".activity.ForgotPasswordActivity" />
-        <activity android:name=".fragment.FragmentActivity" />
-        <activity android:name=".activity.StoreAggregationQueryActivity" />
-        <activity android:name=".activity.BusinessApplicationActivity" />
-        <activity android:name=".activity.AboutUsActivity" />
-        <activity android:name=".activity.ClerkManagementActivity" />
-        <activity android:name=".activity.UserDetailsActivity" />
+        <activity
+            android:name=".activity.ForgotPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".fragment.FragmentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.StoreAggregationQueryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BusinessApplicationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AboutUsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ClerkManagementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.UserDetailsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ChangePasswordActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|stateUnchanged" />
-        <activity android:name=".activity.EmployeeCollectionActivity" />
-        <activity android:name=".activity.ScanReceiptActivity" />
-        <activity android:name=".activity.SecondActivity" />
-        <activity android:name=".activity.RegisteredActivity" />
+        <activity
+            android:name=".activity.EmployeeCollectionActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ScanReceiptActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.SecondActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.RegisteredActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="com.yanzhenjie.album.AlbumActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="图库"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
-        <activity android:name=".activity.UploadPicturesActivity" />
-        <activity android:name=".activity.PaymentCodeActivity" />
+        <activity
+            android:name=".activity.UploadPicturesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.PaymentCodeActivity"
+            android:screenOrientation="portrait" />
         //消息接收Receiver配置
         <receiver
             android:name=".MyMessageReceiver"
@@ -116,20 +146,43 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activity.RegistrationStoreActivity" />
-        <activity android:name=".activity.OrderDetailsActivity" />
+        <activity
+            android:name=".activity.RegistrationStoreActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.OrderDetailsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.GuideActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/TranslucentTheme" />
-        <activity android:name=".activity.OrdersActivity" />
-        <activity android:name=".activity.WebActivity" />
-        <activity android:name=".activity.ContractrateActivity" />
-        <activity android:name=".activity.BasicInformationActivity" />
-        <activity android:name=".activity.MemberManagementActivity" />
-        <activity android:name=".activity.ReportActivity" />
-        <activity android:name=".activity.CouponsActivity" />
-        <activity android:name=".activity.AddCoupinsActivity" />
-        <activity android:name=".activity.CouponsDetailsActivity"></activity>
+        <activity
+            android:name=".activity.OrdersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.WebActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ContractrateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.BasicInformationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.MemberManagementActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ReportActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CouponsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.AddCoupinsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CouponsDetailsActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

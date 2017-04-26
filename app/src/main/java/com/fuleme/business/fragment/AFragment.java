@@ -88,7 +88,7 @@ public class AFragment extends Fragment {
     private List<AFragmentImageBean> mDatas = new ArrayList<AFragmentImageBean>();
     private int[] mImageDatas = {R.mipmap.icon_n_5, R.mipmap.icon_n_6, R.mipmap.icon_n_7, R.mipmap.icon_n_9, R.mipmap.icon_pinjia, R.mipmap.icon_n_10};
     private String[] mTextDatas = {"商家活动", "官方活动", "会员管理", "积分商城", "顾客评价", "供应链"};
-    private String[] mTextContentDatas = {"每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销"};
+    private String[] mTextContentDatas = {"每天帮我做促销", "客户引流不用愁", "大大提高复购率", "收款越多礼更多", "回头客就在这里", "一站式商品采购"};
     private int[] mTitleImageDatas = {R.mipmap.icon_n_1, R.mipmap.icon_n_2, R.mipmap.icon_n_3, R.mipmap.icon_n_4};
     private String[] mTitleTextDatas = {"收款", "收款码", "账本", "报表"};
     private static final int BANNERTIME = 5000;//banner轮播时间间隔
@@ -167,7 +167,7 @@ public class AFragment extends Fragment {
                     if (!TextUtils.isEmpty(App.short_id)) {
                         startActivity(new Intent(getActivity(), CouponsActivity.class));
                     } else {
-                        ToastUtil.showMessage(getActivity().getResources().getString(R.string.nostore));
+                        ToastUtil.showMessage(R.string.nostore);
                     }
 
                 } else if (mTextDatas[1].equals(itemText)) {
@@ -178,7 +178,7 @@ public class AFragment extends Fragment {
                     if (!TextUtils.isEmpty(App.short_id)) {
                         startActivity(new Intent(getActivity(), MemberManagementActivity.class));
                     } else {
-                        ToastUtil.showMessage(getActivity().getResources().getString(R.string.nostore));
+                        ToastUtil.showMessage(R.string.nostore);
                     }
 
                 } else if (mTextDatas[3].equals(itemText)) {
@@ -224,7 +224,7 @@ public class AFragment extends Fragment {
                 if (!TextUtils.isEmpty(App.short_id)) {
                     startActivity(new Intent(getActivity(), ScanReceiptActivity.class));
                 } else {
-                    ToastUtil.showMessage(getActivity().getResources().getString(R.string.nostore));
+                    ToastUtil.showMessage(R.string.nostore);
                 }
 
                 break;
@@ -241,7 +241,7 @@ public class AFragment extends Fragment {
                 if (!TextUtils.isEmpty(App.short_id)) {
                     startActivity(new Intent(getActivity(), ReportActivity.class));
                 } else {
-                    ToastUtil.showMessage(getActivity().getResources().getString(R.string.nostore));
+                    ToastUtil.showMessage(R.string.nostore);
                 }
 
                 break;
@@ -274,7 +274,6 @@ public class AFragment extends Fragment {
                 }, bannerImageList)
                 //设置两个点图片作为翻页指示器，不设置则没有指示器，可以根据自己需求自行配合自己的指示器,不需要圆点指示器可用不设
                 .setPageIndicator(new int[]{R.mipmap.icon_yuan, R.mipmap.icon_yuana})
-                .startTurning(BANNERTIME)
                 //设置指示器的方向
                 .setPageIndicatorAlign(ConvenientBanner.PageIndicatorAlign.CENTER_HORIZONTAL);
 

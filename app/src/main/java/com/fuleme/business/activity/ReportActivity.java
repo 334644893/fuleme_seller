@@ -116,7 +116,7 @@ public class ReportActivity extends BaseActivity {
     private List<PointValue> mNumberPointValues = new ArrayList<>();
     private List<AxisValue> mNumberAxisXValues = new ArrayList<>();
     private Float weatherMax = 0f;
-    private int textsize = 8;
+//    private int textsize = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,13 +152,16 @@ public class ReportActivity extends BaseActivity {
                 weatherMax = bean.getTotal_fee();
             }
         }
-        if (weatherMax < 1000) {
-            textsize = 12;
-        } else if (weatherMax < 10000) {
-            textsize = 10;
-        } else if (weatherMax < 100000) {
-            textsize = 8;
-        }
+        date.add(" ");
+        weather.add(0f);
+        numberWeather.add(0);
+//        if (weatherMax < 1000) {
+//            textsize = 12;
+//        } else if (weatherMax < 10000) {
+//            textsize = 10;
+//        } else if (weatherMax < 100000) {
+//            textsize = 8;
+//        }
         lineChartAmout();
     }
 
@@ -166,11 +169,11 @@ public class ReportActivity extends BaseActivity {
         //金额表
         getAxisXLables();//获取x轴的标注
         getAxisPoints();//获取坐标点
-        initLineChart(textsize);//初始化
+        initLineChart(8);//初始化
         //笔数表
         getNumberAxisXLables();//获取x轴的标注
         getNumberAxisPoints();//获取坐标点
-        initNumberLineChart(10);//初始化
+        initNumberLineChart(8);//初始化
     }
 
     public void initRecyclerView() {
@@ -479,6 +482,8 @@ public class ReportActivity extends BaseActivity {
         List<Line> lines = new ArrayList<>();
         line.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
         line.setCubic(false);//曲线是否平滑，即是曲线还是折线
+        line.setStrokeWidth(1);//线条的粗细，默认是3
+        line.setPointRadius(3);
         line.setFilled(false);//是否填充曲线的面积
         line.setHasLabels(true);//曲线的数据坐标是否加上备注
         line.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
@@ -501,7 +506,7 @@ public class ReportActivity extends BaseActivity {
         axisX.setHasLines(true); //x 轴分割线
         // Y轴是根据数据的大小自动设置Y轴上限(在下面我会给出固定Y轴数据个数的解决方案)
         Axis axisY = new Axis();  //Y轴
-        axisY.setName("交易金额");//y轴标注
+        axisY.setName("  ");//y轴标注
         axisY.setTextSize(size);//设置字体大小
         axisY.setTextColor(Color.BLACK);
         data.setAxisYLeft(axisY);  //Y轴设置在左边
@@ -512,7 +517,7 @@ public class ReportActivity extends BaseActivity {
         //设置行为属性，支持缩放、滑动以及平移
         lineChartAmout.setInteractive(true);
         lineChartAmout.setZoomType(ZoomType.HORIZONTAL);
-        lineChartAmout.setMaxZoom((float) 2);//最大方法比例
+        lineChartAmout.setMaxZoom((float) 10);//最大方法比例
         lineChartAmout.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
         lineChartAmout.setLineChartData(data);
         lineChartAmout.setVisibility(View.VISIBLE);
@@ -549,6 +554,8 @@ public class ReportActivity extends BaseActivity {
         List<Line> lines = new ArrayList<>();
         line.setShape(ValueShape.CIRCLE);//折线图上每个数据点的形状  这里是圆形 （有三种 ：ValueShape.SQUARE  ValueShape.CIRCLE  ValueShape.DIAMOND）
         line.setCubic(false);//曲线是否平滑，即是曲线还是折线
+        line.setStrokeWidth(1);//线条的粗细，默认是3
+        line.setPointRadius(3);
         line.setFilled(false);//是否填充曲线的面积
         line.setHasLabels(true);//曲线的数据坐标是否加上备注
         line.setHasLines(true);//是否用线显示。如果为false 则没有曲线只有点显示
@@ -578,7 +585,7 @@ public class ReportActivity extends BaseActivity {
         //设置行为属性，支持缩放、滑动以及平移
         lineChartNumber.setInteractive(true);
         lineChartNumber.setZoomType(ZoomType.HORIZONTAL);
-        lineChartNumber.setMaxZoom((float) 2);//最大方法比例
+        lineChartNumber.setMaxZoom((float) 10);//最大方法比例
         lineChartNumber.setContainerScrollEnabled(true, ContainerScrollType.HORIZONTAL);
         lineChartNumber.setLineChartData(data);
         lineChartNumber.setVisibility(View.VISIBLE);
@@ -605,7 +612,6 @@ public class ReportActivity extends BaseActivity {
         v.bottom = 0;
         v.top = lineChartNumber.getMaximumViewport().height();                            //最高点为100
         v.right = 7;           //右边为点 坐标从0开始 点号从1 需要 -1
-//        lineChartAmout.setMaximumViewport(v);   //给最大的视图设置 相当于原图
         lineChartNumber.setCurrentViewport(v);   //给当前的视图设置 相当于当前展示的图
     }
 }

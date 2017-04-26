@@ -96,9 +96,9 @@ public class CouponsAdapter extends RecyclerView.Adapter<CouponsAdapter.MyViewHo
             holder.tv1.setText("0");
         }
         if ("0".equals(mDatas.get(position).getState())) {
-            holder.imR.setImageResource(R.mipmap.icon_zanting);
+            holder.imR.setBackgroundResource(R.mipmap.icon_zanting);
         } else if ("1".equals(mDatas.get(position).getState())) {
-            holder.imR.setImageResource(R.mipmap.icon_fafang);
+            holder.imR.setBackgroundResource(R.mipmap.icon_fafang);
         }
         holder.llStore.setOnClickListener(new View.OnClickListener() {
             @Override

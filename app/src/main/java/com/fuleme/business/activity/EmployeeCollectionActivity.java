@@ -18,6 +18,7 @@ import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.utils.Zxing;
 
 import java.io.BufferedOutputStream;
@@ -175,7 +176,11 @@ public class EmployeeCollectionActivity extends BaseActivity {
                 }
                 break;
             case R.id.tv_bt_save:
-                saveView();
+                if (TextUtils.isEmpty(App.short_id)) {
+                    ToastUtil.showMessage(R.string.nostore);
+                } else {
+                    saveView();
+                }
                 break;
         }
     }

@@ -1,7 +1,9 @@
 <resources>
-    <string name="app_name">付了么商户</string>
+    <string name="app_name">付了么</string>
     <string name="weixin">微信</string>
     <string name="zhifubao">支付宝</string>
     <string name="nostore">您还没有店铺，快去添加一个吧</string>
+    <string name="nomore">已全部加载</string>
+    <string name="load">正在加载更多数据...</string>
 
 </resources>

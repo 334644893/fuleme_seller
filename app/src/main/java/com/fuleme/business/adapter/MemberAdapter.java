@@ -109,9 +109,9 @@ public class MemberAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else if (holder instanceof FootViewHolder) {
             FootViewHolder footViewHolder = (FootViewHolder) holder;
             if (MemberManagementActivity.textState) {
-                footViewHolder.tvName.setText("正在加载更多数据...");
+                footViewHolder.tvName.setText(R.string.load);
             } else {
-                footViewHolder.tvName.setText("不用扯了，没有了...");
+                footViewHolder.tvName.setText(R.string.nomore);
             }
         }
 

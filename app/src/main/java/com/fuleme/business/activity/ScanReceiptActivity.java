@@ -1,10 +1,13 @@
 package com.fuleme.business.activity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
@@ -13,6 +16,7 @@ import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.NumberUtils;
 import com.fuleme.business.utils.ToastUtil;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,12 +36,12 @@ public class ScanReceiptActivity extends BaseActivity {
     public static final String WEIXINSWEEPPAYMENT = "WeixinSweepPayment";
     @Bind(R.id.tv_title)
     TextView tvTitle;
-    @Bind(R.id.tv_saoyisao)
-    TextView tvSaoyisao;
-    @Bind(R.id.tv_zhifuma)
-    TextView tvZhifuma;
     @Bind(R.id.et_amount)
     EditText etAmount;
+    @Bind(R.id.tv_saoyisao)
+    LinearLayout tvSaoyisao;
+    @Bind(R.id.tv_zhifuma)
+    LinearLayout tvZhifuma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,11 +174,8 @@ public class ScanReceiptActivity extends BaseActivity {
                 if (response.isSuccessful()) {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
-                        LogUtil.i("成功");
-                        //TODO 初始化数据
-                        ToastUtil.showMessage("收款成功");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     } else {
-                        ToastUtil.showMessage("收款失败");
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }
                 } else {

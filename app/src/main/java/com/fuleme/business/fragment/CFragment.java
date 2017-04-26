@@ -169,9 +169,11 @@ public class CFragment extends Fragment {
         if (App.bindAccount) {
             ivBtmTongzhi.setImageResource(R.mipmap.icon_off);
             App.unbindAccount();
+            ToastUtil.showMessage("通知功能已关闭");
         } else {
             ivBtmTongzhi.setImageResource(R.mipmap.icon_on);
             App.bindAccount();
+            ToastUtil.showMessage("通知功能已打开");
         }
     }
 
@@ -180,10 +182,12 @@ public class CFragment extends Fragment {
             ivBtmYY.setImageResource(R.mipmap.icon_off);
             SharedPreferencesUtils.setParam(getActivity().getApplicationContext(), "bindYY", false);
             App.bindYY = false;
+            ToastUtil.showMessage("语音功能已关闭");
         } else {
             ivBtmYY.setImageResource(R.mipmap.icon_on);
             SharedPreferencesUtils.setParam(getActivity().getApplicationContext(), "bindYY", true);
             App.bindYY = true;
+            ToastUtil.showMessage("语音功能已打开");
         }
     }
 

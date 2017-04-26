@@ -16,31 +16,44 @@
         android:orientation="horizontal"
         android:padding="20dp">
 
-        <TextView
+        <LinearLayout
             android:id="@+id/tv_saoyisao"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/shape_b_hui"
             android:gravity="center"
-            android:padding="10dp"
-            android:text="扫一扫"
-            android:textSize="@dimen/text_size_20" />
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_yisao"
+                android:text="  扫一扫"
+                android:textSize="@dimen/text_size_20" />
+        </LinearLayout>
+
 
         <View
             android:layout_width="3dp"
             android:layout_height="0dp" />
 
-        <TextView
+        <LinearLayout
             android:id="@+id/tv_zhifuma"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/shape_b_hui"
             android:gravity="center"
-            android:padding="10dp"
-            android:text="支付码"
-            android:textSize="@dimen/text_size_20" />
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/icon_fuma"
+                android:text="  支付码"
+                android:textSize="@dimen/text_size_20" />
+        </LinearLayout>
     </LinearLayout>
 
 
