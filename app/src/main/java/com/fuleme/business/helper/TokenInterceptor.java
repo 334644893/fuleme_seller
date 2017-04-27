@@ -53,6 +53,7 @@ public class TokenInterceptor implements Interceptor {
                     App.login_type);
             retrofit2.Response<Object> execute = weather.execute();
             App.token = GsonUtils.getResultData(execute.body()).optString("token");
+            SharedPreferencesUtils.setParam(App.getInstance(), "token", App.token);
             //使用新的Token，创建新的请求
             // create a new request and modify it accordingly using the new token
             FormBody.Builder newFormBody = new FormBody.Builder();

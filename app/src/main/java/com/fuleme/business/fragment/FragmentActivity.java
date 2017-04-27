@@ -1,6 +1,8 @@
 package com.fuleme.business.fragment;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,9 +16,15 @@ import android.widget.Toast;
 
 import com.fuleme.business.App;
 import com.fuleme.business.R;
+import com.fuleme.business.activity.BusinessApplicationActivity;
+import com.fuleme.business.activity.LoginActivity;
 import com.fuleme.business.common.BaseActivity;
+import com.fuleme.business.download.UpdateManager;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.widget.CustomDialog;
+
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -77,6 +85,7 @@ public class FragmentActivity extends BaseActivity {
     BFragment bFragment;
     CFragment cFragment;
     public static int flagFragment = 0;
+    public static boolean isAutomaticLogin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +93,14 @@ public class FragmentActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
         ButterKnife.bind(this);
-        verifyStoragePermissions(this);
         initView();
-
         select(0);
+        //自动登录时检查更新
+        if (isAutomaticLogin) {
+            version();
+            isAutomaticLogin = false;
+        }
+
     }
 
 
@@ -114,7 +127,7 @@ public class FragmentActivity extends BaseActivity {
     }
 
     public void select(int i) {
-        flagFragment=i;
+        flagFragment = i;
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         switch (i) {
@@ -321,6 +334,58 @@ public class FragmentActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         logout();
+    }
+
+    int type = -1;
+    private CustomDialog dialog;
+
+    private void version() {
+        getApi().version().enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful()) {
+                    if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
+                        // do SomeThing
+                        LogUtil.i("获取更新信息成功");
+                        //TODO 初始化数据
+                        JSONObject data = GsonUtils.getResultData(response.body());
+                        LogUtil.d("---data--", data.toString());
+                        int version = data.optInt("androidVersion");//版本标识
+                        String prompt = data.optString("prompt");
+                        type = data.optInt("type");
+                        String url = data.optString("android");
+                        BusinessApplicationActivity.url = data.optString("android");
+                        LogUtil.d("---------", "-version:" + version + "-prompt:" + prompt + "-type:" + type + "-android:" + url);
+                        //信息对比是否更新
+                        new UpdateManager(FragmentActivity.this).checkUpdate(version, prompt, type, url, false);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                // 构造对话框
+                // 构造对话框
+                CustomDialog.Builder customBuilder = new
+                        CustomDialog.Builder(FragmentActivity.this);
+                customBuilder
+                        .setTitle("检查更新提示")
+                        .setMessage("网络出现了问题")
+                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                System.exit(0);
+                            }
+                        })
+                ;
+
+                dialog = customBuilder.create();
+                dialog.setCancelable(false);
+                dialog.show();
+            }
+
+        });
     }
 
 }

@@ -10,6 +10,7 @@
         android:id="@+id/ll_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:background="@color/theme"
         android:orientation="horizontal"
         android:paddingBottom="10dip"
         android:paddingTop="10dip">
@@ -20,8 +21,7 @@
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dip"
-            android:contentDescription="line"
-             />
+            android:contentDescription="line" />
 
         <TextView
             android:id="@+id/title"
@@ -31,7 +31,7 @@
             android:layout_marginLeft="8dip"
             android:layout_weight="1"
             android:gravity="center"
-            android:textColor="@color/theme"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
         <ImageView
@@ -40,15 +40,16 @@
             android:layout_height="32dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dip"
-            android:contentDescription="line"
-             />
+            android:contentDescription="line" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:background="@color/black_26" />
+
     <LinearLayout
         android:id="@+id/content"
         android:layout_width="fill_parent"

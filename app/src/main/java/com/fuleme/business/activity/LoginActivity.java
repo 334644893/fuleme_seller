@@ -4,8 +4,13 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -22,6 +27,7 @@ import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
+import com.fuleme.business.widget.CustomDialog;
 
 import org.json.JSONObject;
 
@@ -62,7 +68,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        verifyStoragePermissions(this);
+        verifyStoragePermissions();
         //判断是否第一次启动
         if ("".equals(SharedPreferencesUtils.getParam(getApplicationContext(), "start", ""))) {
 
@@ -75,32 +81,55 @@ public class LoginActivity extends BaseActivity {
         AutomaticLogin();
     }
 
+
+    /**
+     * 手动添加SD卡权限
+     */
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE"};
+
+    public void verifyStoragePermissions() {
+        //动态添加窗口权限
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (!Settings.canDrawOverlays(LoginActivity.this)) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + getPackageName()));
+                startActivityForResult(intent, 10);
+            }
+        }
+        try {
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(LoginActivity.this,
+                    "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                ActivityCompat.requestPermissions(LoginActivity.this, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void AutomaticLogin() {
-        App.uid = (int) SharedPreferencesUtils.getParam(getApplicationContext(), "uid", App.uid);
-        App.phone = SharedPreferencesUtils.getParam(getApplicationContext(), "phone", App.phone).toString();
-        App.username = SharedPreferencesUtils.getParam(getApplicationContext(), "username", App.username).toString();
-        App.role = SharedPreferencesUtils.getParam(getApplicationContext(), "role", App.role).toString();
-        App.short_id = SharedPreferencesUtils.getParam(getApplicationContext(), "short_id", App.short_id).toString();
-        App.merchant = SharedPreferencesUtils.getParam(getApplicationContext(), "merchant", App.merchant).toString();
-        App.short_state = SharedPreferencesUtils.getParam(getApplicationContext(), "short_state", App.short_state).toString();
-        App.short_area = SharedPreferencesUtils.getParam(getApplicationContext(), "short_area", App.short_area).toString();
         App.token = SharedPreferencesUtils.getParam(getApplicationContext(), "token", App.token).toString();
-        App.qrcode = SharedPreferencesUtils.getParam(getApplicationContext(), "qrcode", App.qrcode).toString();
-        if (App.uid != 0 &&
-                !TextUtils.isEmpty(App.phone) &&
-                !TextUtils.isEmpty(App.username) &&
-                !TextUtils.isEmpty(App.role) &&
-                !TextUtils.isEmpty(App.short_id) &&
-                !TextUtils.isEmpty(App.merchant) &&
-                !TextUtils.isEmpty(App.short_state) &&
-                !TextUtils.isEmpty(App.short_area) &&
-                !TextUtils.isEmpty(App.token) &&
-                !TextUtils.isEmpty(App.qrcode)
-                ) {
+        if (!TextUtils.isEmpty(App.token)) {
+            App.uid = (int) SharedPreferencesUtils.getParam(getApplicationContext(), "uid", App.uid);
+            App.phone = SharedPreferencesUtils.getParam(getApplicationContext(), "phone", App.phone).toString();
+            App.username = SharedPreferencesUtils.getParam(getApplicationContext(), "username", App.username).toString();
+            App.role = SharedPreferencesUtils.getParam(getApplicationContext(), "role", App.role).toString();
+            App.short_id = SharedPreferencesUtils.getParam(getApplicationContext(), "short_id", App.short_id).toString();
+            App.merchant = SharedPreferencesUtils.getParam(getApplicationContext(), "merchant", App.merchant).toString();
+            App.short_state = SharedPreferencesUtils.getParam(getApplicationContext(), "short_state", App.short_state).toString();
+            App.short_area = SharedPreferencesUtils.getParam(getApplicationContext(), "short_area", App.short_area).toString();
+            App.qrcode = SharedPreferencesUtils.getParam(getApplicationContext(), "qrcode", App.qrcode).toString();
             //绑定推送账号
             if (App.bindAccount) {
                 App.bindAccount();
             }
+            //自动登录开启检测更新
+            FragmentActivity.isAutomaticLogin = true;
             startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
             finish();
         }
@@ -264,7 +293,7 @@ public class LoginActivity extends BaseActivity {
                         SharedPreferencesUtils.setParam(getApplicationContext(), "qrcode", App.qrcode);
                         LogUtil.d("-------登录返回App.token---------", App.token);
                         //绑定推送账号
-                            App.bindAccount();
+                        App.bindAccount();
                         //刷新TOKEN用密码
                         SharedPreferencesUtils.setParam(getApplicationContext(), "token_password", etVerify.getText().toString());
 
@@ -302,6 +331,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     int type = -1;
+    private CustomDialog dialog;
 
     private void version() {
         getApi().version().enqueue(new Callback<Object>() {
@@ -332,25 +362,23 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                if (type == 1) {
-                    // 构造对话框
-                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                // 构造对话框
+                CustomDialog.Builder customBuilder = new
+                        CustomDialog.Builder(LoginActivity.this);
+                customBuilder
+                        .setTitle("检查更新提示")
+                        .setMessage("网络出现了问题")
+                        .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                System.exit(0);
+                            }
+                        })
+                        ;
 
-                    builder.setTitle("检查更新提示");
-                    builder.setMessage("网络出现了问题");
-                    // 更新
-                    builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            System.exit(0);
-                        }
-                    });
-                    Dialog noticeDialog = builder.create();
-                    noticeDialog.setCancelable(false);
-                    noticeDialog.show();
-                } else {
-                    LogUtil.d("检测更新失败", t.toString());
-                }
+                dialog = customBuilder.create();
+                dialog.setCancelable(false);
+                dialog.show();
             }
 
         });
