@@ -348,7 +348,6 @@ public class LoginActivity extends BaseActivity {
                         String prompt = data.optString("prompt");
                         type = data.optInt("type");
                         String url = data.optString("android");
-                        BusinessApplicationActivity.url = data.optString("android");
                         LogUtil.d("---------", "-version:" + version + "-prompt:" + prompt + "-type:" + type + "-android:" + url);
                         if (type == 1) {
                             MANDATORY = true;

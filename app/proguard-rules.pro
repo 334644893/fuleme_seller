@@ -41,3 +41,9 @@
 -dontwarn com.ta.**
 -keep class com.alibaba.idst.nls.** {*;}
 -keep class com.google.**{*;}
+# 小米通道
+-keep class com.xiaomi.** {*;}
+-dontwarn com.xiaomi.**
+# 华为通道
+-keep class com.huawei.** {*;}
+-dontwarn com.huawei.**

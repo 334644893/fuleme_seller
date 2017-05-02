@@ -354,7 +354,6 @@ public class FragmentActivity extends BaseActivity {
                         String prompt = data.optString("prompt");
                         type = data.optInt("type");
                         String url = data.optString("android");
-                        BusinessApplicationActivity.url = data.optString("android");
                         LogUtil.d("---------", "-version:" + version + "-prompt:" + prompt + "-type:" + type + "-android:" + url);
                         //信息对比是否更新
                         new UpdateManager(FragmentActivity.this).checkUpdate(version, prompt, type, url, false);

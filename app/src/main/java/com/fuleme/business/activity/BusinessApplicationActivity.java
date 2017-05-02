@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
-import com.fuleme.business.helper.APIService;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.Zxing;
 
@@ -36,7 +35,9 @@ public class BusinessApplicationActivity extends BaseActivity {
     ImageView ivBaQrCode;
     @Bind(R.id.tv_ba_codetext)
     TextView tvBaCodetext;
-    public static String url = "";
+    public static String url = "https://www.pgyer.com/DVJq";
+    @Bind(R.id.iv_ba_qr_code_gzh)
+    ImageView ivBaQrCodeGzh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,33 +50,32 @@ public class BusinessApplicationActivity extends BaseActivity {
     public void initView() {
         onClickApp();
         tvTitle.setText("商户应用");
+        if (TextUtils.isEmpty(url)) {
+            ivBaQrCode.setImageBitmap(Zxing.getQrCode("test商户App"));
+        } else {
+            ivBaQrCode.setImageBitmap(Zxing.getQrCode(url));
+            LogUtil.d("下载地址------------", url);
+        }
+        ivBaQrCodeGzh.setImageBitmap(Zxing.getQrCode("test公众号"));
     }
 
 
     public void onClickApp() {
-        if (TextUtils.isEmpty(url)) {
-            ivBaQrCode.setImageBitmap(Zxing.getQrCode("test商户App"));
-        } else {
-            ivBaQrCode.setImageBitmap(Zxing.getQrCode(APIService.SERVER_IP + url));
-            LogUtil.d("下载地址------------", APIService.SERVER_IP + url);
-        }
-
+        ivBaQrCode.setVisibility(View.VISIBLE);
+        ivBaQrCodeGzh.setVisibility(View.GONE);
         tvBaCodetext.setText("扫描二维码，下载最新商户App");
-
-
         vBaLineL.setBackgroundColor(getResources().getColor(R.color.theme));
         vBaLineR.setBackgroundColor(getResources().getColor(R.color.app_back_color));
-
         tvBaBut1.setTextColor(getResources().getColor(R.color.theme));
         tvBaBut2.setTextColor(getResources().getColor(R.color.black_87));
     }
 
     public void onClickGZH() {
-        ivBaQrCode.setImageBitmap(Zxing.getQrCode("test公众号"));
+        ivBaQrCodeGzh.setVisibility(View.VISIBLE);
+        ivBaQrCode.setVisibility(View.GONE);
         tvBaCodetext.setText("扫描二维码，关注商户公众号");
         vBaLineR.setBackgroundColor(getResources().getColor(R.color.theme));
         vBaLineL.setBackgroundColor(getResources().getColor(R.color.app_back_color));
-
         tvBaBut1.setTextColor(getResources().getColor(R.color.black_87));
         tvBaBut2.setTextColor(getResources().getColor(R.color.theme));
     }

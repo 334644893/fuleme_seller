@@ -45,7 +45,8 @@
                 android:overScrollFooter="@android:color/transparent"
                 android:overScrollHeader="@android:color/transparent"
                 android:overScrollMode="never"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:background="@color/white"/>
 
         </LinearLayout>
 

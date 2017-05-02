@@ -18,15 +18,7 @@ public class Zxing {
     public static Bitmap getQrCode(String content, Activity activity) {
 
 
-//    if(TextUtils.isEmpty(textContent))
-//
-//    {
-//        Toast.makeText(ThreeActivity.this, "您的输入为空!", Toast.LENGTH_SHORT).show();
-//        return;
-//    }
-
-
-        return CodeUtils.createImage(content, 400, 400, BitmapFactory.decodeResource(activity.getResources(), R.mipmap.logo));
+        return CodeUtils.createImage(content, 400, 400, BitmapFactory.decodeResource(activity.getResources(), R.mipmap.ic_launcher));
 
     }
 

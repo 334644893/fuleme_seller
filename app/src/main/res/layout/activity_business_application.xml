@@ -80,6 +80,13 @@
                 android:layout_height="200dp"
                 android:src="@mipmap/logo_de" />
 
+            <ImageView
+                android:id="@+id/iv_ba_qr_code_gzh"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:src="@mipmap/logo_de"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/tv_ba_codetext"
                 android:layout_width="wrap_content"

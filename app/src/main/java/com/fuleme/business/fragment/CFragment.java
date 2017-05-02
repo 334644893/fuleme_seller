@@ -1,11 +1,18 @@
 package com.fuleme.business.fragment;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,10 +34,13 @@ import com.fuleme.business.activity.UserDetailsActivity;
 import com.fuleme.business.download.DeviceUtils;
 import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
+import com.fuleme.business.widget.CustomDialog;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.alibaba.sdk.android.ams.common.global.AmsGlobalHolder.getPackageName;
 
 /**
  * 我的
@@ -42,6 +52,8 @@ public class CFragment extends Fragment {
     ImageView ivBtmTongzhi;
     final int EXIT_USERDETAIL = 100;//退出
     final int EXIT_TO_USERDETAIL = 101;
+    final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 898;
+    final String number = "02787376530";
     @Bind(R.id.tv_phone)
     TextView tvPhone;
     @Bind(R.id.tv_fulemenumber)
@@ -104,7 +116,7 @@ public class CFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @OnClick({R.id.ll_title_1, R.id.ll_title_2, R.id.ll_title_3, R.id.ll_addstore, R.id.ll_set_zh, R.id.ll_set_s_a, R.id.ll_zhsz, R.id.ll_guanyuwomen, R.id.iv_btm_yy, R.id.iv_btm_tongzhi})
+    @OnClick({R.id.ll_title_1, R.id.ll_lxwomen, R.id.ll_title_2, R.id.ll_title_3, R.id.ll_addstore, R.id.ll_set_zh, R.id.ll_set_s_a, R.id.ll_zhsz, R.id.ll_guanyuwomen, R.id.iv_btm_yy, R.id.iv_btm_tongzhi})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_title_1:
@@ -162,7 +174,88 @@ public class CFragment extends Fragment {
                 // 跳转关于我们
                 startActivity(new Intent(getActivity(), AboutUsActivity.class));
                 break;
+            case R.id.ll_lxwomen:
+                // 检查是否获得了权限（Android6.0运行时权限）
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // 没有获得授权，申请授权
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                            Manifest.permission.CALL_PHONE)) {
+                        // 返回值：
+//                          如果app之前请求过该权限,被用户拒绝, 这个方法就会返回true.
+//                          如果用户之前拒绝权限的时候勾选了对话框中”Don’t ask again”的选项,那么这个方法会返回false.
+//                          如果设备策略禁止应用拥有这条权限, 这个方法也返回false.
+                        // 弹窗需要解释为何需要该权限，再次请求授权
+                        ToastUtil.showMessage("请授权！");
+
+                        // 帮跳转到该应用的设置界面，让用户手动授权
+                        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                    } else {
+                        // 不需要解释为何需要该权限，直接请求授权
+                        ActivityCompat.requestPermissions(getActivity(),
+                                new String[]{Manifest.permission.CALL_PHONE},
+                                MY_PERMISSIONS_REQUEST_CALL_PHONE);
+                    }
+                } else {
+                    // 已经获得授权，可以打电话
+                    CallPhone();
+                }
+                break;
         }
+    }
+
+    // 处理权限申请的回调
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_CALL_PHONE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // 授权成功，继续打电话
+                    CallPhone();
+                } else {
+                    // 授权失败！
+                    ToastUtil.showMessage("授权失败！");
+                }
+                break;
+            }
+        }
+
+    }
+
+    private CustomDialog dialog;
+
+    private void CallPhone() {
+
+        // 联系我们
+        CustomDialog.Builder customBuilder = new
+                CustomDialog.Builder(getActivity());
+        customBuilder
+                .setTitle("联系我们")
+                .setMessage("是否现在拨打客服电话?")
+                .setNegativeButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        // 拨号：激活系统的拨号组件
+                        Intent intent = new Intent(); // 意图对象：动作 + 数据
+                        intent.setAction(Intent.ACTION_CALL); // 设置动作
+                        Uri data = Uri.parse("tel:" + number); // 设置数据
+                        intent.setData(data);
+                        startActivity(intent); // 激活Activity组件
+                    }
+                })
+                .setPositiveButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                dialog.dismiss();
+                            }
+                        });
+        dialog = customBuilder.create();
+        dialog.show();
     }
 
     private void setBtmTongzhi() {
