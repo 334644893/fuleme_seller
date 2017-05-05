@@ -235,7 +235,7 @@ public class CFragment extends Fragment {
                 CustomDialog.Builder(getActivity());
         customBuilder
                 .setTitle("联系我们")
-                .setMessage("是否现在拨打客服电话?")
+                .setMessage("是否现在拨打客服电话"+"\n"+number+"?")
                 .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();

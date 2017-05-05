@@ -82,7 +82,7 @@ public class BaseActivity extends AppCompatActivity {
      */
     public void send(final String TAG, String phone) {
         LogUtil.i("/TAG:" + TAG + "/phone:" + phone);
-        Call<Object> call = getApi().send(phone, getIMEIorIMSI(BaseActivity.this));
+        Call<Object> call = getApi().send(phone, getIMEIorIMSI());
 
         call.enqueue(new Callback<Object>() {
             @Override
@@ -104,20 +104,19 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     /**
-     * 获取手机IMEI号手机IMSI号
+     * 获取手机唯一标示
      */
-    public static String getIMEIorIMSI(Context context) {
-        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
-        String imei = telephonyManager.getDeviceId();
-        String imsi = telephonyManager.getSubscriberId();
-        if (!TextUtils.isEmpty(imei)) {
-            return imei;
-        } else if (!TextUtils.isEmpty(imsi)) {
-            return imsi;
+    public static String getIMEIorIMSI() {
+        if (!TextUtils.isEmpty(Build.SERIAL)) {
+            if (Build.SERIAL.length() < 15) {
+                return Build.SERIAL;
+            } else {
+                return Build.SERIAL.substring(0, 15);
+            }
+
         } else {
             return "";
         }
-
     }
 
 

@@ -57,8 +57,6 @@ public class App extends Application {
     public static boolean bindAccount;//通知开关
     final public static String alipay = "alipay";
     final public static String weixin = "weixin";
-    final public static String xiaoMiAppID = "2882303761517571909";
-    final public static String xiaoMiAppKey = "5141757128909";
     public static final int LOGIN_TYPE_ADMIN = 0;//登录状态 0:管理员
     public static final int LOGIN_TYPE_EMPLOYEES = 1;//登录状态  1：员工
     private static App instance;
@@ -94,7 +92,7 @@ public class App extends Application {
 //        LogUtil.isPrint = true;// 设置开启日志,发布时请关闭日志
         LogUtil.isPrint=false;// 设置开启日志,发布时请关闭日志
         // 注册方法会自动判断是否支持小米系统推送，如不支持会跳过注册。
-        MiPushRegister.register(this, xiaoMiAppID, xiaoMiAppKey);
+        MiPushRegister.register(this, "2882303761517571909", "5141757128909");
         // 注册方法会自动判断是否支持华为系统推送，如不支持会跳过注册。
         HuaWeiRegister.register(this);
     }

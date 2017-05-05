@@ -35,7 +35,8 @@ public class BusinessApplicationActivity extends BaseActivity {
     ImageView ivBaQrCode;
     @Bind(R.id.tv_ba_codetext)
     TextView tvBaCodetext;
-    public static String url = "https://www.pgyer.com/DVJq";
+    public static String url = "https://www.fuleme.com";
+    public static String gzh = "http://weixin.qq.com/r/2kXTyyzEJnFZrWio9xDI";
     @Bind(R.id.iv_ba_qr_code_gzh)
     ImageView ivBaQrCodeGzh;
 
@@ -50,13 +51,8 @@ public class BusinessApplicationActivity extends BaseActivity {
     public void initView() {
         onClickApp();
         tvTitle.setText("商户应用");
-        if (TextUtils.isEmpty(url)) {
-            ivBaQrCode.setImageBitmap(Zxing.getQrCode("test商户App"));
-        } else {
-            ivBaQrCode.setImageBitmap(Zxing.getQrCode(url));
-            LogUtil.d("下载地址------------", url);
-        }
-        ivBaQrCodeGzh.setImageBitmap(Zxing.getQrCode("test公众号"));
+        ivBaQrCode.setImageBitmap(Zxing.getQrCode(url));
+        ivBaQrCodeGzh.setImageBitmap(Zxing.getQrCode(gzh));
     }
 
 
@@ -73,7 +69,7 @@ public class BusinessApplicationActivity extends BaseActivity {
     public void onClickGZH() {
         ivBaQrCodeGzh.setVisibility(View.VISIBLE);
         ivBaQrCode.setVisibility(View.GONE);
-        tvBaCodetext.setText("扫描二维码，关注商户公众号");
+        tvBaCodetext.setText("微信扫一扫，关注商户公众号");
         vBaLineR.setBackgroundColor(getResources().getColor(R.color.theme));
         vBaLineL.setBackgroundColor(getResources().getColor(R.color.app_back_color));
         tvBaBut1.setTextColor(getResources().getColor(R.color.black_87));

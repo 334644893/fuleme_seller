@@ -55,6 +55,7 @@ public class ScanReceiptActivity extends BaseActivity {
     public void init() {
         tvTitle.setText("扫一扫");
         setOnClick(SAOYISAO);//默认选中扫一扫
+
     }
 
     @Override

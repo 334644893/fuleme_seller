@@ -1,5 +1,6 @@
 package com.fuleme.business.activity;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -11,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -37,6 +39,8 @@ import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.alibaba.sdk.android.ams.common.global.AmsGlobalHolder.getPackageName;
 
 /**
  * 登录页面
@@ -68,7 +72,9 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        verifyStoragePermissions();
+        if (Build.VERSION.SDK_INT >= 23) {
+            verifyStoragePermissions();
+        }
         //判断是否第一次启动
         if ("".equals(SharedPreferencesUtils.getParam(getApplicationContext(), "start", ""))) {
 
@@ -83,15 +89,25 @@ public class LoginActivity extends BaseActivity {
 
 
     /**
-     * 手动添加SD卡权限
+     * 手动添加权限
      */
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static final int REQUEST_PERMISSIOCAMERA = 2;
     private static String[] PERMISSIONS_STORAGE = {
             "android.permission.READ_EXTERNAL_STORAGE",
-            "android.permission.WRITE_EXTERNAL_STORAGE"};
+            "android.permission.WRITE_EXTERNAL_STORAGE"
+
+    };
+    private static String[] PERMISSIOCAMERA = {
+            "android.permission.CAMERA"
+
+    };
 
     public void verifyStoragePermissions() {
-        //动态添加窗口权限
+        /**
+         * 检查是否获得了ACTION_MANAGE_OVERLAY_PERMISSION权限（Android6.0运行时权限）
+         * 弹窗
+         */
         if (Build.VERSION.SDK_INT >= 23) {
             if (!Settings.canDrawOverlays(LoginActivity.this)) {
                 Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
@@ -99,6 +115,10 @@ public class LoginActivity extends BaseActivity {
                 startActivityForResult(intent, 10);
             }
         }
+        /**
+         * 检查是否获得了android.permission-group.STORAGE权限（Android6.0运行时权限）
+         *
+         */
         try {
             //检测是否有写的权限
             int permission = ActivityCompat.checkSelfPermission(LoginActivity.this,
@@ -106,6 +126,12 @@ public class LoginActivity extends BaseActivity {
             if (permission != PackageManager.PERMISSION_GRANTED) {
                 // 没有写的权限，去申请写的权限，会弹出对话框
                 ActivityCompat.requestPermissions(LoginActivity.this, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
+            }
+            //检测是否有相机的权限
+            int permissionCamera = ActivityCompat.checkSelfPermission(LoginActivity.this,
+                    "android.permission.CAMERA");
+            if (permissionCamera != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(LoginActivity.this, PERMISSIOCAMERA, REQUEST_PERMISSIOCAMERA);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -373,7 +399,7 @@ public class LoginActivity extends BaseActivity {
                                 System.exit(0);
                             }
                         })
-                        ;
+                ;
 
                 dialog = customBuilder.create();
                 dialog.setCancelable(false);
