@@ -76,6 +76,7 @@ public class OrdersActivity extends BaseActivity {
             public void onItemClick(View v, OrderBean.DataBean dataBean) {
                 OrderDetailsActivity.shopid = dataBean.getShort_id();
                 OrderDetailsActivity.short_name = dataBean.getShort_name();
+
                 startActivity(new Intent(context, OrderDetailsActivity.class));
             }
         });

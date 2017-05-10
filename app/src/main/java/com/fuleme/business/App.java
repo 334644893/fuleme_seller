@@ -52,6 +52,7 @@ public class App extends Application {
     public static String short_state = "";//商户审核状态
     public static String short_area = "";//商户地址
     public static String role = "";//用户角色，0 管理员，1店长，2店员
+    public static String short_logo = "";//店铺logo
     public static int login_type = 1;//登录状态 0:管理员 1：员工
     public static boolean bindYY;//语音开关
     public static boolean bindAccount;//通知开关
@@ -172,6 +173,7 @@ public class App extends Application {
             }
         });
     }
+
     /**
      * 解除绑定阿里云推送账号
      */

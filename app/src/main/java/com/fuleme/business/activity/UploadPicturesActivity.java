@@ -1,6 +1,5 @@
 package com.fuleme.business.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.PictureUtil;
 import com.fuleme.business.utils.ToastUtil;
-import com.fuleme.business.widget.LoadingDialogUtils;
 import com.yanzhenjie.album.Album;
 
 import org.json.JSONObject;

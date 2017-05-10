@@ -7,6 +7,7 @@ import com.fuleme.business.bean.CouponsBean;
 import com.fuleme.business.bean.IncomeBean;
 import com.fuleme.business.bean.MemberManagementBean;
 import com.fuleme.business.bean.OrderBean;
+import com.fuleme.business.bean.OrderContentBean;
 import com.fuleme.business.bean.OrderDetailsBean;
 import com.fuleme.business.bean.SinceMediaBean;
 import com.fuleme.business.bean.bannerBean;
@@ -183,6 +184,26 @@ public interface APIService {
     @FormUrlEncoded
     @POST("shop/list")
     Call<OrderBean> list(@Field("token") String token);
+
+    /**
+     * 订单详情内容
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/api/order/OrderDetails")
+    Call<OrderContentBean> OrderDetails(@Field("out_trade_no") String out_trade_no);
+
+    /**
+     * 订单退款
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("pay/refund")
+    Call<Object> refund(@Field("out_trade_no") String out_trade_no,
+                        @Field("token") String token,
+                        @Field("money") String money);
 //    /**
 //     * 添加店铺接口(废弃)
 //     *
@@ -257,6 +278,19 @@ public interface APIService {
                              @Field("business_licence") String business_licence,
                              @Field("identity_card") String identity_card,
                              @Field("token") String token
+
+    );
+
+    /**
+     * 添加店铺LOGO接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("user/modifyheadImg")
+    Call<Object> modifyheadImg(@Field("token") String token,
+                               @Field("headImg") String headImg
+
 
     );
 

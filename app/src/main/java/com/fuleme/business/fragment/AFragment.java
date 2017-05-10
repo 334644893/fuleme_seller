@@ -27,6 +27,7 @@ import com.fuleme.business.activity.EmployeeCollectionActivity;
 import com.fuleme.business.activity.MemberManagementActivity;
 import com.fuleme.business.activity.OrdersActivity;
 import com.fuleme.business.activity.ReportActivity;
+import com.fuleme.business.activity.ScanEntranceActivity;
 import com.fuleme.business.activity.ScanReceiptActivity;
 import com.fuleme.business.activity.WebActivity;
 import com.fuleme.business.adapter.AFragmentAdapter;
@@ -222,15 +223,15 @@ public class AFragment extends Fragment {
             case R.id.ll_title_1:
                 //扫一扫
                 if (!TextUtils.isEmpty(App.short_id)) {
-                    startActivity(new Intent(getActivity(), ScanReceiptActivity.class));
+                    startActivity(new Intent(getActivity(), ScanEntranceActivity.class));
                 } else {
                     ToastUtil.showMessage(R.string.nostore);
                 }
 
                 break;
             case R.id.ll_title_2:
-                //付款码
-                startActivity(new Intent(getActivity(), EmployeeCollectionActivity.class));
+                //收款码
+                startActivity(new Intent(getActivity(), ScanReceiptActivity.class));
                 break;
             case R.id.ll_title_3:
                 //账本

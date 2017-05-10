@@ -21,6 +21,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.activity.AboutUsActivity;
@@ -28,10 +30,12 @@ import com.fuleme.business.activity.BasicInformationActivity;
 import com.fuleme.business.activity.BusinessApplicationActivity;
 import com.fuleme.business.activity.ClerkManagementActivity;
 import com.fuleme.business.activity.ContractrateActivity;
+import com.fuleme.business.activity.EmployeeCollectionActivity;
 import com.fuleme.business.activity.LoginActivity;
 import com.fuleme.business.activity.RegistrationStoreActivity;
 import com.fuleme.business.activity.UserDetailsActivity;
 import com.fuleme.business.download.DeviceUtils;
+import com.fuleme.business.helper.APIService;
 import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.widget.CustomDialog;
@@ -41,6 +45,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.alibaba.sdk.android.ams.common.global.AmsGlobalHolder.getPackageName;
+import static com.fuleme.business.fragment.FragmentActivity.imgurlFlag;
 
 /**
  * 我的
@@ -54,6 +59,7 @@ public class CFragment extends Fragment {
     final int EXIT_TO_USERDETAIL = 101;
     final int MY_PERMISSIONS_REQUEST_CALL_PHONE = 898;
     final String number = "02787376530";
+
     @Bind(R.id.tv_phone)
     TextView tvPhone;
     @Bind(R.id.tv_fulemenumber)
@@ -68,6 +74,8 @@ public class CFragment extends Fragment {
     LinearLayout llTitle2;
     @Bind(R.id.ll_title_3)
     LinearLayout llTitle3;
+    @Bind(R.id.logo)
+    SimpleDraweeView logo;
 
     @Nullable
     @Override
@@ -87,6 +95,10 @@ public class CFragment extends Fragment {
 
 
     public void initView() {
+        //改变头像
+        if (!TextUtils.isEmpty(App.short_logo)) {
+            logo.setImageURI(APIService.SERVER_IP + App.short_logo);
+        }
         tvPhone.setText(App.phone);
         tvFulemenumber.setText(App.username);
         tvVersion.setText("当前版本:" + DeviceUtils.getVersionName(getActivity()));
@@ -116,7 +128,7 @@ public class CFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    @OnClick({R.id.ll_title_1, R.id.ll_lxwomen, R.id.ll_title_2, R.id.ll_title_3, R.id.ll_addstore, R.id.ll_set_zh, R.id.ll_set_s_a, R.id.ll_zhsz, R.id.ll_guanyuwomen, R.id.iv_btm_yy, R.id.iv_btm_tongzhi})
+    @OnClick({R.id.ll_title_1, R.id.ll_lxwomen, R.id.ll_title_2, R.id.ll_title_3, R.id.ll_addstore, R.id.ll_adskm, R.id.ll_set_zh, R.id.ll_set_s_a, R.id.ll_zhsz, R.id.ll_guanyuwomen, R.id.iv_btm_yy, R.id.iv_btm_tongzhi})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_title_1:
@@ -147,8 +159,8 @@ public class CFragment extends Fragment {
 
                 break;
             case R.id.ll_set_zh:
-                // 账户详情
-                startActivityForResult(new Intent(getActivity(), UserDetailsActivity.class), EXIT_TO_USERDETAIL);
+//                // 账户详情
+//                startActivityForResult(new Intent(getActivity(), UserDetailsActivity.class), EXIT_TO_USERDETAIL);
                 break;
             case R.id.ll_set_s_a:
                 // 跳转商铺应用
@@ -157,6 +169,10 @@ public class CFragment extends Fragment {
             case R.id.ll_addstore:
                 // 添加店铺
                 startActivity(new Intent(getActivity(), RegistrationStoreActivity.class));
+                break;
+            case R.id.ll_adskm:
+                // 店铺收款码
+                startActivity(new Intent(getActivity(), EmployeeCollectionActivity.class));
                 break;
             case R.id.ll_zhsz:
                 // 账号设置
@@ -235,7 +251,7 @@ public class CFragment extends Fragment {
                 CustomDialog.Builder(getActivity());
         customBuilder
                 .setTitle("联系我们")
-                .setMessage("是否现在拨打客服电话"+"\n"+number+"?")
+                .setMessage("是否现在拨打客服电话" + "\n" + number + "?")
                 .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -292,6 +308,14 @@ public class CFragment extends Fragment {
             //TODO 清空信息并跳转登录页
             startActivity(new Intent(getActivity(), LoginActivity.class));
             getActivity().finish();
+        }
+        //成功上传图片时修改logo
+        if (imgurlFlag) {
+            imgurlFlag = false;
+            //改变头像
+            if (!TextUtils.isEmpty(App.short_logo)) {
+                logo.setImageURI(APIService.SERVER_IP + App.short_logo);
+            }
         }
     }
 

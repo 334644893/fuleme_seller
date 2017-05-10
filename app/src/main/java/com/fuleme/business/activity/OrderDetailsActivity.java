@@ -46,8 +46,8 @@ public class OrderDetailsActivity extends BaseActivity {
     public static String month = "";
     public static String shopid = "";
     public static String short_name = "";
-    public static int page = 1;
-    public static int list_rows = 10;
+    private int page = 1;
+    private int list_rows = 10;
     public boolean state = true;//是否刷新
     public static boolean textState = true;//true 显示正在加载，false显示 没有更多
     @Bind(R.id.tv_title)

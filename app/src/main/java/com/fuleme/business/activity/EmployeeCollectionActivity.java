@@ -14,9 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
+import com.fuleme.business.helper.APIService;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.utils.Zxing;
@@ -46,6 +49,8 @@ public class EmployeeCollectionActivity extends BaseActivity {
     ImageView ivBaQrCode;
     @Bind(R.id.tv_title)
     TextView tvTitle;
+    @Bind(R.id.short_logo)
+    SimpleDraweeView shortLogo;
     private Handler mHandler = new Handler();
     private Context context;
     final int TOSTORE = 998;
@@ -78,27 +83,33 @@ public class EmployeeCollectionActivity extends BaseActivity {
         if (!TextUtils.isEmpty(App.qrcode)) {
             ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
         }
+        //添加商户logo
+
+        if (!TextUtils.isEmpty(App.short_logo)) {
+            shortLogo.setImageURI(APIService.SERVER_IP + App.short_logo);
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TOSTORE) {
-            if ("0".equals(App.short_state)) {
-                tvStoreName.setText(App.merchant + "(审核中)");
-                tvName.setText(App.merchant);
-            } else if ("1".equals(App.short_state)) {
-                tvStoreName.setText(App.merchant + "(已审核)");
-                tvName.setText(App.merchant);
-            } else {
-                tvStoreName.setText("暂无店铺");
-                tvName.setText("");
-            }
-
-            if (!TextUtils.isEmpty(App.qrcode)) {
-                LogUtil.i("生成二维码，店铺名" + App.merchant + "店铺ID" + App.short_id);
-                ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
-            }
+            initView();
+//            if ("0".equals(App.short_state)) {
+//                tvStoreName.setText(App.merchant + "(审核中)");
+//                tvName.setText(App.merchant);
+//            } else if ("1".equals(App.short_state)) {
+//                tvStoreName.setText(App.merchant + "(已审核)");
+//                tvName.setText(App.merchant);
+//            } else {
+//                tvStoreName.setText("暂无店铺");
+//                tvName.setText("");
+//            }
+//
+//            if (!TextUtils.isEmpty(App.qrcode)) {
+//                LogUtil.i("生成二维码，店铺名" + App.merchant + "店铺ID" + App.short_id);
+//                ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
+//            }
         }
     }
 

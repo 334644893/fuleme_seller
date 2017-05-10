@@ -8,11 +8,10 @@
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:text="商家活动"
-        android:textSize="@dimen/text_size_20" />
+        android:textSize="@dimen/text_size_16" />
 
     <TextView
         android:id="@+id/tv_content"
@@ -20,8 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="right"
-        android:lines="1"
-        android:text="每天帮我做促销"
-        android:textSize="@dimen/text_size_16" />
+        android:text="关山大道888号光谷创意园B座607室607室607室607室"
+        android:textSize="@dimen/text_size_14" />
 
 </LinearLayout>

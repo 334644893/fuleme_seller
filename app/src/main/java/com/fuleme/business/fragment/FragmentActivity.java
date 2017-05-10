@@ -3,9 +3,11 @@ package com.fuleme.business.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -22,7 +24,9 @@ import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.download.UpdateManager;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.utils.NumberUtils;
 import com.fuleme.business.widget.CustomDialog;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.json.JSONObject;
 
@@ -76,7 +80,7 @@ public class FragmentActivity extends BaseActivity {
             R.mipmap.icon_n_13_66, R.mipmap.icon_n_14_32};
     private int[] mItemCheckedImage = {R.mipmap.icon_n_11, R.mipmap.icon_n_12,
             R.mipmap.icon_n_13, R.mipmap.icon_n_14};
-    private String[] mItemText = {"首页", "商城", "自媒体", "我的"};
+    private String[] mItemText = {"首页", "商城", "推广", "我的"};
     private long exitTime;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -86,7 +90,7 @@ public class FragmentActivity extends BaseActivity {
     CFragment cFragment;
     public static int flagFragment = 0;
     public static boolean isAutomaticLogin = false;
-
+    public static boolean imgurlFlag = false;//修改头像是否成功
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

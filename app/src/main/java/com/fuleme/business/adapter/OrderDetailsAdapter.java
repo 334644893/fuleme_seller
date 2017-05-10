@@ -1,6 +1,7 @@
 package com.fuleme.business.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.fuleme.business.R;
+import com.fuleme.business.activity.OrderContentActivity;
 import com.fuleme.business.activity.OrderDetailsActivity;
 import com.fuleme.business.bean.OrderDetailsBean;
 import com.fuleme.business.utils.DividerItemDecoration;
+
 import java.text.NumberFormat;
 import java.util.List;
 
@@ -27,7 +30,6 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     NumberFormat nf = NumberFormat.getInstance();
     private static final int TYPE_ITEM = 0;  //普通Item View
     private static final int TYPE_FOOTER = 1;  //底部FootView
-
 
 
     private List<OrderDetailsBean.DataBean> mDatas;
@@ -51,6 +53,7 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         RecyclerView mRecyclerView;
         LinearLayoutManager linearLayoutManager;
         OrderDetailsListAdapter mAdapter;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -101,14 +104,24 @@ public class OrderDetailsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
              */
             myViewHolder.mAdapter = new OrderDetailsListAdapter(context, mDatas.get(position).getDetails());
             myViewHolder.mRecyclerView.setAdapter(myViewHolder.mAdapter);
+            //点击进入内容详情
+            myViewHolder.mAdapter.setOnItemClickListener(new OrderDetailsListAdapter.onRecyclerViewItemClickListener() {
+                @Override
+                public void onItemClick(View v, OrderDetailsBean.DataBean.DetailsBean bean) {
+                    OrderContentActivity.title = OrderDetailsActivity.short_name;
+                    OrderContentActivity.out_trade_no = bean.getOut_trade_no();
+                    context.startActivity(new Intent(context, OrderContentActivity.class));
+                }
+            });
+
         } else if (holder instanceof FootViewHolder) {
             FootViewHolder footViewHolder = (FootViewHolder) holder;
             if (OrderDetailsActivity.textState) {
                 footViewHolder.tvName.setText(R.string.load);
             } else {
-                if(mDatas.size()==0){
+                if (mDatas.size() == 0) {
                     footViewHolder.tvName.setVisibility(View.GONE);
-                }else{
+                } else {
                     footViewHolder.tvName.setVisibility(View.VISIBLE);
                 }
                 footViewHolder.tvName.setText(R.string.nomore);

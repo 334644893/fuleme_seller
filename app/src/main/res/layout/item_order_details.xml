@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/white"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
                 android:ellipsize="end"
                 android:lines="1"
                 android:paddingLeft="4dp"
-                android:text="共11笔" />
+                android:text="共0笔" />
         </LinearLayout>
 
         <LinearLayout
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:lines="1"
-                android:text="￥123761" />
+                android:text="0" />
         </LinearLayout>
     </LinearLayout>
 

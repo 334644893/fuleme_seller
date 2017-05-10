@@ -67,9 +67,7 @@ public class CouponsDetailsActivity extends BaseActivity {
         addcoupon();
     }
 
-    private void initDate() {
 
-    }
 
     /**
      * 优惠券
@@ -191,7 +189,6 @@ public class CouponsDetailsActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn_enter_2:
-                //TODO 退出登录
                 CustomDialog.Builder customBuilder = new
                         CustomDialog.Builder(CouponsDetailsActivity.this);
                 customBuilder

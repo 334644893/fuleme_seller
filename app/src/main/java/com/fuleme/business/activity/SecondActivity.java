@@ -63,7 +63,7 @@ public class SecondActivity extends AppCompatActivity {
     CodeUtils.AnalyzeCallback analyzeCallback = new CodeUtils.AnalyzeCallback() {
         @Override
         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
-            Intent resultIntent = new Intent(SecondActivity.this,ScanReceiptActivity.class);
+            Intent resultIntent = new Intent(SecondActivity.this,ScanEntranceActivity.class);
             Bundle bundle = new Bundle();
             bundle.putInt(CodeUtils.RESULT_TYPE, CodeUtils.RESULT_SUCCESS);
             bundle.putString(CodeUtils.RESULT_STRING, result);

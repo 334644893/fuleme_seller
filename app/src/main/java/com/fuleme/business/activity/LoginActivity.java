@@ -150,6 +150,7 @@ public class LoginActivity extends BaseActivity {
             App.short_state = SharedPreferencesUtils.getParam(getApplicationContext(), "short_state", App.short_state).toString();
             App.short_area = SharedPreferencesUtils.getParam(getApplicationContext(), "short_area", App.short_area).toString();
             App.qrcode = SharedPreferencesUtils.getParam(getApplicationContext(), "qrcode", App.qrcode).toString();
+            App.short_logo = SharedPreferencesUtils.getParam(getApplicationContext(), "head_img", App.short_logo).toString();
             //绑定推送账号
             if (App.bindAccount) {
                 App.bindAccount();
@@ -317,6 +318,8 @@ public class LoginActivity extends BaseActivity {
                         SharedPreferencesUtils.setParam(getApplicationContext(), "token", App.token);
                         App.qrcode = data.optString("qrcode");
                         SharedPreferencesUtils.setParam(getApplicationContext(), "qrcode", App.qrcode);
+                        App.short_logo = data.optString("head_img");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "head_img", App.short_logo);
                         LogUtil.d("-------登录返回App.token---------", App.token);
                         //绑定推送账号
                         App.bindAccount();

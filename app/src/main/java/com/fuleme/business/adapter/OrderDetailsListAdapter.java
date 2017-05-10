@@ -7,17 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.bean.OrderDetailsBean;
 import com.fuleme.business.utils.DateUtil;
-import com.fuleme.business.utils.LogUtil;
-
 import java.text.NumberFormat;
 import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -28,6 +25,7 @@ import butterknife.ButterKnife;
 public class OrderDetailsListAdapter extends RecyclerView.Adapter<OrderDetailsListAdapter.MyViewHolder> {
 
 
+    private onRecyclerViewItemClickListener itemClickListener = null;
     NumberFormat nf = NumberFormat.getInstance();
     private List<OrderDetailsBean.DataBean.DetailsBean> mDatas;
     private Context context;
@@ -47,7 +45,8 @@ public class OrderDetailsListAdapter extends RecyclerView.Adapter<OrderDetailsLi
         TextView tv2;
         @Bind(R.id.tv_3)
         TextView tv3;
-
+        @Bind(R.id.ll_linlayout)
+        LinearLayout llLinlayout;
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -79,7 +78,14 @@ public class OrderDetailsListAdapter extends RecyclerView.Adapter<OrderDetailsLi
         if (!TextUtils.isEmpty(str)) {
             holder.tv3.setText(str.substring(str.length() - 4, str.length()));
         }
-
+        //点击进入内容页面
+        holder.llLinlayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemClickListener != null)
+                    itemClickListener.onItemClick(v, mDatas.get(position));
+            }
+        });
 
     }
 
@@ -91,5 +97,13 @@ public class OrderDetailsListAdapter extends RecyclerView.Adapter<OrderDetailsLi
         return mDatas.size();
     }
 
+    public interface onRecyclerViewItemClickListener {
+        //点击传递item信息接口
+        void onItemClick(View v, OrderDetailsBean.DataBean.DetailsBean bean);
+    }
+
+    public void setOnItemClickListener(onRecyclerViewItemClickListener listener) {
+        this.itemClickListener = listener;
+    }
 
 }

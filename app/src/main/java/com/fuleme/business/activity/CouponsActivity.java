@@ -115,7 +115,7 @@ public class CouponsActivity extends BaseActivity {
                 if (response.isSuccessful()) {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
-                        LogUtil.i("成功");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                         //TODO 初始化数据
                         mDatas.clear();
                         mDatas.addAll(response.body().getData());
