@@ -14,8 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <View
             android:layout_width="2dp"
@@ -29,8 +28,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
-            android:text="最新评价"
             android:padding="5dp"
+            android:text="最新评价"
             android:textColor="@color/black" />
     </LinearLayout>
 
@@ -41,6 +40,33 @@
         android:layout_marginTop="1dp"
         android:scrollbars="vertical">
 
+        <RelativeLayout
+            android:id="@+id/rl_none"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/white"
+            android:visibility="gone"
+            >
+
+
+            <ImageView
+                android:id="@+id/im_tianjia"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/icon_zanwupinlun" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/im_tianjia"
+                android:textSize="@dimen/text_size_35"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/color_app_gray"
+                android:text="暂无评论" />
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/m_recyclerview"

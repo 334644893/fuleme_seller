@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.fuleme.business.App;
@@ -37,6 +39,8 @@ public class CustomerEvaluationActivity extends BaseActivity {
     TextView tvTitle;
     @Bind(R.id.m_recyclerview)
     RecyclerView mRecyclerView;
+    @Bind(R.id.rl_none)
+    RelativeLayout rlNone;
     @Bind(R.id.demo_swiperefreshlayout)
     SwipeRefreshLayout demoSwiperefreshlayout;
     LinearLayoutManager linearLayoutManager;
@@ -154,6 +158,11 @@ public class CustomerEvaluationActivity extends BaseActivity {
                         }
                         mDatas.addAll(response.body().getData());
                         mAdapter.notifyDataSetChanged();
+                        if (mDatas.size() > 0) {
+                            rlNone.setVisibility(View.GONE);
+                        } else {
+                            rlNone.setVisibility(View.VISIBLE);
+                        }
 
                     } else {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
