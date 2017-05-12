@@ -4,6 +4,7 @@ import com.fuleme.business.bean.AnalysecouponBean;
 import com.fuleme.business.bean.ClerkInfoBean;
 import com.fuleme.business.bean.ContractBean;
 import com.fuleme.business.bean.CouponsBean;
+import com.fuleme.business.bean.CustomerBean;
 import com.fuleme.business.bean.IncomeBean;
 import com.fuleme.business.bean.MemberManagementBean;
 import com.fuleme.business.bean.OrderBean;
@@ -28,8 +29,8 @@ import retrofit2.http.Part;
 public interface APIService {
     //    String SERVER_IP = "http://192.168.1.138/";
 //    String SERVER_IP = "http://192.168.1.155/";
-//    String SERVER_IP = "https://dev.fuleme.com/";//TEST
-    String SERVER_IP = "https://pay.fuleme.com/";
+    String SERVER_IP = "https://dev.fuleme.com/";//TEST
+//    String SERVER_IP = "https://pay.fuleme.com/";
     /**
      * 关于我们接口
      *
@@ -175,6 +176,20 @@ public interface APIService {
                                           @Field("mid") String mid,
                                           @Field("page") int page,
                                           @Field("list_rows") int list_rows);
+
+    /**
+     * 店铺评价
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("merchant/comment")
+    Call<CustomerBean> comment(@Field("token") String token,
+                               @Field("mid") String mid
+            ,
+                               @Field("page") int page,
+                               @Field("list_rows") int list_rows
+    );
 
     /**
      * 门店列表接口

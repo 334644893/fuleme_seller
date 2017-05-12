@@ -175,8 +175,8 @@ public class CFragment extends Fragment {
                 startActivity(new Intent(getActivity(), EmployeeCollectionActivity.class));
                 break;
             case R.id.ll_zhsz:
-                // 账号设置
-                startActivity(new Intent(getActivity(), UserDetailsActivity.class));
+                // 账户详情
+                startActivityForResult(new Intent(getActivity(), UserDetailsActivity.class), EXIT_TO_USERDETAIL);
                 break;
             case R.id.iv_btm_yy:
                 //语音播报

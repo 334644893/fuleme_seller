@@ -176,9 +176,16 @@
         <activity
             android:name=".activity.CouponsDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.OrderContentActivity" />
-        <activity android:name=".activity.ScanEntranceActivity" />
-        <activity android:name=".activity.OrderRefundActivity"></activity>
+        <activity
+            android:name=".activity.OrderContentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ScanEntranceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.OrderRefundActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.CustomerEvaluationActivity"></activity>
     </application>
 
 </manifest>

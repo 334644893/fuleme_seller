@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.activity.CouponsActivity;
+import com.fuleme.business.activity.CustomerEvaluationActivity;
 import com.fuleme.business.activity.EmployeeCollectionActivity;
 import com.fuleme.business.activity.MemberManagementActivity;
 import com.fuleme.business.activity.OrdersActivity;
@@ -186,23 +187,14 @@ public class AFragment extends Fragment {
                     //积分商城
                     ((FragmentActivity) getActivity()).select(1);
 
-                }
-//                else if (mTextDatas[4].equals(itemText)) {
-//                    //汇总查询
-//                    if (!TextUtils.isEmpty(App.short_id)) {
-//                        startActivity(new Intent(getActivity(), AggregationQueryActivity.class));
-//                    } else {
-//                        ToastUtil.showMessage("您还没有店铺，快去添加一个吧");
-//                    }
-//
-//                }
-                else if (mTextDatas[4].equals(itemText)) {
-                    //顾客评价
-//                    if(!TextUtils.isEmpty(App.short_id)){
-//                    }else{
-//                        ToastUtil.showMessage("您还没有店铺，快去添加一个吧");
-//                    }
-                    ToastUtil.showMessage("新功能正在开发");
+                } else if (mTextDatas[4].equals(itemText)) {
+//                    顾客评价
+                    if (!TextUtils.isEmpty(App.short_id)) {
+                        startActivity(new Intent(getActivity(), CustomerEvaluationActivity.class));
+                    } else {
+                        ToastUtil.showMessage("您还没有店铺，快去添加一个吧");
+                    }
+
                 } else if (mTextDatas[5].equals(itemText)) {
                     //供应链
                     ToastUtil.showMessage("新功能正在开发");
