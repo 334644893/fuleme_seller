@@ -5,10 +5,13 @@ import android.content.Context;
 import com.alibaba.sdk.android.push.MessageReceiver;
 import com.alibaba.sdk.android.push.notification.CPushMessage;
 import com.fuleme.business.helper.GsonUtils;
+import com.fuleme.business.utils.DateUtil;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.TtsUtil;
 
 import java.util.Map;
+
+import static com.fuleme.business.fragment.CFragment.Print_Ex;
 
 /**
  * 阿里推送
@@ -24,7 +27,14 @@ public class MyMessageReceiver extends MessageReceiver {
     public void onNotification(Context context, String title, String summary, Map<String, String> extraMap) {
         // TODO 处理推送通知
         LogUtil.e("MyMessageReceiver", "Receive notification, title: " + title + ", summary: " + summary + ", extraMap: " + extraMap);
-
+        if ("100".equals(extraMap.get("type"))) {
+            if (App.bindYY) {
+                TtsUtil.play("收到" + extraMap.get("total_fee") + "元");
+            }
+            if (App.bindPrinter) {
+                Print_Ex(extraMap.get("short_name"), extraMap.get("total_fee") + "元", DateUtil.stampToDate(extraMap.get("time_end"), DateUtil.DATE_1), extraMap.get("out_trade_no"));
+            }
+        }
     }
 
     @Override
@@ -40,10 +50,6 @@ public class MyMessageReceiver extends MessageReceiver {
         String out_trade_no = GsonUtils.getStringV(extraMap, "out_trade_no");
         if ("100".equals(type)) {
             App.NoticeDialog(context, total_fee, out_trade_no);
-            if (App.bindYY) {
-                TtsUtil.play("收到" + total_fee + "元");
-            }
-
         }
     }
 
@@ -59,6 +65,9 @@ public class MyMessageReceiver extends MessageReceiver {
             App.NoticeDialog(context, extraMap.get("total_fee"), extraMap.get("out_trade_no"));
             if (App.bindYY) {
                 TtsUtil.play("收到" + extraMap.get("total_fee") + "元");
+            }
+            if (App.bindPrinter) {
+                Print_Ex(extraMap.get("short_name"), extraMap.get("total_fee") + "元", DateUtil.stampToDate(extraMap.get("time_end"), DateUtil.DATE_1), extraMap.get("out_trade_no"));
             }
         }
 

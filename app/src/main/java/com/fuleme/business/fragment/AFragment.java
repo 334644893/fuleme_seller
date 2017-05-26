@@ -88,9 +88,9 @@ public class AFragment extends Fragment {
     LinearLayout llTitle4;
     private List<bannerBean.DataBean> bannerImageList = new ArrayList<>();
     private List<AFragmentImageBean> mDatas = new ArrayList<AFragmentImageBean>();
-    private int[] mImageDatas = {R.mipmap.icon_n_5, R.mipmap.icon_n_6, R.mipmap.icon_n_7, R.mipmap.icon_n_9, R.mipmap.icon_pinjia, R.mipmap.icon_n_10};
-    private String[] mTextDatas = {"商家活动", "官方活动", "会员管理", "积分商城", "顾客评价", "供应链"};
-    private String[] mTextContentDatas = {"每天帮我做促销", "客户引流不用愁", "大大提高复购率", "收款越多礼更多", "回头客就在这里", "一站式商品采购"};
+    private int[] mImageDatas = {R.mipmap.icon_n_5, R.mipmap.icon_n_6, R.mipmap.icon_n_7, R.mipmap.icon_pinjia, R.mipmap.icon_n_9, R.mipmap.icon_n_10};
+    private String[] mTextDatas = {"商家活动", "官方活动", "会员管理", "顾客评价", "积分商城", "供应链"};
+    private String[] mTextContentDatas = {"每天帮我做促销", "客户引流不用愁", "大大提高复购率", "回头客就在这里", "收款越多礼更多", "一站式商品采购"};
     private int[] mTitleImageDatas = {R.mipmap.icon_n_1, R.mipmap.icon_n_2, R.mipmap.icon_n_3, R.mipmap.icon_n_4};
     private String[] mTitleTextDatas = {"收款", "收款码", "账本", "报表"};
     private static final int BANNERTIME = 5000;//banner轮播时间间隔
@@ -184,16 +184,17 @@ public class AFragment extends Fragment {
                     }
 
                 } else if (mTextDatas[3].equals(itemText)) {
-                    //积分商城
-                    ((FragmentActivity) getActivity()).select(1);
-
-                } else if (mTextDatas[4].equals(itemText)) {
-//                    顾客评价
+                    //                    顾客评价
                     if (!TextUtils.isEmpty(App.short_id)) {
                         startActivity(new Intent(getActivity(), CustomerEvaluationActivity.class));
                     } else {
                         ToastUtil.showMessage("您还没有店铺，快去添加一个吧");
                     }
+
+                } else if (mTextDatas[4].equals(itemText)) {
+                    //积分商城
+                    ((FragmentActivity) getActivity()).select(1);
+
 
                 } else if (mTextDatas[5].equals(itemText)) {
                     //供应链
@@ -223,11 +224,20 @@ public class AFragment extends Fragment {
                 break;
             case R.id.ll_title_2:
                 //收款码
-                startActivity(new Intent(getActivity(), ScanReceiptActivity.class));
+                if (!TextUtils.isEmpty(App.short_id)) {
+                    startActivity(new Intent(getActivity(), ScanReceiptActivity.class));
+                } else {
+                    ToastUtil.showMessage(R.string.nostore);
+                }
                 break;
             case R.id.ll_title_3:
                 //账本
-                startActivity(new Intent(getActivity(), OrdersActivity.class));
+                if (!TextUtils.isEmpty(App.short_id)) {
+                    startActivity(new Intent(getActivity(), OrdersActivity.class));
+                } else {
+                    ToastUtil.showMessage(R.string.nostore);
+                }
+
                 break;
             case R.id.ll_title_4:
                 //报表

@@ -3,6 +3,7 @@ package com.fuleme.business.activity;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
@@ -31,7 +32,6 @@ public class WebActivity extends BaseActivity {
     TextView tvTitle;
     private boolean errFlag;
     ScrollWebView webView1;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

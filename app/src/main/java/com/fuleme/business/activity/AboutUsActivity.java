@@ -36,8 +36,8 @@ public class AboutUsActivity extends BaseActivity {
         setContentView(R.layout.activity_about_us);
         ButterKnife.bind(this);
         tvTitle.setText("关于我们");
-//        tvRight.setText("使用手册");
-//        tvRight.setVisibility(View.VISIBLE);
+        tvRight.setText("帮助");
+        tvRight.setVisibility(View.VISIBLE);
         init();
     }
 
@@ -48,7 +48,7 @@ public class AboutUsActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_right:
-//                startActivity(new Intent(AboutUsActivity.this, AboutManualActivity.class));
+                startActivity(new Intent(AboutUsActivity.this, AboutManualActivity.class));
                 break;
         }
     }

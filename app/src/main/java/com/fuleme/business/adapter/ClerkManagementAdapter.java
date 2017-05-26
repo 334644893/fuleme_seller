@@ -23,9 +23,11 @@ import butterknife.ButterKnife;
 public class ClerkManagementAdapter extends RecyclerView.Adapter<ClerkManagementAdapter.MyViewHolder> {
 
 
+
     private List<CMBean> mDatas;
     private Context context;
     private onRecyclerViewItemClickListener itemClickListener = null;
+    private onRecyclerViewItemClickListener deleteItemClickListener = null;
 
     public ClerkManagementAdapter(Context context, List<CMBean> mDatas) {
         this.context = context;
@@ -40,7 +42,8 @@ public class ClerkManagementAdapter extends RecyclerView.Adapter<ClerkManagement
         TextView tvType;
         @Bind(R.id.tv_phone)
         TextView tvPhone;
-
+        @Bind(R.id.ll_delete)
+        LinearLayout llDelete;
         @Bind(R.id.ll_store)
         LinearLayout llStore;
 
@@ -77,6 +80,13 @@ public class ClerkManagementAdapter extends RecyclerView.Adapter<ClerkManagement
                     itemClickListener.onItemClick(v, mDatas.get(position));
             }
         });
+        holder.llDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (deleteItemClickListener != null)
+                    deleteItemClickListener.onItemClick(v, mDatas.get(position));
+            }
+        });
 
     }
 
@@ -87,6 +97,9 @@ public class ClerkManagementAdapter extends RecyclerView.Adapter<ClerkManagement
 
     public void setOnItemClickListener(onRecyclerViewItemClickListener listener) {
         this.itemClickListener = listener;
+    }
+    public void setDeleteClickListener(onRecyclerViewItemClickListener listener) {
+        this.deleteItemClickListener = listener;
     }
 
     @Override

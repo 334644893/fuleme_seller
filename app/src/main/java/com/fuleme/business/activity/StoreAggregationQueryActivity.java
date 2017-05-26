@@ -1,6 +1,5 @@
 package com.fuleme.business.activity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,14 +14,15 @@ import com.fuleme.business.bean.ClerkInfoBean;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
-import com.fuleme.business.widget.LoadingDialogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,9 +34,11 @@ public class StoreAggregationQueryActivity extends BaseActivity {
     private static final String TAG = "StoreAggregationQueryAc";
     @Bind(R.id.tv_ts)
     TextView tvTs;
+    @Bind(R.id.tv_title)
+    TextView tvTitle;
     private Context context = StoreAggregationQueryActivity.this;
     public static int intentType = 0;//判断从哪个页面过来查询
-//    public static final int AGGREGATIONQUERYACTIVITY = 1;
+    //    public static final int AGGREGATIONQUERYACTIVITY = 1;
     public static final int BFRAGMENT = 2;
     public static final int CLERKMANAGEMENTACTIVITY = 3;
     public static final int USERDETAILSACTIVITY = 4;
@@ -53,7 +55,7 @@ public class StoreAggregationQueryActivity extends BaseActivity {
         ButterKnife.bind(this);
         initView();
         getmerchantclerkinfo();
-
+        tvTitle.setText("全部店铺");
     }
 
 
@@ -95,6 +97,11 @@ public class StoreAggregationQueryActivity extends BaseActivity {
                             App.qrcode = bean.getQrcode();
                             App.short_state = bean.getState();
                             App.short_area = bean.getAddress();
+                            SharedPreferencesUtils.setParam(getApplicationContext(), "short_id", App.short_id);
+                            SharedPreferencesUtils.setParam(getApplicationContext(), "merchant", App.merchant);
+                            SharedPreferencesUtils.setParam(getApplicationContext(), "qrcode", App.qrcode);
+                            SharedPreferencesUtils.setParam(getApplicationContext(), "short_area", App.short_area);
+                            SharedPreferencesUtils.setParam(getApplicationContext(), "short_state", App.short_state);
                             break;
                     }
                     finish();
@@ -125,7 +132,7 @@ public class StoreAggregationQueryActivity extends BaseActivity {
                         mDatas.addAll(response.body().getData());
                         if (
 //                                intentType == AGGREGATIONQUERYACTIVITY ||
-                                        intentType == CLERKMANAGEMENTACTIVITY) {
+                                intentType == CLERKMANAGEMENTACTIVITY) {
                             ClerkInfoBean.DataBean bean = new ClerkInfoBean.DataBean();
                             bean.setName("全部店铺");
                             bean.setId(App.PLACEHOLDER);
@@ -163,4 +170,8 @@ public class StoreAggregationQueryActivity extends BaseActivity {
         });
     }
 
+    @OnClick(R.id.tv_left)
+    public void onClick() {
+        finish();
+    }
 }

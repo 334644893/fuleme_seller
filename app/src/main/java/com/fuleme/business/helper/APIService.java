@@ -2,6 +2,7 @@ package com.fuleme.business.helper;
 
 import com.fuleme.business.bean.AnalysecouponBean;
 import com.fuleme.business.bean.ClerkInfoBean;
+import com.fuleme.business.bean.ClerkOederBean;
 import com.fuleme.business.bean.ContractBean;
 import com.fuleme.business.bean.CouponsBean;
 import com.fuleme.business.bean.CustomerBean;
@@ -366,6 +367,18 @@ public interface APIService {
     @FormUrlEncoded
     @POST("merchant/getmerchantclerkinfo")
     Call<ClerkInfoBean> getmerchantclerkinfo(@Field("token") String token);
+    /**
+     * 获取店员的收款信息
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("/api/order/clerk_oeder")
+    Call<ClerkOederBean> clerk_oeder(@Field("clerk_id") String clerk_id,
+                                     @Field("merchant_id") String merchant_id,
+                                     @Field("starttime") String starttime,
+                                     @Field("endtime") String endtime);
 
     /**
      * 活动列表接口

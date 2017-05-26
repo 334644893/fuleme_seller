@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@drawable/shape_bg"
+    android:background="@color/evaluate_content_1"
     android:orientation="vertical"
     tools:context="com.fuleme.business.activity.StoreAggregationQueryActivity">
+    <include layout="@layout/item_actionbar" />
     <TextView
         android:id="@+id/tv_ts"
         android:layout_width="match_parent"

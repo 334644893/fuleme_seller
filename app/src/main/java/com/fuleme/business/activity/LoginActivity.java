@@ -81,7 +81,8 @@ public class LoginActivity extends BaseActivity {
             startActivity(new Intent(LoginActivity.this, StartActivity.class));
         }
         initJzmm();
-        setState(App.LOGIN_TYPE_EMPLOYEES);
+
+        setState(App.login_type);
         //更新
         version();
         AutomaticLogin();
@@ -141,6 +142,8 @@ public class LoginActivity extends BaseActivity {
     private void AutomaticLogin() {
         App.token = SharedPreferencesUtils.getParam(getApplicationContext(), "token", App.token).toString();
         if (!TextUtils.isEmpty(App.token)) {
+
+
             App.uid = (int) SharedPreferencesUtils.getParam(getApplicationContext(), "uid", App.uid);
             App.phone = SharedPreferencesUtils.getParam(getApplicationContext(), "phone", App.phone).toString();
             App.username = SharedPreferencesUtils.getParam(getApplicationContext(), "username", App.username).toString();
@@ -298,6 +301,7 @@ public class LoginActivity extends BaseActivity {
                         LogUtil.i("登陆成功");
                         //TODO 初始化数据
                         JSONObject data = GsonUtils.getResultData(response.body());
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "login_type", App.login_type);
                         App.uid = data.optInt("uid");
                         SharedPreferencesUtils.setParam(getApplicationContext(), "uid", App.uid);
                         App.phone = data.optString("phone");

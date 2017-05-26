@@ -47,6 +47,7 @@ public class TokenInterceptor implements Interceptor {
             //同步请求方式，获取最新的Token
             final String username = SharedPreferencesUtils.getParam(App.getInstance(), "phone", "") + "";
             final String password = SharedPreferencesUtils.getParam(App.getInstance(), "token_password", "") + "";
+            App.login_type = (int) SharedPreferencesUtils.getParam(App.getInstance(), "login_type", App.login_type);
             Call<Object> weather = App.getInstance().getTokenAPIService().login(
                     username,
                     password,

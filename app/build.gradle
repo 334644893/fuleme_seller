@@ -7,8 +7,8 @@ android {
         applicationId "com.fuleme.business"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 201
-        versionName "2.0.1"
+        versionCode 111
+        versionName "1.1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             //选择要添加的对应cpu类型的.so库。
@@ -68,4 +68,5 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.5.2'
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
     compile(name: 'huawei-xiaomi-support-3.0.0', ext: 'aar')
+    compile files('libs/btsdk.jar')
 }

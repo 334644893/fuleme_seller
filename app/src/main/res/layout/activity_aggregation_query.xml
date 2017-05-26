@@ -6,8 +6,10 @@
     android:layout_height="match_parent"
     android:background="@color/evaluate_content_1"
     android:orientation="vertical"
-    tools:context="com.fuleme.business.activity.AggregationQueryActivity">
+    tools:context="com.fuleme.business.activity.ClerkDetailsActivity">
+
     <include layout="@layout/item_actionbar" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,50 +19,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/ll_query_store"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:orientation="horizontal"
-                android:padding="10dp">
-
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|left"
-                    android:paddingLeft="15dp"
-                    android:text="查询店铺" />
-
-                <TextView
-                    android:id="@+id/tv_agg_all"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical|right"
-
-                    android:paddingRight="15dp"
-                    android:text="全部店铺" />
-
-                <ImageView
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@mipmap/icon3" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:padding="10dp">
@@ -198,18 +160,20 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <TextView
+                <Button
                     android:id="@+id/tv_date_query"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="20dp"
-                    android:background="@drawable/shape_corner_bom_line"
+                    android:background="@drawable/text_bg_selector"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:gravity="center"
                     android:paddingLeft="120dp"
                     android:paddingRight="120dp"
                     android:text="查询"
-                    android:textColor="@color/theme"
+                    android:textColor="@drawable/textselector"
                     android:textSize="@dimen/text_size_20" />
             </LinearLayout>
 
@@ -220,45 +184,169 @@
                 android:background="@color/evaluate_content_1"
                 android:orientation="vertical">
 
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
+                    android:gravity="center"
                     android:orientation="horizontal"
-                    android:padding="5dp">
+                    android:padding="4dp">
+
 
                     <TextView
+                        android:id="@+id/tv_1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="类别" />
+                        android:text="共3笔"
+                        android:textColor="@color/pale_black"
+                        android:textSize="@dimen/text_size_16" />
 
                     <TextView
+                        android:id="@+id/tv_2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
                         android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="笔数" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="金额" />
+                        android:ellipsize="end"
+                        android:gravity="right"
+                        android:lines="1"
+                        android:text="订单总额:$23232323"
+                        android:textColor="@color/pale_black"
+                        android:textSize="@dimen/text_size_16" />
 
                 </LinearLayout>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerview"
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:overScrollMode="never"
-                    android:scrollbars="none"
-                    />
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon13"
+                        android:visibility="invisible" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="交易类型"
+                        android:textColor="@color/pale_black"
+                        android:textSize="@dimen/text_size_16" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:text="金额"
+                        android:textColor="@color/pale_black"
+                        android:textSize="@dimen/text_size_16" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:text="订单笔数"
+                        android:textColor="@color/pale_black"
+                        android:textSize="@dimen/text_size_16" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+
+                    <ImageView
+                        android:id="@+id/iv_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon13" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="微信支付"
+                        android:textColor="@color/progress_background" />
+
+                    <TextView
+                        android:id="@+id/tv_wx_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:textColor="@color/progress_background" />
+
+                    <TextView
+                        android:id="@+id/tv_wx_2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:textColor="@color/progress_background" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="4dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/icon12" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="支付宝支付"
+                        android:textColor="@color/progress_background" />
+
+                    <TextView
+                        android:id="@+id/tv_zfb_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:textColor="@color/progress_background" />
+
+                    <TextView
+                        android:id="@+id/tv_zfb_2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="end"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:textColor="@color/progress_background" />
+                </LinearLayout>
 
             </LinearLayout>
 

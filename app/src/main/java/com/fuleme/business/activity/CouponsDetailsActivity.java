@@ -196,6 +196,7 @@ public class CouponsDetailsActivity extends BaseActivity {
                         .setMessage("确定结束发放该活动吗?")
                         .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
                                 opencoupon(DELETESTATE);
                             }
                         })

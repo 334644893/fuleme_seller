@@ -46,6 +46,8 @@ public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHo
         TextView tvNumber;
         @Bind(R.id.tv_area)
         TextView tvArea;
+        @Bind(R.id.tv_state)
+        TextView tvState;
         @Bind(R.id.ll_number)
         LinearLayout llNumber;
         @Bind(R.id.ll_area)
@@ -71,18 +73,20 @@ public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHo
             holder.tvStore.setText(mDatas.get(position).getName());
             holder.llNumber.setVisibility(View.GONE);
             holder.llArea.setVisibility(View.GONE);
+            holder.tvState.setVisibility(View.GONE);
         } else {
-            if(mDatas.get(position).getClerk()!=null){
+            if (mDatas.get(position).getClerk() != null) {
 
-                holder.tvNumber.setText(mDatas.get(position).getClerk().size() + "");
-            }else{
+                holder.tvNumber.setText("店员:"+mDatas.get(position).getClerk().size() + "人");
+            } else {
                 holder.tvNumber.setText("0");
             }
-            holder.tvArea.setText(mDatas.get(position).getAddress());
-            if("0".equals(mDatas.get(position).getState())){
-                holder.tvStore.setText(mDatas.get(position).getName()+"(待审核)");
-            }else{
-                holder.tvStore.setText(mDatas.get(position).getName()+"(已审核)");
+            holder.tvArea.setText("地址:"+mDatas.get(position).getAddress());
+            holder.tvStore.setText(mDatas.get(position).getName());
+            if ("0".equals(mDatas.get(position).getState())) {
+                holder.tvState.setVisibility(View.VISIBLE);
+            } else {
+                holder.tvState.setVisibility(View.GONE);
             }
         }
 

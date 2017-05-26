@@ -1,4 +1,5 @@
 package com.fuleme.business.activity;
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.adapter.ClerkManagementAdapter;
@@ -21,8 +23,10 @@ import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.widget.AddClerkDialog;
 import com.fuleme.business.widget.CustomDialog;
 import com.fuleme.business.widget.LoadingDialogUtils;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -78,6 +82,14 @@ public class ClerkManagementActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new ClerkManagementAdapter.onRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v, final CMBean bean) {
+                ClerkDetailsActivity.clerkId = bean.getId();
+                ClerkDetailsActivity.storeID = bean.getStoreid();
+                startActivity(new Intent(ClerkManagementActivity.this, ClerkDetailsActivity.class));
+            }
+        });
+        mAdapter.setDeleteClickListener(new ClerkManagementAdapter.onRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View v, final CMBean bean) {
                 CustomDialog.Builder customBuilder = new
                         CustomDialog.Builder(ClerkManagementActivity.this);
                 customBuilder
@@ -100,7 +112,6 @@ public class ClerkManagementActivity extends BaseActivity {
                 deleteDialog.show();
             }
         });
-
     }
 
     protected void initData() {
@@ -221,7 +232,7 @@ public class ClerkManagementActivity extends BaseActivity {
      * 店员管理接口
      */
     private void getmerchantclerkinfo() {
-        mLoading = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "加载中...",false);//添加等待框
+        mLoading = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "加载中...", false);//添加等待框
         Call<ClerkInfoBean> call = getApi().getmerchantclerkinfo(App.token);
 
         call.enqueue(new Callback<ClerkInfoBean>() {
@@ -269,7 +280,7 @@ public class ClerkManagementActivity extends BaseActivity {
                           String password,
                           String phone,
                           String role) {
-        mLoading_2 = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "加载中...",false);//添加等待框
+        mLoading_2 = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "加载中...", false);//添加等待框
         Call<Object> call = getApi().addclerk(token, shopid, username, password, phone, role);
 
         call.enqueue(new Callback<Object>() {
@@ -315,7 +326,7 @@ public class ClerkManagementActivity extends BaseActivity {
             String token,
             String shopid,
             String id) {
-        mLoading_3 = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "删除中...",false);//添加等待框
+        mLoading_3 = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "删除中...", false);//添加等待框
         Call<Object> call = getApi().delclerk(token, shopid, id);
 
         call.enqueue(new Callback<Object>() {

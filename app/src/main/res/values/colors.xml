@@ -45,6 +45,7 @@
 
     <color name="app_back_color">#e1e1e1</color>
     <color name="progress_background">#666666</color>
+    <color name="progress_background_1">#cccccc</color>
     <color name="progress_color">#5fe6ee</color>
     <color name="color_swipe">#111125</color>
     <color name="color_header">#e1e1e1</color>

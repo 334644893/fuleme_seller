@@ -56,6 +56,7 @@ public class App extends Application {
     public static int login_type = 1;//登录状态 0:管理员 1：员工
     public static boolean bindYY;//语音开关
     public static boolean bindAccount;//通知开关
+    public static boolean bindPrinter;//打印机蓝牙连接开关
     final public static String alipay = "alipay";
     final public static String weixin = "weixin";
     public static final int LOGIN_TYPE_ADMIN = 0;//登录状态 0:管理员
@@ -83,6 +84,7 @@ public class App extends Application {
         super.onCreate();
         instance = this;
         VERSIONNAME = DeviceUtils.getVersionName(this);
+        login_type=(int) SharedPreferencesUtils.getParam(App.getInstance(), "login_type", 1);
         initFresco();//初始化图片加载
         initRest();//初始化网络通信
         bindAccount = (boolean) SharedPreferencesUtils.getParam(getApplicationContext(), "bindAccount", true);

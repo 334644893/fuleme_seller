@@ -54,9 +54,7 @@ public class OrderRefundActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_enter_1:
-                LogUtil.d("etAmount-----------", Double.valueOf(etAmount.getText().toString()) + "");
-                LogUtil.d("primeCost-----------", Double.valueOf(OrderContentActivity.primeCost) + "");
-                LogUtil.d("primeCost-----------", Double.valueOf(etAmount.getText().toString()) - Double.valueOf(OrderContentActivity.primeCost) + "");
+
                 if (TextUtils.isEmpty(etAmount.getText().toString())) {
                     ToastUtil.showMessage("请输入退款金额");
                 } else if (Double.valueOf(etAmount.getText().toString()) > Double.valueOf(OrderContentActivity.primeCost)) {
