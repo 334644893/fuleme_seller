@@ -8,15 +8,14 @@ import java.util.List;
 
 public class ClerkOederBean {
 
+
     /**
      * error_code : 200
-     * total : 0.02
-     * data : [{"total_fee":"0.01","trade_type":"pay.weixin.jspay","out_trade_no":"201703251602188485413360","coupon_fee":"0","prime_cost":"0.01","time_end":"1490428945"},{"total_fee":"0.01","trade_type":"pay.weixin.jspay","out_trade_no":"201703251602188485413360","coupon_fee":"0","prime_cost":"0.01","time_end":"1490428945"}]
+     * data : {"allTotal":"0.72","allNumber":"49","alipayTotal":"0.07","alipayNumber":"7","weixinTotal":"0.65","weixinNumber":"42"}
      */
 
     private String error_code;
-    private double total;
-    private List<DataBean> data;
+    private DataBean data;
 
     public String getError_code() {
         return error_code;
@@ -26,85 +25,77 @@ public class ClerkOederBean {
         this.error_code = error_code;
     }
 
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
-    public List<DataBean> getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(List<DataBean> data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 
     public static class DataBean {
         /**
-         * total_fee : 0.01
-         * trade_type : pay.weixin.jspay
-         * out_trade_no : 201703251602188485413360
-         * coupon_fee : 0
-         * prime_cost : 0.01
-         * time_end : 1490428945
+         * allTotal : 0.72
+         * allNumber : 49
+         * alipayTotal : 0.07
+         * alipayNumber : 7
+         * weixinTotal : 0.65
+         * weixinNumber : 42
          */
 
-        private double total_fee;
-        private String trade_type;
-        private String out_trade_no;
-        private String coupon_fee;
-        private String prime_cost;
-        private String time_end;
+        private double allTotal;
+        private String allNumber;
+        private double alipayTotal;
+        private String alipayNumber;
+        private double weixinTotal;
+        private String weixinNumber;
 
-        public double getTotal_fee() {
-            return total_fee;
+        public double getAllTotal() {
+            return allTotal;
         }
 
-        public void setTotal_fee(double total_fee) {
-            this.total_fee = total_fee;
+        public void setAllTotal(double allTotal) {
+            this.allTotal = allTotal;
         }
 
-        public String getTrade_type() {
-            return trade_type;
+        public String getAllNumber() {
+            return allNumber;
         }
 
-        public void setTrade_type(String trade_type) {
-            this.trade_type = trade_type;
+        public void setAllNumber(String allNumber) {
+            this.allNumber = allNumber;
         }
 
-        public String getOut_trade_no() {
-            return out_trade_no;
+        public double getAlipayTotal() {
+            return alipayTotal;
         }
 
-        public void setOut_trade_no(String out_trade_no) {
-            this.out_trade_no = out_trade_no;
+        public void setAlipayTotal(double alipayTotal) {
+            this.alipayTotal = alipayTotal;
         }
 
-        public String getCoupon_fee() {
-            return coupon_fee;
+        public String getAlipayNumber() {
+            return alipayNumber;
         }
 
-        public void setCoupon_fee(String coupon_fee) {
-            this.coupon_fee = coupon_fee;
+        public void setAlipayNumber(String alipayNumber) {
+            this.alipayNumber = alipayNumber;
         }
 
-        public String getPrime_cost() {
-            return prime_cost;
+        public double getWeixinTotal() {
+            return weixinTotal;
         }
 
-        public void setPrime_cost(String prime_cost) {
-            this.prime_cost = prime_cost;
+        public void setWeixinTotal(double weixinTotal) {
+            this.weixinTotal = weixinTotal;
         }
 
-        public String getTime_end() {
-            return time_end;
+        public String getWeixinNumber() {
+            return weixinNumber;
         }
 
-        public void setTime_end(String time_end) {
-            this.time_end = time_end;
+        public void setWeixinNumber(String weixinNumber) {
+            this.weixinNumber = weixinNumber;
         }
     }
 }

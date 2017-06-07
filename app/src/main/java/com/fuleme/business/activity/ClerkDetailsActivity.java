@@ -293,27 +293,13 @@ public class ClerkDetailsActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("成功");
-                        // 初始化数据
-//                        nf.format(response.body().getTotal()) + "元"
-                        int weixin = 0;
-                        int zhifubao = 0;
-                        double weixinTotal = 0;
-                        double zhifubaoTotal = 0;
-                        for (ClerkOederBean.DataBean bean : response.body().getData()) {
-                            if (App.weixin.equals(bean.getTrade_type().split("\\.")[1])) {
-                                weixin++;
-                                weixinTotal += bean.getTotal_fee();
-                            } else if (App.alipay.equals(bean.getTrade_type().split("\\.")[1])) {
-                                zhifubao++;
-                                zhifubaoTotal += bean.getTotal_fee();
-                            }
-                        }
-                        tv1.setText("共" + response.body().getData().size() + "笔");
-                        tv2.setText("订单总额:￥" + nf.format(response.body().getTotal()));
-                        tvWx1.setText(nf.format(weixinTotal));
-                        tvWx2.setText(weixin + "");
-                        tvZfb1.setText(nf.format(zhifubaoTotal));
-                        tvZfb2.setText(zhifubao + "");
+
+                        tv1.setText("共" + response.body().getData().getAllNumber() + "笔");
+                        tv2.setText("订单总额:￥" + nf.format(response.body().getData().getAllTotal()));
+                        tvWx1.setText(nf.format(response.body().getData().getWeixinTotal()));
+                        tvWx2.setText(response.body().getData().getWeixinNumber() + "");
+                        tvZfb1.setText(nf.format(response.body().getData().getAlipayTotal()));
+                        tvZfb2.setText(response.body().getData().getAlipayNumber() + "");
                     } else {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }

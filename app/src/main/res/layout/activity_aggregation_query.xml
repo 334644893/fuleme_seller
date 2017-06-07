@@ -160,18 +160,16 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Button
+                <TextView
                     android:id="@+id/tv_date_query"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_margin="20dp"
+                    android:layout_margin="15dp"
                     android:background="@drawable/text_bg_selector"
                     android:clickable="true"
                     android:focusable="true"
                     android:gravity="center"
-                    android:paddingLeft="120dp"
-                    android:paddingRight="120dp"
                     android:text="查询"
                     android:textColor="@drawable/textselector"
                     android:textSize="@dimen/text_size_20" />
@@ -199,9 +197,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="共3笔"
+                        android:text="共笔"
+                        android:paddingLeft="6dp"
                         android:textColor="@color/pale_black"
-                        android:textSize="@dimen/text_size_16" />
+                        android:textSize="@dimen/text_size_14" />
 
                     <TextView
                         android:id="@+id/tv_2"
@@ -211,9 +210,10 @@
                         android:ellipsize="end"
                         android:gravity="right"
                         android:lines="1"
-                        android:text="订单总额:$23232323"
+                        android:paddingRight="10dp"
+                        android:text="订单总额:"
                         android:textColor="@color/pale_black"
-                        android:textSize="@dimen/text_size_16" />
+                        android:textSize="@dimen/text_size_14" />
 
                 </LinearLayout>
 
@@ -222,6 +222,7 @@
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:gravity="center"
+                    android:layout_marginTop="1dp"
                     android:orientation="horizontal"
                     android:padding="4dp">
 

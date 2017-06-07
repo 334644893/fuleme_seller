@@ -69,4 +69,5 @@ dependencies {
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
     compile(name: 'huawei-xiaomi-support-3.0.0', ext: 'aar')
     compile files('libs/btsdk.jar')
+    compile files('libs/eptapilibrary.jar')
 }
