@@ -18,6 +18,6 @@ public interface TokenAPIService {
     @FormUrlEncoded
     @POST("user/login")
     Call<Object> login(@Field("phone") String phone,
-                       @Field("password") String password,
-                       @Field("role") int role);
+                       @Field("password") String password
+                      );
 }

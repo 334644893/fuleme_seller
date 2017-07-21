@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,16 +39,20 @@ public class CouponsActivity extends BaseActivity {
     RecyclerView mRecyclerView;
     @Bind(R.id.rl_none)
     RelativeLayout rlNone;
+    @Bind(R.id.iv_right)
+    ImageView ivRight;
     private List<CouponsBean.DataBean> mDatas = new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
     CouponsAdapter mAdapter;
-
+    int TOSTORE = 998;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_coupons);
         ButterKnife.bind(this);
         tvTitle.setText(App.merchant);
+        ivRight.setVisibility(View.VISIBLE);
+        ivRight.setImageResource(R.mipmap.icon_liebiao);
         initView();
     }
 
@@ -78,9 +83,15 @@ public class CouponsActivity extends BaseActivity {
         super.onResume();
     }
 
-    @OnClick({R.id.tv_left, R.id.tv_new_action,R.id.im_tianjia})
+    @OnClick({R.id.tv_left, R.id.tv_new_action, R.id.im_tianjia,R.id.fl_r})
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.fl_r:
+                //切换店铺
+                StoreAggregationQueryActivity.intentType = StoreAggregationQueryActivity.USERDETAILSACTIVITY;
+                Intent intent = new Intent(CouponsActivity.this, StoreAggregationQueryActivity.class);
+                startActivityForResult(intent, TOSTORE);
+                break;
             case R.id.tv_left:
                 finish();
                 break;
@@ -116,7 +127,6 @@ public class CouponsActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
-                        //TODO 初始化数据
                         mDatas.clear();
                         mDatas.addAll(response.body().getData());
                         if (mDatas.size() > 0) {
@@ -143,4 +153,6 @@ public class CouponsActivity extends BaseActivity {
 
         });
     }
+
+
 }

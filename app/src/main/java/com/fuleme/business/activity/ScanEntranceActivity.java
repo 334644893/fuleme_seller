@@ -3,11 +3,18 @@ package com.fuleme.business.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fuleme.business.App;
 import com.fuleme.business.R;
@@ -16,7 +23,12 @@ import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.NumberUtils;
 import com.fuleme.business.utils.ToastUtil;
+import com.fuleme.business.widget.VirtualKeyboardView;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,21 +47,35 @@ public class ScanEntranceActivity extends BaseActivity {
     @Bind(R.id.et_amount)
     EditText etAmount;
     public static final int SAOYISAO = 1;//选中扫一扫
-
+    private VirtualKeyboardView virtualKeyboardView;
+    private GridView gridView;
+    private ArrayList<Map<String, String>> valueList;
+    private Animation enterAnim;
+    private Animation exitAnim;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_entrance);
         ButterKnife.bind(this);
         tvTitle.setText("收款");
-        etAmount.addTextChangedListener(watcher);
+        initAnim();
+        initView();
+        valueList = virtualKeyboardView.getValueList();
     }
 
     private TextWatcher watcher = new TextWatcher() {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
+            if (s.length()>0) {
+                if ((new Float(Float.parseFloat(s.toString().trim()) * 100)).intValue() > 1000000) {
+                    etAmount.setText("10000.00");
+                    etAmount.setSelection(etAmount.getText().toString().length());
+                    ToastUtil.showMessage("限额1万元");
+                }else{
+                    etAmount.setMaxEms(10);
+                }
+            }
             if (s.toString().contains(".")) {
                 if (s.length() - 1 - s.toString().indexOf(".") > 2) {
                     s = s.toString().subSequence(0,
@@ -82,7 +108,6 @@ public class ScanEntranceActivity extends BaseActivity {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count,
                                       int after) {
-            // TODO Auto-generated method stub
 
         }
 
@@ -93,7 +118,7 @@ public class ScanEntranceActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             if (!TextUtils.isEmpty(data.getExtras().getString(CodeUtils.RESULT_STRING))) {
-                CreditCardPayment(data.getExtras().getString(CodeUtils.RESULT_STRING), (int) (NumberUtils.StringToDouble(etAmount.getText().toString()) * 100) + "");
+                CreditCardPayment(data.getExtras().getString(CodeUtils.RESULT_STRING), NumberUtils.StringToAmount(etAmount.getText().toString().trim()) + "");
             }
         }
         etAmount.setText("");
@@ -157,4 +182,97 @@ public class ScanEntranceActivity extends BaseActivity {
 
         });
     }
+    /**
+     * 数字键盘显示动画
+     */
+    private void initAnim() {
+        enterAnim = AnimationUtils.loadAnimation(this, R.anim.push_bottom_in);
+        exitAnim = AnimationUtils.loadAnimation(this, R.anim.push_bottom_out);
+    }
+    private void initView() {
+        etAmount.addTextChangedListener(watcher);
+        // 设置不调用系统键盘
+        if (android.os.Build.VERSION.SDK_INT <= 10) {
+            etAmount.setInputType(InputType.TYPE_NULL);
+        } else {
+            this.getWindow().setSoftInputMode(
+                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            try {
+                Class<EditText> cls = EditText.class;
+                Method setShowSoftInputOnFocus;
+                setShowSoftInputOnFocus = cls.getMethod("setShowSoftInputOnFocus",
+                        boolean.class);
+                setShowSoftInputOnFocus.setAccessible(true);
+                setShowSoftInputOnFocus.invoke(etAmount, false);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        virtualKeyboardView = (VirtualKeyboardView) findViewById(R.id.virtualKeyboardView);
+        virtualKeyboardView.getLayoutBack().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                virtualKeyboardView.startAnimation(exitAnim);
+                virtualKeyboardView.setVisibility(View.GONE);
+            }
+        });
+
+        gridView = virtualKeyboardView.getGridView();
+        gridView.setOnItemClickListener(onItemClickListener);
+
+        etAmount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                virtualKeyboardView.setFocusable(true);
+                virtualKeyboardView.setFocusableInTouchMode(true);
+
+                virtualKeyboardView.startAnimation(enterAnim);
+                virtualKeyboardView.setVisibility(View.VISIBLE);
+            }
+        });
+
+    }
+
+    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
+            if (position < 11 && position != 9) {    //点击0~9按钮
+
+                String amount = etAmount.getText().toString().trim();
+                amount = amount + valueList.get(position).get("name");
+
+                etAmount.setText(amount);
+
+                Editable ea = etAmount.getText();
+                etAmount.setSelection(ea.length());
+            } else {
+
+                if (position == 9) {      //点击退格键
+                    String amount = etAmount.getText().toString().trim();
+                    if (!amount.contains(".")) {
+                        amount = amount + valueList.get(position).get("name");
+                        etAmount.setText(amount);
+
+                        Editable ea = etAmount.getText();
+                        etAmount.setSelection(ea.length());
+                    }
+                }
+
+                if (position == 11) {      //点击退格键
+                    String amount = etAmount.getText().toString().trim();
+                    if (amount.length() > 0) {
+                        amount = amount.substring(0, amount.length() - 1);
+                        etAmount.setText(amount);
+
+                        Editable ea = etAmount.getText();
+                        etAmount.setSelection(ea.length());
+                    }
+                }
+            }
+        }
+    };
 }

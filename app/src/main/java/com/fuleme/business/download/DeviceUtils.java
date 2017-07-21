@@ -21,7 +21,6 @@ public class DeviceUtils {
             //获取versionName
             versionName = info.versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return versionName;
@@ -40,7 +39,6 @@ public class DeviceUtils {
             //获取versionCode
             versionCode = info.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return versionCode;

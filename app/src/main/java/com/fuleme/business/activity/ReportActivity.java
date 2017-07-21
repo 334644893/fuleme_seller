@@ -2,6 +2,7 @@ package com.fuleme.business.activity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -108,15 +109,11 @@ public class ReportActivity extends BaseActivity {
     List<String> date = new ArrayList<>();
     List<Float> weather = new ArrayList<>();
     List<Integer> numberWeather = new ArrayList<>();
-    //        String[] date = {"10-22", "11-22", "12-22", "1-22", "6-22", "5-23", "5-22", "6-22", "5-23", "5-22"};//X轴的标注
-//    float[] weather = {0.05f, 1.2f, 0f, 1f, 1f, 1f, 1f, 1f, 1f, 11f};//金额图表
-//    int[] numberWeather = {500, 120, 190, 101, 110, 114, 110, 118, 10, 110};//笔数图表
     private List<PointValue> mPointValues = new ArrayList<>();
     private List<AxisValue> mAxisXValues = new ArrayList<>();
     private List<PointValue> mNumberPointValues = new ArrayList<>();
     private List<AxisValue> mNumberAxisXValues = new ArrayList<>();
     private Float weatherMax = 0f;
-//    private int textsize = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,13 +152,6 @@ public class ReportActivity extends BaseActivity {
         date.add(" ");
         weather.add(0f);
         numberWeather.add(0);
-//        if (weatherMax < 1000) {
-//            textsize = 12;
-//        } else if (weatherMax < 10000) {
-//            textsize = 10;
-//        } else if (weatherMax < 100000) {
-//            textsize = 8;
-//        }
         lineChartAmout();
     }
 
@@ -186,6 +176,35 @@ public class ReportActivity extends BaseActivity {
         IncomeBean bean = null;
         initData(bean);
         initTime();
+        mAdapter.setOnItemClickListener(new ReportRAdapter.onRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                OrderDetailsActivity.activity_type = 1;
+                OrderDetailsActivity.shopid = App.short_id;
+                OrderDetailsActivity.short_name = App.merchant;
+                OrderDetailsActivity.startTime = startTime;
+                OrderDetailsActivity.endTime = endTime;
+                switch (position) {
+                    case 0:
+                        OrderDetailsActivity.report_trade_type="weixin";
+                        startActivity(new Intent(ReportActivity.this, OrderDetailsActivity.class));
+                        break;
+                    case 1:
+                        OrderDetailsActivity.report_trade_type="alipay";
+                        startActivity(new Intent(ReportActivity.this, OrderDetailsActivity.class));
+                        break;
+                    case 2:
+                        ToastUtil.showMessage("没有订单");
+                        break;
+                    case 3:
+                        ToastUtil.showMessage("没有订单");
+                        break;
+                    case 4:
+                        ToastUtil.showMessage("没有订单");
+                        break;
+                }
+            }
+        });
     }
 
     public void initData(IncomeBean bean) {
@@ -395,7 +414,11 @@ public class ReportActivity extends BaseActivity {
 
     private void income() {
         showLoading("获取中...");
-        Call<IncomeBean> call = getApi().income(App.token, App.short_id, startTime, endTime);
+        Call<IncomeBean> call = getApi().income(
+                App.token,
+                App.short_id,
+                startTime,
+                endTime);
         LogUtil.d("---------startTime", DateUtil.stampToDate(startTime + "", DateUtil.DATE_1));
         LogUtil.d("---------endTime", DateUtil.stampToDate(endTime + "", DateUtil.DATE_1));
         call.enqueue(new Callback<IncomeBean>() {

@@ -16,6 +16,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -82,7 +83,7 @@ public class LoginActivity extends BaseActivity {
         }
         initJzmm();
 
-        setState(App.login_type);
+//        setState(App.login_type);
         //更新
         version();
         AutomaticLogin();
@@ -214,12 +215,12 @@ public class LoginActivity extends BaseActivity {
     @OnClick({R.id.tv_wjmm, R.id.ll_dianyuan, R.id.ll_admin, R.id.btn_login, R.id.tv_zczh, R.id.tv_jzmm})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ll_dianyuan:
-                setState(App.LOGIN_TYPE_EMPLOYEES);
-                break;
-            case R.id.ll_admin:
-                setState(App.LOGIN_TYPE_ADMIN);
-                break;
+//            case R.id.ll_dianyuan:
+//                setState(App.LOGIN_TYPE_EMPLOYEES);
+//                break;
+//            case R.id.ll_admin:
+//                setState(App.LOGIN_TYPE_ADMIN);
+//                break;
             case R.id.btn_login:
                 if (MANDATORY) {
                     version();
@@ -258,30 +259,30 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    /**
-     * 改变登录类型
-     *
-     * @param type
-     */
-    private void setState(int type) {
-        App.login_type = type;
-        switch (type) {
-
-            case App.LOGIN_TYPE_ADMIN:
-                tvAdmin.setTextColor(getResources().getColor(R.color.black_87));
-                tvAdminL.setBackgroundColor(getResources().getColor(R.color.black_87));
-                tvDianyuan.setTextColor(getResources().getColor(R.color.black_26));
-                tvDianyuanL.setBackgroundColor(getResources().getColor(R.color.app_back_color));
-                break;
-            case App.LOGIN_TYPE_EMPLOYEES:
-
-                tvDianyuan.setTextColor(getResources().getColor(R.color.black_87));
-                tvDianyuanL.setBackgroundColor(getResources().getColor(R.color.black_87));
-                tvAdmin.setTextColor(getResources().getColor(R.color.black_26));
-                tvAdminL.setBackgroundColor(getResources().getColor(R.color.app_back_color));
-                break;
-        }
-    }
+//    /**
+//     * 改变登录类型
+//     *
+//     * @param type
+//     */
+//    private void setState(int type) {
+//        App.login_type = type;
+//        switch (type) {
+//
+//            case App.LOGIN_TYPE_ADMIN:
+//                tvAdmin.setTextColor(getResources().getColor(R.color.black_87));
+//                tvAdminL.setBackgroundColor(getResources().getColor(R.color.black_87));
+//                tvDianyuan.setTextColor(getResources().getColor(R.color.black_26));
+//                tvDianyuanL.setBackgroundColor(getResources().getColor(R.color.app_back_color));
+//                break;
+//            case App.LOGIN_TYPE_EMPLOYEES:
+//
+//                tvDianyuan.setTextColor(getResources().getColor(R.color.black_87));
+//                tvDianyuanL.setBackgroundColor(getResources().getColor(R.color.black_87));
+//                tvAdmin.setTextColor(getResources().getColor(R.color.black_26));
+//                tvAdminL.setBackgroundColor(getResources().getColor(R.color.app_back_color));
+//                break;
+//        }
+//    }
 
     /**
      * 登录接口
@@ -290,8 +291,7 @@ public class LoginActivity extends BaseActivity {
     private void Login() {
         showLoading("登录中...");
         Call<Object> call = getApi().login(etPhone.getText().toString(),
-                etVerify.getText().toString(),
-                App.login_type);
+                etVerify.getText().toString());
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -299,9 +299,8 @@ public class LoginActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("登陆成功");
-                        //TODO 初始化数据
                         JSONObject data = GsonUtils.getResultData(response.body());
-                        SharedPreferencesUtils.setParam(getApplicationContext(), "login_type", App.login_type);
+//                        SharedPreferencesUtils.setParam(getApplicationContext(), "login_type", App.login_type);
                         App.uid = data.optInt("uid");
                         SharedPreferencesUtils.setParam(getApplicationContext(), "uid", App.uid);
                         App.phone = data.optString("phone");
@@ -337,7 +336,6 @@ public class LoginActivity extends BaseActivity {
                             SharedPreferencesUtils.setParam(getApplicationContext(), "password", "");
                         }
                         closeLoading();//取消等待框
-                        //TODO 跳转主页
                         startActivity(new Intent(LoginActivity.this, FragmentActivity.class));
                         finish();
 
@@ -374,7 +372,6 @@ public class LoginActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("获取更新信息成功");
-                        //TODO 初始化数据
                         JSONObject data = GsonUtils.getResultData(response.body());
                         LogUtil.d("---data--", data.toString());
                         int version = data.optInt("androidVersion");//版本标识

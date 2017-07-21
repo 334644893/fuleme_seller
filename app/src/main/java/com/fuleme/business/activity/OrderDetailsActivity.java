@@ -19,12 +19,14 @@ import com.fuleme.business.adapter.OrderDetailsAdapter;
 import com.fuleme.business.bean.OrderDetailsBean;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.helper.GsonUtils;
+import com.fuleme.business.utils.DateUtil;
 import com.fuleme.business.utils.DividerItemDecoration;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.widget.LoadingDialogUtils;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -40,6 +42,10 @@ import retrofit2.Response;
  * 订单详情
  */
 public class OrderDetailsActivity extends BaseActivity {
+    public static int activity_type = 0;//判断从哪个页面跳转进入：0订单1报表
+    public static int startTime = 0;//查询开始时间戳
+    public static int endTime = 0;//查询结束时间戳
+    public static String report_trade_type = "";//报表查询的支付类型筛选
     private static final String TAG = "OrderDetailsActivity";
     NumberFormat nf = NumberFormat.getInstance();
     public static String year = "";
@@ -69,6 +75,8 @@ public class OrderDetailsActivity extends BaseActivity {
     int yy = calendar.get(Calendar.YEAR);
     int mm = calendar.get(Calendar.MONTH);
     int dd = calendar.get(Calendar.DAY_OF_MONTH);
+    private String tv1name = "";
+    private int endMonth = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,11 +98,15 @@ public class OrderDetailsActivity extends BaseActivity {
     }
 
     public void initView() {
-
         tvTitle.setText(short_name);
         year = yy + "";
         month = mm + 1 + "";
-        tv1.setText(year + "-" + month + "  ");
+        if (Integer.valueOf(month) < 10) {
+            tv1name = year + " - 0" + month + "  ";
+        } else {
+            tv1name = year + "-" + month + "  ";
+        }
+        tv1.setText(tv1name);
         /**
          * 设置列表
          */
@@ -182,25 +194,65 @@ public class OrderDetailsActivity extends BaseActivity {
             mm = monthOfYear;
             OrderDetailsActivity.year = year + "";
             OrderDetailsActivity.month = monthOfYear + 1 + "";
-            tv1.setText(OrderDetailsActivity.year + "-" + OrderDetailsActivity.month);
+            if (Integer.valueOf(OrderDetailsActivity.month) < 10) {
+                tv1name = OrderDetailsActivity.year + " - 0" + OrderDetailsActivity.month + "  ";
+            } else {
+                tv1name = OrderDetailsActivity.year + " - " + OrderDetailsActivity.month + "  ";
+            }
+            tv1.setText(tv1name);
+            //报表模块
+            if (activity_type == 1) {
+                try {
+                    if (monthOfYear < 10) {
+                        startTime = new Integer(DateUtil.dateToStamp(year + "-0" + OrderDetailsActivity.month, DateUtil.DATE_4));
+                    } else {
+                        startTime = new Integer(DateUtil.dateToStamp(year + "-" + OrderDetailsActivity.month, DateUtil.DATE_4));
+                    }
+                    endMonth = monthOfYear + 2;
+                    if (endMonth < 10) {
+                        endTime = new Integer(DateUtil.dateToStamp(year + "-0" + endMonth, DateUtil.DATE_4));
+                    } else {
+                        endTime = new Integer(DateUtil.dateToStamp(year + "-" + endMonth, DateUtil.DATE_4));
+                    }
+//                    ToastUtil.showMessage(endMonth);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+            }
             refresh();
         }
     };
+
     /**
      * 获取店铺订单
      */
 
     private void orderInfo() {
         showLoading("获取中...");
-        Call<OrderDetailsBean> call =
-                getApi().orderInfo(
-                        App.token,
-                        year,
-                        month,
-                        shopid,
-                        page,
-                        list_rows);
-
+        Call<OrderDetailsBean> call = null;
+        if (activity_type == 0) {
+            //账单跳转-
+            call = getApi().orderInfo(
+                    App.token,
+                    year,
+                    month,
+                    shopid,
+                    page,
+                    list_rows);
+        } else if (activity_type == 1) {
+            //报表跳转-
+            call = getApi().orderInfo(
+                    App.token,
+                    App.PLACEHOLDER,
+                    App.PLACEHOLDER,
+                    startTime,
+                    endTime,
+                    report_trade_type,
+                    shopid,
+                    page,
+                    list_rows);
+        }
         call.enqueue(new Callback<OrderDetailsBean>() {
             @Override
             public void onResponse(Call<OrderDetailsBean> call, final Response<OrderDetailsBean> response) {
@@ -209,7 +261,6 @@ public class OrderDetailsActivity extends BaseActivity {
                         // do SomeThing
                         LogUtil.i("成功");
                         LogUtil.i("page=" + page);
-                        //TODO 初始化数据
                         if (page == 1) {
                             mDatas.clear();
                         } else {

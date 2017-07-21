@@ -51,7 +51,6 @@ public class WebActivity extends BaseActivity {
         webView1.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                // TODO Auto-generated method stub
                 //返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
                 LogUtil.d("-----访问网址111-----", url);
 
@@ -105,11 +104,11 @@ public class WebActivity extends BaseActivity {
 
     @OnClick(R.id.tv_left)
     public void onClick() {
-        if (webView1.canGoBack()) {
-            webView1.goBack();
-        } else {
+//        if (webView1.canGoBack()) {
+//            webView1.goBack();
+//        } else {
             finish();
-        }
+//        }
 
     }
 }

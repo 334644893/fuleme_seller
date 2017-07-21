@@ -145,7 +145,6 @@ public class CustomerEvaluationActivity extends BaseActivity {
                         // do SomeThing
                         LogUtil.i("成功");
                         LogUtil.i("page=" + page);
-                        //TODO 初始化数据
                         if (page == 1) {
                             mDatas.clear();
                         } else {

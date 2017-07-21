@@ -32,7 +32,7 @@ public class OrderContentActivity extends BaseActivity {
     public static String title = "";
     public static String primeCost = "";
     private int toOrderRefundActivity = 101;
-    public static  boolean refund = false;//完成退款操作后刷新标识
+    public static boolean refund = false;//完成退款操作后刷新标识
     @Bind(R.id.btn_enter_1)
     Button btnEnter1;
     private String refundState = "";
@@ -79,7 +79,7 @@ public class OrderContentActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.btn_enter_1:
-                startActivityForResult(new Intent(OrderContentActivity.this, OrderRefundActivity.class),toOrderRefundActivity);
+                startActivityForResult(new Intent(OrderContentActivity.this, OrderRefundActivity.class), toOrderRefundActivity);
                 break;
         }
     }
@@ -87,8 +87,8 @@ public class OrderContentActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == toOrderRefundActivity&&refund) {
-            refund=false;
+        if (requestCode == toOrderRefundActivity && refund) {
+            refund = false;
             OrderDetails();
         }
     }
@@ -109,7 +109,7 @@ public class OrderContentActivity extends BaseActivity {
                         tv2.setText("¥ " + nf.format(response.body().getData().getPrime_cost()));
                         primeCost = response.body().getData().getPrime_cost() + "";
                         tv3.setText("¥ " + nf.format(response.body().getData().getDiscount()));
-                        tv4.setText("¥ " + nf.format(response.body().getData().getTotal_fee()));
+                        tv4.setText(nf.format(response.body().getData().getTotal_fee()) + "");
                         tv5.setText(DateUtil.stampToDate(response.body().getData().getTime_end(), DateUtil.DATE_1));
                         if (App.weixin.equals(response.body().getData().getTrade_type().split("\\.")[1])) {
                             tv6.setText("微信支付");

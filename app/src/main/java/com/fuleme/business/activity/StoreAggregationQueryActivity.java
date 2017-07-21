@@ -127,7 +127,6 @@ public class StoreAggregationQueryActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("成功");
-                        //TODO 初始化数据
                         mDatas.clear();
                         mDatas.addAll(response.body().getData());
                         if (

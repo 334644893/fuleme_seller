@@ -20,16 +20,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
@@ -52,9 +49,6 @@ import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.widget.CustomDialog;
-
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -107,6 +101,8 @@ public class CFragment extends Fragment {
     LinearLayout llTitle3;
     @Bind(R.id.logo)
     SimpleDraweeView logo;
+    @Bind(R.id.ll_dayinji)
+    LinearLayout llDayinji;
 
     @Nullable
     @Override
@@ -156,14 +152,20 @@ public class CFragment extends Fragment {
             llTitle1.setVisibility(View.GONE);
             llAddstore.setVisibility(View.GONE);
         }
-        //初始化蓝牙
-        // Get local Bluetooth adapter
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        // If the adapter is null, then Bluetooth is not supported
-        if (mBluetoothAdapter == null) {
-            ToastUtil.showMessage("蓝牙不可用");
-            ivBtmDayinji.setImageResource(R.mipmap.icon_off);
+        if (App.POS) {
+            llDayinji.setVisibility(View.GONE);
+        } else {
+            llDayinji.setVisibility(View.VISIBLE);
+            //初始化蓝牙
+            // Get local Bluetooth adapter
+            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+            // If the adapter is null, then Bluetooth is not supported
+            if (mBluetoothAdapter == null) {
+                ToastUtil.showMessage("蓝牙不可用");
+                ivBtmDayinji.setImageResource(R.mipmap.icon_off);
+            }
         }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -198,8 +200,8 @@ public class CFragment extends Fragment {
 
                 break;
             case R.id.ll_set_zh:
-//                // 账户详情
-//                startActivityForResult(new Intent(getActivity(), UserDetailsActivity.class), EXIT_TO_USERDETAIL);
+                // 账户详情
+                startActivityForResult(new Intent(getActivity(), UserDetailsActivity.class), EXIT_TO_USERDETAIL);
                 break;
             case R.id.ll_set_s_a:
                 // 跳转商铺应用
@@ -389,8 +391,8 @@ public class CFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         // Stop the Bluetooth services
-        if (mService != null)
-            mService.stop();
+//        if (mService != null)
+//            mService.stop();
     }
 
     // Local Bluetooth adapter
@@ -403,7 +405,7 @@ public class CFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == EXIT_TO_USERDETAIL && resultCode == EXIT_USERDETAIL) {
-            //TODO 清空信息并跳转登录页
+            // 清空信息并跳转登录页
             startActivity(new Intent(getActivity(), LoginActivity.class));
             getActivity().finish();
         }

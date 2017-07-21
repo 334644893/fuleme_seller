@@ -259,7 +259,6 @@ public class UploadPicturesActivity extends BaseActivity {
                     // do SomeThing
                     LogUtil.i("上传成功");
                     ToastUtil.showMessage("上传成功");
-                    //TODO 初始化数据
                     JSONObject data = GsonUtils.getResultData(response.body());
                     switch (intent) {
                         case RegistrationStoreActivity.BUSINESS_LICENCE:

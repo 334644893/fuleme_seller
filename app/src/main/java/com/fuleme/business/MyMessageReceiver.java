@@ -25,7 +25,7 @@ public class MyMessageReceiver extends MessageReceiver {
 
     @Override
     public void onNotification(Context context, String title, String summary, Map<String, String> extraMap) {
-        // TODO 处理推送通知
+        //  处理推送通知
         LogUtil.e("MyMessageReceiver", "Receive notification, title: " + title + ", summary: " + summary + ", extraMap: " + extraMap);
         if ("100".equals(extraMap.get("type"))) {
             if (App.bindYY) {
@@ -33,6 +33,9 @@ public class MyMessageReceiver extends MessageReceiver {
             }
             if (App.bindPrinter) {
                 Print_Ex(extraMap.get("short_name"), extraMap.get("total_fee") + "元", DateUtil.stampToDate(extraMap.get("time_end"), DateUtil.DATE_1), extraMap.get("out_trade_no"));
+            }
+            if (App.POS) {
+                App.startPosService(extraMap.get("short_name"), extraMap.get("total_fee") + "元", DateUtil.stampToDate(extraMap.get("time_end"), DateUtil.DATE_1), extraMap.get("out_trade_no"));
             }
         }
     }
@@ -68,6 +71,9 @@ public class MyMessageReceiver extends MessageReceiver {
             }
             if (App.bindPrinter) {
                 Print_Ex(extraMap.get("short_name"), extraMap.get("total_fee") + "元", DateUtil.stampToDate(extraMap.get("time_end"), DateUtil.DATE_1), extraMap.get("out_trade_no"));
+            }
+            if (App.POS) {
+                App.startPosService(extraMap.get("short_name"), extraMap.get("total_fee") + "元", DateUtil.stampToDate(extraMap.get("time_end"), DateUtil.DATE_1), extraMap.get("out_trade_no"));
             }
         }
 

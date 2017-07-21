@@ -7,109 +7,118 @@
     android:background="@color/white"
     android:orientation="vertical"
     tools:context="com.fuleme.business.activity.ScanReceiptActivity">
-
     <include layout="@layout/item_actionbar" />
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="5dp">
-
-
+        android:layout_height="match_parent">
         <LinearLayout
-            android:id="@+id/tv_zhifuma"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:gravity="center"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/icon_fuma"
-                android:text="  收款码"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_25" />
-        </LinearLayout>
-    </LinearLayout>
-
-
-    <EditText
-        android:id="@+id/et_amount"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@drawable/shape_line_hui"
-        android:gravity="center"
-        android:hint="¥0.00"
-        android:inputType="numberDecimal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:singleLine="true"
-        android:textColorHint="@color/black_26"
-        android:textSize="@dimen/text_size_40" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:gravity="center"
-        android:text="支持以下收款方式"
-        android:textSize="@dimen/text_size_15" />
-
-    <LinearLayout
-        android:id="@+id/ll_zhifu"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/ll_zhifubao"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_zhifubao_line"
-            android:gravity="center">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+
+                <LinearLayout
+                    android:id="@+id/tv_zhifuma"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon_fuma"
+                        android:text="  收款码"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_25" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <EditText
+                android:id="@+id/et_amount"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/shape_line_hui"
+                android:gravity="center"
+                android:hint="¥0.00"
+                android:inputType="numberDecimal"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:singleLine="true"
+                android:textColorHint="@color/black_26"
+                android:textSize="@dimen/text_size_40" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/icon9"
-                android:gravity="center_vertical"
-                android:padding="5dp"
-                android:text="  支  付  宝"
-                android:textColor="@color/cyan_1"
-                android:textSize="@dimen/text_size_16" />
-        </LinearLayout>
+                android:layout_margin="4dp"
+                android:gravity="center"
+                android:text="支持以下收款方式"
+                android:textSize="@dimen/text_size_15" />
 
-
-        <LinearLayout
-            android:id="@+id/ll_weixin"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/shape_weixin_line"
-            android:gravity="center">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_zhifu"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@mipmap/icon10"
-                android:gravity="center_vertical"
-                android:text="  微信支付"
-                android:padding="5dp"
-                android:textColor="@color/green_1"
-                android:textSize="@dimen/text_size_16" />
-        </LinearLayout>
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/ll_zhifubao"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_zhifubao_line"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon9"
+                        android:gravity="center_vertical"
+                        android:padding="4dp"
+                        android:text="  支  付  宝"
+                        android:textColor="@color/cyan_1"
+                        android:textSize="@dimen/text_size_16" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/ll_weixin"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_weixin_line"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableLeft="@mipmap/icon10"
+                        android:gravity="center_vertical"
+                        android:padding="4dp"
+                        android:text="  微信支付"
+                        android:textColor="@color/green_1"
+                        android:textSize="@dimen/text_size_16" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

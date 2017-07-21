@@ -4,6 +4,7 @@ import android.app.Application;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 
 import com.alibaba.idst.nls.NlsClient;
 import com.alibaba.sdk.android.push.CloudPushService;
@@ -19,6 +20,7 @@ import com.fuleme.business.download.DeviceUtils;
 import com.fuleme.business.helper.APIService;
 import com.fuleme.business.helper.TokenAPIService;
 import com.fuleme.business.helper.TokenInterceptor;
+import com.fuleme.business.posliandi.MyService;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
@@ -53,10 +55,11 @@ public class App extends Application {
     public static String short_area = "";//商户地址
     public static String role = "";//用户角色，0 管理员，1店长，2店员
     public static String short_logo = "";//店铺logo
-    public static int login_type = 1;//登录状态 0:管理员 1：员工
+//    public static int login_type = 1;//登录状态 0:管理员 1：员工
     public static boolean bindYY;//语音开关
     public static boolean bindAccount;//通知开关
     public static boolean bindPrinter;//打印机蓝牙连接开关
+    public static boolean POS = false;//是否是POS机版本
     final public static String alipay = "alipay";
     final public static String weixin = "weixin";
     public static final int LOGIN_TYPE_ADMIN = 0;//登录状态 0:管理员
@@ -84,7 +87,7 @@ public class App extends Application {
         super.onCreate();
         instance = this;
         VERSIONNAME = DeviceUtils.getVersionName(this);
-        login_type=(int) SharedPreferencesUtils.getParam(App.getInstance(), "login_type", 1);
+//        login_type = (int) SharedPreferencesUtils.getParam(App.getInstance(), "login_type", 1);
         initFresco();//初始化图片加载
         initRest();//初始化网络通信
         bindAccount = (boolean) SharedPreferencesUtils.getParam(getApplicationContext(), "bindAccount", true);
@@ -92,12 +95,22 @@ public class App extends Application {
         initCloudChannel(this);//阿里云
         NlsClient.configure(this); //语音合成全局配置
         ZXingLibrary.initDisplayOpinion(this);//二维码
-//        LogUtil.isPrint = true;// 设置开启日志,发布时请关闭日志
-        LogUtil.isPrint=false;// 设置开启日志,发布时请关闭日志
+        isPrintLog();
+//        POS=true;//开启POS机模式
+        POS = false;//开启POS机模式
+
         // 注册方法会自动判断是否支持小米系统推送，如不支持会跳过注册。
         MiPushRegister.register(this, "2882303761517571909", "5141757128909");
         // 注册方法会自动判断是否支持华为系统推送，如不支持会跳过注册。
         HuaWeiRegister.register(this);
+    }
+
+    private void isPrintLog() {
+        if ("https://dev.fuleme.com/".equals(APIService.SERVER_IP)) {
+            LogUtil.isPrint = true;// 设置开启日志,发布时请关闭日志
+        } else {
+            LogUtil.isPrint = false;// 设置开启日志,发布时请关闭日志
+        }
     }
 
     private void initFresco() {
@@ -218,6 +231,19 @@ public class App extends Application {
                         });
         dialog1 = noticeBuilder.create();
         dialog1.show();
+    }
+
+    /**
+     * POS收款成功打印
+     */
+
+    public static void startPosService(String short_name, String total_fee, String time_end, String out_trade_no) {
+        Intent intent = new Intent(getInstance().getApplicationContext(), MyService.class);
+        intent.putExtra("short_name", short_name);
+        intent.putExtra("total_fee", total_fee);
+        intent.putExtra("time_end", time_end);
+        intent.putExtra("out_trade_no", out_trade_no);
+        getInstance().getApplicationContext().startService(intent);
     }
 
 

@@ -72,7 +72,6 @@ public class ContractrateActivity extends BaseActivity {
                 if (response.isSuccessful()) {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
-                        //TODO 初始化数据
                         mDatas.clear();
                         JSONObject data = GsonUtils.getResultData(response.body());
                         ContractBean alipayrateContractBean=new ContractBean();

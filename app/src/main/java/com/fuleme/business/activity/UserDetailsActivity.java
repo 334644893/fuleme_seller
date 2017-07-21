@@ -113,6 +113,7 @@ public class UserDetailsActivity extends BaseActivity {
                                 SharedPreferencesUtils.setParam(getApplicationContext(), "qrcode", "");
                                 SharedPreferencesUtils.setParam(getApplicationContext(), "head_img", "");
                                 App.unbindAccount();
+                                stopService(intent);
                                 finish();
                             }
                         })
@@ -139,7 +140,7 @@ public class UserDetailsActivity extends BaseActivity {
                 startActivity(new Intent(UserDetailsActivity.this, ChangePasswordActivity.class));
                 break;
             case R.id.shmc:
-                //查询店铺
+                //切换店铺
                 StoreAggregationQueryActivity.intentType = StoreAggregationQueryActivity.USERDETAILSACTIVITY;
                 Intent intent = new Intent(context, StoreAggregationQueryActivity.class);
                 startActivityForResult(intent, TOSTORE);

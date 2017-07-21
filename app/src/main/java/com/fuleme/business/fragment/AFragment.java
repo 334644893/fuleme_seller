@@ -127,14 +127,6 @@ public class AFragment extends Fragment {
 
 
     public void initTopView() {
-        //根据登录类型显示隐藏员工管理
-        if ("0".equals(App.role)) {
-            llTitle3.setVisibility(View.VISIBLE);
-            llTitle4.setVisibility(View.VISIBLE);
-        } else {
-            llTitle3.setVisibility(View.GONE);
-            llTitle4.setVisibility(View.GONE);
-        }
         iv1.setImageResource(mTitleImageDatas[0]);
         iv2.setImageResource(mTitleImageDatas[1]);
         iv3.setImageResource(mTitleImageDatas[2]);
@@ -147,13 +139,28 @@ public class AFragment extends Fragment {
     }
 
     public void initRecyclerView() {
-        for (int i = 0; i < mImageDatas.length; i++) {
-            AFragmentImageBean aFragmentImageBean = new AFragmentImageBean();
-            aFragmentImageBean.setmItemImage(mImageDatas[i]);
-            aFragmentImageBean.setmItemText(mTextDatas[i]);
-            aFragmentImageBean.setmItemTextContent(mTextContentDatas[i]);
-            mDatas.add(aFragmentImageBean);
+        if ("0".equals(App.role)) {
+            for (int i = 0; i < mImageDatas.length; i++) {
+                AFragmentImageBean aFragmentImageBean = new AFragmentImageBean();
+                aFragmentImageBean.setmItemImage(mImageDatas[i]);
+                aFragmentImageBean.setmItemText(mTextDatas[i]);
+                aFragmentImageBean.setmItemTextContent(mTextContentDatas[i]);
+                mDatas.add(aFragmentImageBean);
+            }
+        } else {
+            for (int i = 0; i < mImageDatas.length; i++) {
+                if (mTextDatas[2].equals(mTextDatas[i]) || mTextDatas[5].equals(mTextDatas[i])) {
+
+                } else {
+                    AFragmentImageBean aFragmentImageBean = new AFragmentImageBean();
+                    aFragmentImageBean.setmItemImage(mImageDatas[i]);
+                    aFragmentImageBean.setmItemText(mTextDatas[i]);
+                    aFragmentImageBean.setmItemTextContent(mTextContentDatas[i]);
+                    mDatas.add(aFragmentImageBean);
+                }
+            }
         }
+
         mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
         mAdapter = new AFragmentAdapter(getActivity(), mDatas);
@@ -188,7 +195,7 @@ public class AFragment extends Fragment {
                     if (!TextUtils.isEmpty(App.short_id)) {
                         startActivity(new Intent(getActivity(), CustomerEvaluationActivity.class));
                     } else {
-                        ToastUtil.showMessage("您还没有店铺，快去添加一个吧");
+                        ToastUtil.showMessage(R.string.nostore);
                     }
 
                 } else if (mTextDatas[4].equals(itemText)) {

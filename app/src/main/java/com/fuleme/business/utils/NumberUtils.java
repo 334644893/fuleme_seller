@@ -7,7 +7,7 @@ package com.fuleme.business.utils;
 public class NumberUtils {
 
 
-    public static Double StringToDouble(String string) {
-        return Double.parseDouble(string);
+    public static int StringToAmount(String string) {
+        return (new Float(Float.parseFloat(string) * 100)).intValue();
     }
 }

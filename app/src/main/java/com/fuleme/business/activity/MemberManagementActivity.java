@@ -96,7 +96,7 @@ public class MemberManagementActivity extends BaseActivity {
                 int totalItemCount = linearLayoutManager.getItemCount();
                 //lastVisibleItem >= totalItemCount - 1 表示剩下1个item自动加载，各位自由选择
                 // dy>0 表示向下滑动
-                if (lastVisibleItem >= totalItemCount - 1 && dy > 0 && state == true) {
+                if (lastVisibleItem >= totalItemCount - 3 && dy > 0 && state == true) {
                     state = false;
                     page += 1;
                     getmchuser();
@@ -126,7 +126,6 @@ public class MemberManagementActivity extends BaseActivity {
                         // do SomeThing
                         LogUtil.i("成功");
                         LogUtil.i("page=" + page);
-                        //TODO 初始化数据
                         if (page == 1) {
                             mDatas.clear();
                         } else {

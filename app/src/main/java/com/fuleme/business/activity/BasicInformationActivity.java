@@ -76,8 +76,6 @@ public class BasicInformationActivity extends BaseActivity {
                 if (response.isSuccessful()) {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
-                        //TODO 初始化数据
-                        //TODO 初始化数据
                         mDatas.clear();
                         JSONObject data = GsonUtils.getResultData(response.body());
                         ContractBean ContractBean = new ContractBean();

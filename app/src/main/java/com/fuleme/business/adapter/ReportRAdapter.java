@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fuleme.business.R;
+import com.fuleme.business.bean.OrderDetailsBean;
 import com.fuleme.business.bean.ReportRBean;
 
 import java.text.NumberFormat;
@@ -23,8 +25,8 @@ import butterknife.ButterKnife;
 
 public class ReportRAdapter extends RecyclerView.Adapter<ReportRAdapter.MyViewHolder> {
 
+    private onRecyclerViewItemClickListener itemClickListener = null;
     NumberFormat nf = NumberFormat.getInstance();
-
     private List<ReportRBean> mDatas;
     private Context context;
 
@@ -33,8 +35,9 @@ public class ReportRAdapter extends RecyclerView.Adapter<ReportRAdapter.MyViewHo
         this.mDatas = mDatas;
     }
 
-
     class MyViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.ll_a_fragment)
+        LinearLayout llAFragment;
         @Bind(R.id.iv_a_fragment)
         ImageView ivAFragment;
         @Bind(R.id.tv_1)
@@ -43,6 +46,7 @@ public class ReportRAdapter extends RecyclerView.Adapter<ReportRAdapter.MyViewHo
         TextView tv2;
         @Bind(R.id.tv_title)
         TextView tvTitle;
+
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -63,9 +67,24 @@ public class ReportRAdapter extends RecyclerView.Adapter<ReportRAdapter.MyViewHo
         holder.tvTitle.setText(mDatas.get(position).getTitle());
         holder.tv1.setText("金额: " + nf.format(mDatas.get(position).getTotal_fee()) + "元");
         holder.tv2.setText("笔数: " + mDatas.get(position).getNumber() + "笔");
-
+        holder.llAFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemClickListener != null)
+                    itemClickListener.onItemClick(v, position);
+            }
+        });
     }
 
+
+    public interface onRecyclerViewItemClickListener {
+        //点击传递item信息接口
+        void onItemClick(View v, int position);
+    }
+
+    public void setOnItemClickListener(onRecyclerViewItemClickListener listener) {
+        this.itemClickListener = listener;
+    }
 
     @Override
     public int getItemCount() {

@@ -74,9 +74,9 @@ public class OrdersActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new OrderAdapter.onRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v, OrderBean.DataBean dataBean) {
+                OrderDetailsActivity.activity_type = 0;
                 OrderDetailsActivity.shopid = dataBean.getShort_id();
                 OrderDetailsActivity.short_name = dataBean.getShort_name();
-
                 startActivity(new Intent(context, OrderDetailsActivity.class));
             }
         });
@@ -110,7 +110,6 @@ public class OrdersActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("成功");
-                        //TODO 初始化数据
                         if (response.body().getData() != null) {
                             mDatas.clear();
                             mDatas.addAll(response.body().getData());

@@ -27,7 +27,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="手机号" />
+                android:text="手机号"
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/et_phone"
@@ -61,7 +62,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="密码    " />
+                android:text="密码    "
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/et_password"
@@ -95,7 +97,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="姓名    " />
+                android:text="姓名    "
+                android:textColor="@color/black" />
 
             <EditText
                 android:id="@+id/et_name"
@@ -129,7 +132,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="所属店铺" />
+                android:text="所属店铺"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tv_store"
@@ -157,7 +161,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@color/white"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -166,7 +169,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="快捷查询" />
+                android:text="快捷查询"
+                android:textColor="@color/black" />
 
             <LinearLayout
                 android:id="@+id/ll_dianzhang"
@@ -237,7 +241,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
-            android:background="@color/theme"
+            android:background="@drawable/shape_corner_blue_p"
             android:gravity="center"
             android:text="确定"
             android:textColor="@color/white"

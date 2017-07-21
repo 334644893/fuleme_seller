@@ -31,7 +31,9 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
+/**
+ * 自媒体
+ */
 public class BFragment extends Fragment {
     private static final String TAG = "BFragment";
     View view = null;
@@ -76,7 +78,7 @@ public class BFragment extends Fragment {
         mAdapter.setOnItemClickListener(new SinceMediaAdapter.onRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v, String url) {
-
+                ToastUtil.showMessage("新功能正在开发中..");
             }
         });
     }
@@ -95,7 +97,6 @@ public class BFragment extends Fragment {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("登陆成功");
-                        //TODO 初始化数据
                         mDatas = response.body().getData();
                         initView();
                     } else {

@@ -137,7 +137,6 @@ public class RegistrationStoreActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("成功");
-                        //TODO 初始化数据
                         ToastUtil.showMessage("已提交..请耐心等待");
                         finish();
                     } else {

@@ -80,8 +80,7 @@ public interface APIService {
     @FormUrlEncoded
     @POST("user/login")
     Call<Object> login(@Field("phone") String phone,
-                       @Field("password") String password,
-                       @Field("role") int role);
+                       @Field("password") String password);
 
     /**
      * 忘记密码
@@ -153,7 +152,7 @@ public interface APIService {
     Call<Object> version();
 
     /**
-     * 获取店铺订单
+     * 账单-获取店铺订单
      *
      * @return
      */
@@ -162,6 +161,22 @@ public interface APIService {
     Call<OrderDetailsBean> orderInfo(@Field("token") String token,
                                      @Field("year") String year,
                                      @Field("month") String month,
+                                     @Field("shopid") String shopid,
+                                     @Field("page") int page,
+                                     @Field("list_rows") int list_rows);
+    /**
+     * 报表-获取店铺订单
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("shop/orderInfo")
+    Call<OrderDetailsBean> orderInfo(@Field("token") String token,
+                                     @Field("year") String year,
+                                     @Field("month") String month,
+                                     @Field("starttime") int starttime,
+                                     @Field("endtime") int endtime,
+                                     @Field("trade_type") String trade_type,
                                      @Field("shopid") String shopid,
                                      @Field("page") int page,
                                      @Field("list_rows") int list_rows);

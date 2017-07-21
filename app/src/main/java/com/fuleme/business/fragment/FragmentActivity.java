@@ -91,6 +91,7 @@ public class FragmentActivity extends BaseActivity {
     public static int flagFragment = 0;
     public static boolean isAutomaticLogin = false;
     public static boolean imgurlFlag = false;//修改头像是否成功
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -118,7 +119,7 @@ public class FragmentActivity extends BaseActivity {
         //设置bar
         tvLeft.setVisibility(View.INVISIBLE);
         tvRight.setVisibility(View.INVISIBLE);
-        //TODO 填充底部
+        // 填充底部
         tvButTv1.setText(mItemText[0]);
         tvButTvOrder.setText(mItemText[1]);
         tvButTv2.setText(mItemText[2]);
@@ -287,17 +288,21 @@ public class FragmentActivity extends BaseActivity {
      */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
-                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
-            } else {
-                System.exit(0);
+
+            if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+                if ((System.currentTimeMillis() - exitTime) > 2000) {
+                    Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    exitTime = System.currentTimeMillis();
+                } else {
+                    System.exit(0);
+                }
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_MENU) {
+                return true;
             }
-            return true;
-        } else if (keyCode == KeyEvent.KEYCODE_MENU) {
-            return true;
-        }
+
+
+
         return super.onKeyDown(keyCode, event);
     }
 
@@ -351,7 +356,6 @@ public class FragmentActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("获取更新信息成功");
-                        //TODO 初始化数据
                         JSONObject data = GsonUtils.getResultData(response.body());
                         LogUtil.d("---data--", data.toString());
                         int version = data.optInt("androidVersion");//版本标识

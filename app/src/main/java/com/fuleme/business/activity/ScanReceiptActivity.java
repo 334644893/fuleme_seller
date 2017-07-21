@@ -84,7 +84,6 @@ public class ScanReceiptActivity extends BaseActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // TODO Auto-generated method stub
             if (s.toString().contains(".")) {
                 if (s.length() - 1 - s.toString().indexOf(".") > 2) {
                     s = s.toString().subSequence(0,
@@ -117,7 +116,6 @@ public class ScanReceiptActivity extends BaseActivity {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count,
                                       int after) {
-            // TODO Auto-generated method stub
 
         }
 

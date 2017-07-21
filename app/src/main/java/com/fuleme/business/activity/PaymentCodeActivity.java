@@ -49,10 +49,10 @@ public class PaymentCodeActivity extends BaseActivity {
         tvQian.setText("￥" + etAmount);
         if (payType.equals(ScanReceiptActivity.ALIPAYSWEEPPAYMENT)) {
             //生成微信支付二维码接口
-            AlipaySweepPayment((int) (NumberUtils.StringToDouble(etAmount) * 100) + "");
+            AlipaySweepPayment(NumberUtils.StringToAmount(etAmount) + "");
         } else if (payType.equals(ScanReceiptActivity.WEIXINSWEEPPAYMENT)) {
             //生成微信支付二维码接口
-            WeixinSweepPayment((int) (NumberUtils.StringToDouble(etAmount) * 100) + "");
+            WeixinSweepPayment(NumberUtils.StringToAmount(etAmount) + "");
         } else {
             ToastUtil.showMessage("生成失败");
         }
@@ -84,7 +84,6 @@ public class PaymentCodeActivity extends BaseActivity {
                         LogUtil.i("成功");
 
 
-                        //TODO 初始化数据
                         JSONObject data = GsonUtils.getResultData(response.body());
                         if (!TextUtils.isEmpty(data.optString("code_url"))) {
                             ToastUtil.showMessage("生成微信码成功");
@@ -130,7 +129,6 @@ public class PaymentCodeActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("成功");
-                        //TODO 初始化数据
 
                         JSONObject data = GsonUtils.getResultData(response.body());
 

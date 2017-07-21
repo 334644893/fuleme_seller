@@ -232,7 +232,7 @@ public class ClerkManagementActivity extends BaseActivity {
      * 店员管理接口
      */
     private void getmerchantclerkinfo() {
-        mLoading = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "加载中...", false);//添加等待框
+        mLoading = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "加载中...", true);//添加等待框
         Call<ClerkInfoBean> call = getApi().getmerchantclerkinfo(App.token);
 
         call.enqueue(new Callback<ClerkInfoBean>() {
@@ -245,7 +245,6 @@ public class ClerkManagementActivity extends BaseActivity {
 
 
                         dataList = response.body().getData();
-                        //TODO 初始化数据
                         initData();
 
 
@@ -280,7 +279,7 @@ public class ClerkManagementActivity extends BaseActivity {
                           String password,
                           String phone,
                           String role) {
-        mLoading_2 = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "加载中...", false);//添加等待框
+        mLoading_2 = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "加载中...", true);//添加等待框
         Call<Object> call = getApi().addclerk(token, shopid, username, password, phone, role);
 
         call.enqueue(new Callback<Object>() {
@@ -326,7 +325,7 @@ public class ClerkManagementActivity extends BaseActivity {
             String token,
             String shopid,
             String id) {
-        mLoading_3 = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "删除中...", false);//添加等待框
+        mLoading_3 = LoadingDialogUtils.createLoadingDialog(ClerkManagementActivity.this, "删除中...", true);//添加等待框
         Call<Object> call = getApi().delclerk(token, shopid, id);
 
         call.enqueue(new Callback<Object>() {
