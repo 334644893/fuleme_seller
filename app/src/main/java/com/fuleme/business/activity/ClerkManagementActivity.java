@@ -116,7 +116,6 @@ public class ClerkManagementActivity extends BaseActivity {
 
     protected void initData() {
         mDatas.clear();
-
         //店名
         if ("".equals(storeID)) {
             //全部店铺
@@ -177,7 +176,6 @@ public class ClerkManagementActivity extends BaseActivity {
             case R.id.ll_to_store:
                 StoreAggregationQueryActivity.intentType = StoreAggregationQueryActivity.CLERKMANAGEMENTACTIVITY;
                 Intent intent = new Intent(ClerkManagementActivity.this, StoreAggregationQueryActivity.class);
-
                 startActivityForResult(intent, TOSTORE);
                 break;
             case R.id.rl_add:

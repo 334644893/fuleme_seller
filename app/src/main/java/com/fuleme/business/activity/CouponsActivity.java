@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -45,6 +46,8 @@ public class CouponsActivity extends BaseActivity {
     LinearLayoutManager linearLayoutManager;
     CouponsAdapter mAdapter;
     int TOSTORE = 998;
+    public static String short_id = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +72,9 @@ public class CouponsActivity extends BaseActivity {
             public void onItemClick(View v, CouponsBean.DataBean bean) {
                 if (!"2".equals(App.role)) {
                     CouponsDetailsActivity.id = bean.getId();
+                    CouponsDetailsActivity.short_id = bean.getId();
                     startActivity(new Intent(CouponsActivity.this, CouponsDetailsActivity.class));
                 }
-
             }
         });
 
@@ -83,7 +86,7 @@ public class CouponsActivity extends BaseActivity {
         super.onResume();
     }
 
-    @OnClick({R.id.tv_left, R.id.tv_new_action, R.id.im_tianjia,R.id.fl_r})
+    @OnClick({R.id.tv_left, R.id.tv_new_action, R.id.im_tianjia, R.id.fl_r})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fl_r:
@@ -118,8 +121,11 @@ public class CouponsActivity extends BaseActivity {
      * 优惠券
      */
     private void coupon() {
+        if (TextUtils.isEmpty(short_id)) {
+            short_id = App.short_id;
+        }
         showLoading("获取中...");
-        Call<CouponsBean> call = getApi().coupon(App.token, App.short_id);
+        Call<CouponsBean> call = getApi().coupon(App.token, short_id);
         call.enqueue(new Callback<CouponsBean>() {
             @Override
             public void onResponse(Call<CouponsBean> call, Response<CouponsBean> response) {

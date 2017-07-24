@@ -58,7 +58,7 @@ public class CouponsDetailsActivity extends BaseActivity {
     private int state = -2;//0暂停中，1进行中
     private static final int DELETESTATE = -1;//删除
     private CustomDialog dialog;
-
+    public static String short_id = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +76,7 @@ public class CouponsDetailsActivity extends BaseActivity {
         showLoading("获取中...");
         Call<AnalysecouponBean> call = getApi().analysecoupon(
                 App.token,
-                App.short_id,
+                short_id,
                 id);
         call.enqueue(new Callback<AnalysecouponBean>() {
             @Override
@@ -140,7 +140,7 @@ public class CouponsDetailsActivity extends BaseActivity {
         showLoading("请稍等...");
         Call<Object> call = getApi().opencoupon(
                 App.token,
-                App.short_id,
+                short_id,
                 id, type);
         call.enqueue(new Callback<Object>() {
             @Override

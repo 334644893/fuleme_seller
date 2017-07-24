@@ -20,8 +20,7 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -48,9 +47,8 @@
 
         <activity
             android:name=".activity.LoginActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
-            >
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -66,8 +64,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".fragment.FragmentActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.StoreAggregationQueryActivity"
             android:screenOrientation="portrait" />
@@ -145,7 +143,6 @@
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".broadcast.BootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -204,8 +201,12 @@
             android:name=".activity.Printer.DeviceListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:theme="@style/WindowActivity" />
-        <activity android:name=".activity.ClerkDetailsActivity"></activity>
+        <activity android:name=".activity.ClerkDetailsActivity" />
+
         <service android:name=".posliandi.MyService" />
+
+        <activity android:name=".activity.Version2.ContactServiceActivity" />
+        <activity android:name=".activity.Version2.SBasicInformationActivity"></activity>
     </application>
 
 </manifest>

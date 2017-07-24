@@ -38,7 +38,7 @@ public class StoreAggregationQueryActivity extends BaseActivity {
     TextView tvTitle;
     private Context context = StoreAggregationQueryActivity.this;
     public static int intentType = 0;//判断从哪个页面过来查询
-    //    public static final int AGGREGATIONQUERYACTIVITY = 1;
+        public static final int COUPONSACTIVITY = 1;
     public static final int BFRAGMENT = 2;
     public static final int CLERKMANAGEMENTACTIVITY = 3;
     public static final int USERDETAILSACTIVITY = 4;
@@ -74,10 +74,9 @@ public class StoreAggregationQueryActivity extends BaseActivity {
                     ToastUtil.showMessage("店铺正在审核中");
                 } else if ("1".equals(bean.getState())) {
                     switch (intentType) {
-//                        case AGGREGATIONQUERYACTIVITY:
-//                            AggregationQueryActivity.storeName = bean.getName();
-//                            AggregationQueryActivity.storeID = bean.getId();
-//                            break;
+                        case COUPONSACTIVITY:
+                            CouponsActivity.short_id=bean.getId();
+                            break;
                         case BFRAGMENT:
                             App.merchant = bean.getName();
                             App.short_id = bean.getId();

@@ -23,10 +23,6 @@ import butterknife.ButterKnife;
  */
 
 public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHolder> {
-
-
-    //    final int IVSTATE_VISIBLE = 0;
-//    private List<StoreAQBean> mDatas;
     private List<ClerkInfoBean.DataBean> mDatas;
     private Context context;
     private onRecyclerViewItemClickListener itemClickListener = null;
@@ -52,10 +48,16 @@ public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHo
         LinearLayout llNumber;
         @Bind(R.id.ll_area)
         LinearLayout llArea;
+        @Bind(R.id.tv_name)
+        TextView tvName;
+        @Bind(R.id.ll_name)
+        LinearLayout llName;
+        StringBuffer sb = new StringBuffer();
 
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
         }
     }
 
@@ -68,6 +70,7 @@ public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
+        holder.sb.setLength(0);
         if (App.PLACEHOLDER.equals(mDatas.get(position).getId())
                 ) {
             holder.tvStore.setText(mDatas.get(position).getName());
@@ -75,17 +78,26 @@ public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHo
             holder.llArea.setVisibility(View.GONE);
             holder.tvState.setVisibility(View.GONE);
         } else {
-            if (mDatas.get(position).getClerk() != null) {
-
-                holder.tvNumber.setText("店员:"+mDatas.get(position).getClerk().size() + "人");
+            if (mDatas.get(position).getClerk() != null && mDatas.size() > 0) {
+                for (ClerkInfoBean.DataBean.ClerkBean cb : mDatas.get(position).getClerk()) {
+                    holder.sb.append(cb.getUsername() + "、");
+                }
+                holder.sb.deleteCharAt(holder.sb.length() - 1);
+                holder.tvNumber.setText("店员:" + mDatas.get(position).getClerk().size() + "人");
+                holder.tvName.setText(holder.sb);
             } else {
-                holder.tvNumber.setText("0");
+                holder.tvNumber.setText("请设定店员");
             }
-            holder.tvArea.setText("地址:"+mDatas.get(position).getAddress());
+            holder.tvArea.setText("地址:" + mDatas.get(position).getAddress());
             holder.tvStore.setText(mDatas.get(position).getName());
             if ("0".equals(mDatas.get(position).getState())) {
+                holder.tvState.setText("原因:不可抗逆因素");
                 holder.tvState.setVisibility(View.VISIBLE);
-            } else {
+                holder.tvNumber.setVisibility(View.GONE);
+                holder.llName.setVisibility(View.GONE);
+            } else if ("1".equals(mDatas.get(position).getState())) {
+                holder.tvNumber.setVisibility(View.VISIBLE);
+                holder.llName.setVisibility(View.VISIBLE);
                 holder.tvState.setVisibility(View.GONE);
             }
         }

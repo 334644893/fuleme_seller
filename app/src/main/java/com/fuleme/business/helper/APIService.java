@@ -52,7 +52,8 @@ public interface APIService {
     Call<Object> register(@Field("phone") String phone,
                           @Field("username") String username,
                           @Field("password") String password,
-                          @Field("code") String code
+                          @Field("code") String code,
+                          @Field("invitation_code") String invitation_code
     );
 
     /**
@@ -164,6 +165,7 @@ public interface APIService {
                                      @Field("shopid") String shopid,
                                      @Field("page") int page,
                                      @Field("list_rows") int list_rows);
+
     /**
      * 报表-获取店铺订单
      *
@@ -382,6 +384,7 @@ public interface APIService {
     @FormUrlEncoded
     @POST("merchant/getmerchantclerkinfo")
     Call<ClerkInfoBean> getmerchantclerkinfo(@Field("token") String token);
+
     /**
      * 获取店员的收款信息
      *

@@ -1,7 +1,7 @@
 package com.fuleme.business.activity;
 
-import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,8 +13,9 @@ import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.utils.NumberUtils;
 import com.fuleme.business.utils.ToastUtil;
-import com.fuleme.business.widget.LoadingDialogUtils;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -31,6 +32,8 @@ import retrofit2.Response;
  */
 public class RegisteredActivity extends BaseActivity {
     private static final String TAG = "RegisteredActivity";
+    @Bind(R.id.et_yqm)
+    EditText etYqm;
     private Context context = RegisteredActivity.this;
     @Bind(R.id.tv_title)
     TextView tvTitle;
@@ -61,7 +64,7 @@ public class RegisteredActivity extends BaseActivity {
         tvTitle.setText("注册账号");
     }
 
-    @OnClick({R.id.tv_left, R.id.btn_get_verify, R.id.btn_tj})
+    @OnClick({R.id.tv_left, R.id.btn_get_verify, R.id.btn_tj, R.id.btn_saoyisao})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_left:
@@ -91,7 +94,21 @@ public class RegisteredActivity extends BaseActivity {
                 }
 
                 break;
+            case R.id.btn_saoyisao:
+                startActivityForResult(new Intent(context, SecondActivity.class), 0);
+                break;
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            if (!TextUtils.isEmpty(data.getExtras().getString(CodeUtils.RESULT_STRING))) {
+                etYqm.setText(data.getExtras().getString(CodeUtils.RESULT_STRING)+"");
+            }
+        }
+
     }
 
     /**
@@ -105,7 +122,8 @@ public class RegisteredActivity extends BaseActivity {
                 etFPPhone.getText().toString(),
                 etFPNickname.getText().toString(),
                 etFPPs.getText().toString(),
-                etFPV.getText().toString()
+                etFPV.getText().toString(),
+                etYqm.getText().toString()
         );
 
         call.enqueue(new Callback<Object>() {
@@ -164,4 +182,6 @@ public class RegisteredActivity extends BaseActivity {
             }
         }, 0, 1000);
     }
+
+
 }

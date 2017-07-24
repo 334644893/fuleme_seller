@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
@@ -114,12 +115,14 @@ public class ReportActivity extends BaseActivity {
     private List<PointValue> mNumberPointValues = new ArrayList<>();
     private List<AxisValue> mNumberAxisXValues = new ArrayList<>();
     private Float weatherMax = 0f;
-
+    public static String short_id = "";
+    public static String short_name = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
         ButterKnife.bind(this);
+
         tvTitle.setText("报表");
         ca = Calendar.getInstance();
         initRecyclerView();
@@ -180,8 +183,8 @@ public class ReportActivity extends BaseActivity {
             @Override
             public void onItemClick(View v, int position) {
                 OrderDetailsActivity.activity_type = 1;
-                OrderDetailsActivity.shopid = App.short_id;
-                OrderDetailsActivity.short_name = App.merchant;
+                OrderDetailsActivity.shopid = short_id;
+                OrderDetailsActivity.short_name = short_name;
                 OrderDetailsActivity.startTime = startTime;
                 OrderDetailsActivity.endTime = endTime;
                 switch (position) {
@@ -414,9 +417,15 @@ public class ReportActivity extends BaseActivity {
 
     private void income() {
         showLoading("获取中...");
+        if (TextUtils.isEmpty(short_id)) {
+            short_id = App.short_id;
+        }
+        if (TextUtils.isEmpty(short_name)) {
+            short_name = App.merchant;
+        }
         Call<IncomeBean> call = getApi().income(
                 App.token,
-                App.short_id,
+                short_id,
                 startTime,
                 endTime);
         LogUtil.d("---------startTime", DateUtil.stampToDate(startTime + "", DateUtil.DATE_1));

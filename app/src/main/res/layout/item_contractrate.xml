@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="商家活动"
+        android:textColor="@color/pale_black"
         android:textSize="@dimen/text_size_16" />
 
     <TextView

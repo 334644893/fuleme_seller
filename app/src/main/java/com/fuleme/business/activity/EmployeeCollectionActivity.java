@@ -54,34 +54,35 @@ public class EmployeeCollectionActivity extends BaseActivity {
     private Handler mHandler = new Handler();
     private Context context;
     final int TOSTORE = 998;
-
+    public static String short_id = "";
+    public static String name = "";
+    public static String short_state = "";
+    public static String qrcode = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_employee_collection);
         ButterKnife.bind(this);
         context = EmployeeCollectionActivity.this;
-
+        tvTitle.setText("收款码");
         initView();
     }
 
     public void initView() {
-        tvTitle.setText("收款码");
         //店名
-        if ("0".equals(App.short_state)) {
-            tvStoreName.setText(App.merchant + "(审核中)");
-            tvName.setText(App.merchant);
-        } else if ("1".equals(App.short_state)) {
-            tvStoreName.setText(App.merchant + "(已审核)");
-            tvName.setText(App.merchant);
+        if ("0".equals(short_state)) {
+            tvStoreName.setText(name + "(审核中)");
+            tvName.setText(name);
+        } else if ("1".equals(short_state)) {
+            tvStoreName.setText(name + "(已审核)");
+            tvName.setText(name);
         } else {
             tvStoreName.setText("请选择店铺");
             tvName.setText("");
         }
         //生成二维码
-        LogUtil.i("生成二维码，店铺名" + App.merchant + "店铺ID" + App.short_id);
-        if (!TextUtils.isEmpty(App.qrcode)) {
-            ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
+        if (!TextUtils.isEmpty(qrcode)) {
+            ivBaQrCode.setImageBitmap(Zxing.getQrCode(qrcode));
         }
         //添加商户logo
 

@@ -98,7 +98,7 @@ public class OrdersActivity extends BaseActivity {
     }
 
     /**
-     * 店员管理接口获取店铺
+     * 门店列表接口
      */
     private void list() {
         showLoading("获取中...");
