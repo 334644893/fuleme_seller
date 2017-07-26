@@ -206,7 +206,8 @@
         <service android:name=".posliandi.MyService" />
 
         <activity android:name=".activity.Version2.ContactServiceActivity" />
-        <activity android:name=".activity.Version2.SBasicInformationActivity"></activity>
+        <activity android:name=".activity.Version2.SBasicInformationActivity" />
+        <activity android:name=".activity.Version2.InviteCodeActivity"></activity>
     </application>
 
 </manifest>

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_registration_store"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_color"
     android:orientation="vertical"
     tools:context="com.fuleme.business.activity.RegistrationStoreActivity">
 
@@ -18,23 +20,45 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/activity_vertical_margin"
-            android:paddingLeft="@dimen/activity_horizontal_margin">
-
-
+            android:background="@color/bg_color"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingTop="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="商户简称:" />
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:text="*  "
+                    android:textColor="@color/red" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收款信息"
+                    android:textColor="@color/pale_black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="商户简称:"
+                    android:textColor="@color/pale_black" />
 
                 <EditText
                     android:id="@+id/short_name"
@@ -50,22 +74,21 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_color" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="联系手机:" />
+                    android:text="联系手机:"
+                    android:textColor="@color/pale_black" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -92,20 +115,20 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_color" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="商户结算账号:" />
+                    android:text="商户结算账号:"
+                    android:textColor="@color/pale_black" />
 
                 <EditText
                     android:id="@+id/account_num"
@@ -122,87 +145,233 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_color" />
 
-            <RelativeLayout
-                android:id="@+id/business_licence"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingTop="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:text="*  "
+                    android:textColor="@color/red" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="法人信息"
+                    android:textColor="@color/pale_black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="法人姓名:"
+                    android:textColor="@color/pale_black" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4"
+                    android:background="@null"
+                    android:imeOptions="actionNext"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:singleLine="true"
+                    android:textColorHint="@color/black_26"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="法人手机:"
+                    android:textColor="@color/pale_black" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4"
+                    android:background="@null"
+                    android:imeOptions="actionNext"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:singleLine="true"
+                    android:textColorHint="@color/black_26"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="营业证:" />
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="营业执照(无营业执照上传租赁合同):"
+                    android:textColor="@color/progress_background" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_state"
+                    <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="未上传"
-                        android:textColor="@color/black_87" />
+                        android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@mipmap/icon3" />
+                        <com.facebook.drawee.view.SimpleDraweeView
+                            android:id="@+id/user_avator_1"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="4dp"
+                            fresco:actualImageScaleType="focusCrop"
+                            fresco:failureImage="@mipmap/icon_err"
+                            fresco:placeholderImage="@drawable/icon_photo1"
+                            fresco:progressBarAutoRotateInterval="1000"
+                            fresco:progressBarImage="@mipmap/icon_load" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_xx_1"
+                            android:visibility="invisible"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@mipmap/icon_cha"
+                                android:id="@+id/imageView" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
                 </LinearLayout>
-            </RelativeLayout>
-            <View
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_color" />
-            <RelativeLayout
-                android:id="@+id/identity_card"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginTop="10dp"
-                android:gravity="center">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="身份证:" />
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="法人身份证(无营业执照请上传收款人身份证):"
+                    android:textColor="@color/progress_background" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="10dp"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/tv_state_sfz"
+                    <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:text="未上传"
-                        android:textColor="@color/black_87" />
+                        android:layout_height="wrap_content">
 
-                    <ImageView
+                        <com.facebook.drawee.view.SimpleDraweeView
+                            android:id="@+id/user_avator_2"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="4dp"
+                            fresco:actualImageScaleType="focusCrop"
+                            fresco:failureImage="@mipmap/icon_err"
+                            fresco:placeholderImage="@drawable/icon_photo3"
+                            fresco:progressBarAutoRotateInterval="1000"
+                            fresco:progressBarImage="@mipmap/icon_load" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_xx_2"
+                            android:visibility="invisible"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@mipmap/icon_cha" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                    <FrameLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:src="@mipmap/icon3" />
+                        android:layout_height="wrap_content">
+
+                        <com.facebook.drawee.view.SimpleDraweeView
+                            android:id="@+id/user_avator_3"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="4dp"
+                            fresco:actualImageScaleType="focusCrop"
+                            fresco:failureImage="@mipmap/icon_err"
+                            fresco:placeholderImage="@drawable/icon_photo2"
+                            fresco:progressBarAutoRotateInterval="1000"
+                            fresco:progressBarImage="@mipmap/icon_load" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_xx_3"
+                            android:visibility="invisible"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@mipmap/icon_cha" />
+                        </LinearLayout>
+
+                    </FrameLayout>
                 </LinearLayout>
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/bg_color" />
+            </LinearLayout>
+
 
             <Button
                 android:id="@+id/btn_tj_1"
@@ -215,7 +384,8 @@
                 android:gravity="center"
                 android:text="提交审核"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:layout_marginBottom="20dp"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

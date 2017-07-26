@@ -1,26 +1,36 @@
 package com.fuleme.business.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.utils.PictureUtil;
 import com.fuleme.business.utils.ToastUtil;
-import com.fuleme.business.widget.LoadingDialogUtils;
+import com.yanzhenjie.album.Album;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,14 +48,29 @@ public class RegistrationStoreActivity extends BaseActivity {
     EditText contactMobile;
     @Bind(R.id.account_num)
     EditText accountNum;
-    @Bind(R.id.tv_state)
-    TextView tvState;
-    @Bind(R.id.tv_state_sfz)
-    TextView tvStateSfz;
-    static final int BUSINESS_LICENCE = 110;
-    static final int IDENTITY_CARD = 111;
-    public static String url_business_licence = "";//上传营业证地址
-    public static ArrayList<String> url_identity_card = new ArrayList<>();//上传身份证证地址集合
+    String url_business_licence = "";//上传营业证地址
+    String url_business_licence_2 = "";//上传身份证正面地址
+    String url_business_licence_3 = "";//上传身份证反面地址
+    String url_ph_1 = "";//显示营业证地址
+    String url_ph_2 = "";//显示身份证正面地址
+    String url_ph_3 = "";//显示身份证反面地址
+    boolean onClick_1 = true;//营业证点击标识
+    boolean onClick_2 = true;//身份证正面点击标识
+    boolean onClick_3 = true;//身份证反面点击标识
+    public int ACTIVITY_REQUEST_SELECT_PHOTO = 1000;
+    @Bind(R.id.user_avator_1)
+    SimpleDraweeView userAvator1;
+    @Bind(R.id.user_avator_2)
+    SimpleDraweeView userAvator2;
+    @Bind(R.id.user_avator_3)
+    SimpleDraweeView userAvator3;
+    int SCBS = 0;//上传标识 1为营业证 2身份证正面 3身份证反面
+    @Bind(R.id.ll_xx_1)
+    LinearLayout llXx1;
+    @Bind(R.id.ll_xx_2)
+    LinearLayout llXx2;
+    @Bind(R.id.ll_xx_3)
+    LinearLayout llXx3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,58 +83,101 @@ public class RegistrationStoreActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == BUSINESS_LICENCE) {
+        if (requestCode == ACTIVITY_REQUEST_SELECT_PHOTO && data != null) {
             //营业证
-            if (!TextUtils.isEmpty(url_business_licence)) {
-                tvState.setText("已上传");
-                tvState.setTextColor(getResources().getColor(R.color.theme));
-            } else {
-                tvState.setText("未上传");
-                tvState.setTextColor(getResources().getColor(R.color.black_87));
-            }
-        }
-        if (requestCode == IDENTITY_CARD) {
-            //身份证
-            if (url_identity_card.size() == 2) {
+            if (resultCode == RESULT_OK) { // 判断是否成功。
+                // 拿到用户选择的图片路径List：
+                List<String> pathList = Album.parseResult(data);
 
-                tvStateSfz.setText("已上传");
-                tvStateSfz.setTextColor(getResources().getColor(R.color.theme));
-            } else {
-                tvStateSfz.setText("未上传");
-                tvStateSfz.setTextColor(getResources().getColor(R.color.black_87));
+                if (pathList.size() > 0) {
+                    switch (SCBS) {
+                        case 1:
+                            url_ph_1 = pathList.get(0);
+                            break;
+                        case 2:
+                            url_ph_2 = pathList.get(0);
+                            break;
+                        case 3:
+                            url_ph_3 = pathList.get(0);
+                            break;
+                    }
+                    uploadMemberIcon(PictureUtil.smallPic(pathList.get(0)));
+                }
+            } else if (resultCode == RESULT_CANCELED) { // 用户取消选择。
+                // 根据需要提示用户取消了选择。
+                ToastUtil.showMessage("无法获取图片");
             }
-
         }
     }
 
-    @OnClick({R.id.tv_left, R.id.business_licence, R.id.identity_card, R.id.btn_tj_1})
+    @OnClick({R.id.tv_left,
+            R.id.user_avator_1,
+            R.id.user_avator_2,
+            R.id.user_avator_3,
+            R.id.btn_tj_1, R.id.ll_xx_1, R.id.ll_xx_2, R.id.ll_xx_3})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_left:
                 finish();
                 break;
-            case R.id.business_licence:
-                //营业证
-                Intent intent = new Intent(RegistrationStoreActivity.this, UploadPicturesActivity.class);
-                intent.putExtra("intent", BUSINESS_LICENCE);
-                startActivityForResult(intent, BUSINESS_LICENCE);
+            case R.id.ll_xx_1:
+                userAvator1.setImageURI((new Uri.Builder()).scheme("res").path(String.valueOf(R.drawable.icon_photo1)).build());
+                url_business_licence = "";
+                onClick_1 = true;
+                llXx1.setVisibility(View.INVISIBLE);
                 break;
-            case R.id.identity_card:
-                //身份证
-                Intent intent_2 = new Intent(RegistrationStoreActivity.this, UploadPicturesActivity.class);
-                intent_2.putExtra("intent", IDENTITY_CARD);
-                startActivityForResult(intent_2, IDENTITY_CARD);
+            case R.id.ll_xx_2:
+                userAvator2.setImageURI((new Uri.Builder()).scheme("res").path(String.valueOf(R.drawable.icon_photo3)).build());
+                url_business_licence_2 = "";
+                llXx2.setVisibility(View.INVISIBLE);
+                onClick_2 = true;
+                break;
+            case R.id.ll_xx_3:
+                userAvator3.setImageURI((new Uri.Builder()).scheme("res").path(String.valueOf(R.drawable.icon_photo2)).build());
+                url_business_licence_3 = "";
+                onClick_3 = true;
+                llXx3.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.user_avator_1:
+                //营业证
+
+                if (onClick_1) {
+                    SCBS = 1;
+                    Album.startAlbum(RegistrationStoreActivity.this, ACTIVITY_REQUEST_SELECT_PHOTO
+                            , 1                                                         // 指定选择数量。
+                            , ContextCompat.getColor(RegistrationStoreActivity.this, R.color.theme)        // 指定Toolbar的颜色。
+                            , ContextCompat.getColor(RegistrationStoreActivity.this, R.color.theme));  // 指定状态栏的颜色。
+                }
+
+                break;
+            case R.id.user_avator_2:
+                //身份证正面
+                if (onClick_2) {
+                    SCBS = 2;
+                    Album.startAlbum(RegistrationStoreActivity.this, ACTIVITY_REQUEST_SELECT_PHOTO
+                            , 1                                                         // 指定选择数量。
+                            , ContextCompat.getColor(RegistrationStoreActivity.this, R.color.theme)        // 指定Toolbar的颜色。
+                            , ContextCompat.getColor(RegistrationStoreActivity.this, R.color.theme));  // 指定状态栏的颜色。
+                }
+                break;
+            case R.id.user_avator_3:
+                //身份证反面
+                if (onClick_3) {
+                    SCBS = 3;
+                    Album.startAlbum(RegistrationStoreActivity.this, ACTIVITY_REQUEST_SELECT_PHOTO
+                            , 1                                                         // 指定选择数量。
+                            , ContextCompat.getColor(RegistrationStoreActivity.this, R.color.theme)        // 指定Toolbar的颜色。
+                            , ContextCompat.getColor(RegistrationStoreActivity.this, R.color.theme));  // 指定状态栏的颜色。
+                }
                 break;
             case R.id.btn_tj_1:
                 //TODO 接口待完善
-                if (comitJudge()) {
-                    StringBuffer s = new StringBuffer("");
-                    for (String url : url_identity_card) {
-                        //拼接图片地址
-                        s.append(url + ",");
-                    }
-                    addmerchant(url_business_licence, s.deleteCharAt(s.length() - 1).toString());
-                }
+//                if (comitJudge()) {
+//                    addmerchant(url_business_licence, url_business_licence_2 + "," + url_business_licence_3);
+//                }
+                LogUtil.d("url_business_licence--------", url_business_licence);
+                LogUtil.d("url_business_licence_2---------", url_business_licence_2);
+                LogUtil.d("url_business_licence_3--------", url_business_licence_3);
                 break;
         }
     }
@@ -176,19 +244,85 @@ public class RegistrationStoreActivity extends BaseActivity {
         } else if (TextUtils.isEmpty(url_business_licence)) {
             ToastUtil.showMessage("请上传营业证");
             return false;
-        } else if (url_identity_card.size() <2) {
-            ToastUtil.showMessage("请上传身份证正反面(共2张)");
+        } else if (TextUtils.isEmpty(url_business_licence_2)) {
+            ToastUtil.showMessage("请上传身份证正面");
+            return false;
+        } else if (TextUtils.isEmpty(url_business_licence_3)) {
+            ToastUtil.showMessage("请上传身份证反面");
             return false;
         }
         return true;
     }
 
+    /**
+     * 上传图片
+     */
+    private void uploadMemberIcon(String filePath) {
+        if (TextUtils.isEmpty(filePath)) {
+            ToastUtil.showMessage("图片不见了");
+            return;
+        }
+        showLoading("上传中...");
+        File file = new File(filePath);
+        RequestBody imageBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part imageBodyPart = MultipartBody.Part.createFormData("file", file.getName(), imageBody);
+        Call<Object> call = getApi().uploadMemberIcon(imageBodyPart);
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
+                    // do SomeThing
+                    LogUtil.i("上传成功");
+                    JSONObject data = GsonUtils.getResultData(response.body());
+                    switch (SCBS) {
+                        case 1:
+                            url_business_licence = data.optString("url");
+                            userAvator1.setImageURI(Uri.fromFile(new File(url_ph_1)));
+                            onClick_1 = false;
+                            llXx1.setVisibility(View.VISIBLE);
+                            break;
+                        case 2:
+                            url_business_licence_2 = data.optString("url");
+                            userAvator2.setImageURI(Uri.fromFile(new File(url_ph_2)));
+                            onClick_2 = false;
+                            llXx2.setVisibility(View.VISIBLE);
+                            break;
+                        case 3:
+                            url_business_licence_3 = data.optString("url");
+                            userAvator3.setImageURI(Uri.fromFile(new File(url_ph_3)));
+                            onClick_3 = false;
+                            llXx3.setVisibility(View.VISIBLE);
+                            break;
+                    }
+                    closeLoading();//取消等待框
+                } else {
+                    ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
+                    url_business_licence = "";
+                    url_business_licence_2 = "";
+                    url_business_licence_3 = "";
+                    closeLoading();//取消等待框
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                url_business_licence = "";
+                url_business_licence_2 = "";
+                url_business_licence_3 = "";
+                LogUtil.e(TAG, t.toString());
+                closeLoading();//取消等待框
+                ToastUtil.showMessage("图片上传失败");
+            }
+        });
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        UploadPicturesActivity.urlImg_business_licence = "";
-        UploadPicturesActivity.urlImg_identity_card.clear();
         url_business_licence = "";
-        url_identity_card.clear();
+        url_business_licence_2 = "";
+        url_business_licence_3 = "";
     }
+
+
 }
