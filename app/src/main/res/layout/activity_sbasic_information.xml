@@ -75,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="您还没有店铺"
+            android:text="暂无店铺"
             android:textSize="@dimen/text_size_35"
             android:visibility="gone" />
 

@@ -57,7 +57,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="商户简称:"
+                    android:text="门店名称:"
                     android:textColor="@color/pale_black" />
 
                 <EditText
@@ -66,6 +66,128 @@
                     android:layout_height="48dp"
                     android:layout_weight="4"
                     android:background="@null"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:singleLine="true"
+                    android:textColorHint="@color/black_26"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="银行账户:"
+                    android:textColor="@color/pale_black" />
+
+                <EditText
+                    android:id="@+id/payee"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="收款人"
+                    android:imeOptions="actionNext"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:singleLine="true"
+                    android:textColorHint="@color/black_26"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="银行账号:"
+                    android:textColor="@color/pale_black" />
+
+                <EditText
+                    android:id="@+id/account_num"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:hint="收款卡号"
+                    android:imeOptions="actionNext"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:singleLine="true"
+                    android:textColorHint="@color/black_26"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="银行:        "
+                    android:textColor="@color/pale_black" />
+
+                <TextView
+                    android:id="@+id/tv_bank"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4"
+                    android:background="@null"
+                    android:drawableRight="@mipmap/icon3"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:textColorHint="@color/black_26"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="支行:        "
+                    android:textColor="@color/pale_black" />
+
+                <EditText
+                    android:id="@+id/tv_branch_bank"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4"
+                    android:background="@null"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
@@ -87,7 +209,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="联系手机:"
+                    android:text="手机号:    "
                     android:textColor="@color/pale_black" />
 
                 <LinearLayout
@@ -102,6 +224,7 @@
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:background="@null"
+                        android:gravity="center"
                         android:imeOptions="actionNext"
                         android:inputType="number"
                         android:maxLength="11"
@@ -115,7 +238,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -127,24 +249,35 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="商户结算账号:"
+                    android:layout_gravity="center_vertical"
+                    android:text="身份证号:"
                     android:textColor="@color/pale_black" />
 
-                <EditText
-                    android:id="@+id/account_num"
+                <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="48dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:background="@null"
-                    android:hint="必填"
-                    android:imeOptions="actionNext"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:singleLine="true"
-                    android:textColorHint="@color/black_26"
-                    android:textSize="14sp" />
-            </LinearLayout>
+                    android:orientation="horizontal">
 
+                    <EditText
+                        android:id="@+id/id_card"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="18"
+                        android:paddingLeft="16dp"
+                        android:paddingRight="16dp"
+                        android:singleLine="true"
+                        android:textColorHint="@color/black_26"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -188,6 +321,7 @@
                     android:layout_height="48dp"
                     android:layout_weight="4"
                     android:background="@null"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
@@ -215,6 +349,7 @@
                     android:layout_height="48dp"
                     android:layout_weight="4"
                     android:background="@null"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
@@ -263,18 +398,18 @@
 
                         <LinearLayout
                             android:id="@+id/ll_xx_1"
-                            android:visibility="invisible"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="right"
                             android:gravity="right"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="invisible">
 
                             <ImageView
+                                android:id="@+id/imageView"
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
-                                android:src="@mipmap/icon_cha"
-                                android:id="@+id/imageView" />
+                                android:src="@mipmap/icon_cha" />
                         </LinearLayout>
 
                     </FrameLayout>
@@ -322,12 +457,12 @@
 
                         <LinearLayout
                             android:id="@+id/ll_xx_2"
-                            android:visibility="invisible"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="right"
                             android:gravity="right"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="invisible">
 
                             <ImageView
                                 android:layout_width="16dp"
@@ -355,12 +490,12 @@
 
                         <LinearLayout
                             android:id="@+id/ll_xx_3"
-                            android:visibility="invisible"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="right"
                             android:gravity="right"
-                            android:orientation="vertical">
+                            android:orientation="vertical"
+                            android:visibility="invisible">
 
                             <ImageView
                                 android:layout_width="16dp"
@@ -377,15 +512,15 @@
                 android:id="@+id/btn_tj_1"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="50dp"
                 android:layout_marginRight="50dp"
                 android:layout_marginTop="32dp"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_0"
                 android:gravity="center"
                 android:text="提交审核"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                android:layout_marginBottom="20dp"/>
+                android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

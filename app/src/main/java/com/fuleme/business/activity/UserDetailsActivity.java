@@ -10,11 +10,14 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
+import com.fuleme.business.activity.Version2.InviteCodeActivity;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.fragment.CFragment;
 import com.fuleme.business.fragment.FragmentActivity;
+import com.fuleme.business.helper.APIService;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.PictureUtil;
@@ -58,6 +61,8 @@ public class UserDetailsActivity extends BaseActivity {
     TextView tvTitle;
     int TOSTORE = 998;
     static final int LL_SHORT_IMG = 210;
+    @Bind(R.id.logo)
+    SimpleDraweeView logo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +75,10 @@ public class UserDetailsActivity extends BaseActivity {
 
     public void initView() {
         tvTitle.setText("账号详情");
-
+        //改变头像
+        if (!TextUtils.isEmpty(App.short_logo)) {
+            logo.setImageURI(APIService.SERVER_IP + App.short_logo);
+        }
         if ("0".equals(App.short_state)) {
             tvStoreName.setText(App.merchant + "(审核中)");
         } else if ("1".equals(App.short_state)) {
@@ -82,7 +90,11 @@ public class UserDetailsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.tv_left, R.id.btn_login, R.id.ll_forgotpassword, R.id.ll_short_img, R.id.shmc})
+    @OnClick({R.id.tv_left, R.id.btn_login, R.id.ll_forgotpassword,
+            R.id.ll_short_img
+            , R.id.ll_yaoqingma
+            , R.id.shmc
+    })
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_left:
@@ -138,6 +150,11 @@ public class UserDetailsActivity extends BaseActivity {
             case R.id.ll_forgotpassword:
                 // 修改密码
                 startActivity(new Intent(UserDetailsActivity.this, ChangePasswordActivity.class));
+                break;
+            case R.id.ll_yaoqingma:
+                // 邀请码
+                startActivity(new Intent(UserDetailsActivity.this, InviteCodeActivity.class));
+
                 break;
             case R.id.shmc:
                 //切换店铺
@@ -199,17 +216,18 @@ public class UserDetailsActivity extends BaseActivity {
             }
         });
     }
+
     /**
      * 提交logo图片
      */
     private void modifyheadImg(final String url) {
-        Call<Object> call = getApi().modifyheadImg(App.token,url);
+        Call<Object> call = getApi().modifyheadImg(App.token, url);
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
                 if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                     // do SomeThing
-                    imgurlFlag=true;
+                    imgurlFlag = true;
                     App.short_logo = url;
                     SharedPreferencesUtils.setParam(UserDetailsActivity.this, "head_img", url);
                     ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));

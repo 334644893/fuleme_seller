@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_user_details"
     android:layout_width="match_parent"
@@ -11,10 +12,51 @@
     <include layout="@layout/item_actionbar" />
 
     <LinearLayout
-        android:id="@+id/shmc"
+        android:id="@+id/ll_short_img"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/logo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            fresco:actualImageScaleType="fitCenter"
+            fresco:failureImage="@mipmap/logo"
+            fresco:placeholderImage="@mipmap/logo"
+            fresco:progressBarAutoRotateInterval="1000"
+            fresco:progressBarImage="@mipmap/icon_load"
+            fresco:roundAsCircle="true" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="7"
+            android:gravity="right"
+            android:paddingLeft="10dp"
+            android:text="修改头像"
+            android:textColor="@color/color_app_gray"
+            android:textSize="@dimen/text_size" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@mipmap/icon3" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/shmc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:background="@color/white"
         android:orientation="horizontal"
         android:padding="15dp">
@@ -105,38 +147,12 @@
             android:textSize="@dimen/text_size_15" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/ll_short_img"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:padding="15dp">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="7"
-            android:paddingLeft="10dp"
-            android:text="上传头像"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:src="@mipmap/icon3" />
-    </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/ll_forgotpassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="8dp"
         android:background="@color/white"
         android:orientation="horizontal"
         android:padding="15dp">
@@ -154,7 +170,35 @@
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="20dp"
+            android:layout_height="12dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@mipmap/icon3" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_yaoqingma"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="7"
+            android:paddingLeft="10dp"
+            android:text="我的邀请码"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="12dp"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@mipmap/icon3" />

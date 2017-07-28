@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.fuleme.business.App;
 import com.fuleme.business.R;
+import com.fuleme.business.activity.Version2.ListActivity;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
@@ -71,6 +72,9 @@ public class RegistrationStoreActivity extends BaseActivity {
     LinearLayout llXx2;
     @Bind(R.id.ll_xx_3)
     LinearLayout llXx3;
+    public static String BANK = "";//银行
+    @Bind(R.id.tv_bank)
+    TextView tvBank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,12 @@ public class RegistrationStoreActivity extends BaseActivity {
         setContentView(R.layout.activity_registration_store);
         ButterKnife.bind(this);
         tvTitle.setText("添加店铺");
+    }
+
+    @Override
+    protected void onResume() {
+        tvBank.setText(BANK);
+        super.onResume();
     }
 
     @Override
@@ -110,15 +120,24 @@ public class RegistrationStoreActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.tv_left,
+    @OnClick({
+            R.id.tv_left,
+            R.id.tv_bank,
             R.id.user_avator_1,
             R.id.user_avator_2,
             R.id.user_avator_3,
-            R.id.btn_tj_1, R.id.ll_xx_1, R.id.ll_xx_2, R.id.ll_xx_3})
+            R.id.btn_tj_1,
+            R.id.ll_xx_1,
+            R.id.ll_xx_2,
+            R.id.ll_xx_3})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_left:
                 finish();
+                break;
+            case R.id.tv_bank:
+                ListActivity.INTENTTYPE = 0;
+                startActivity(new Intent(RegistrationStoreActivity.this, ListActivity.class));
                 break;
             case R.id.ll_xx_1:
                 userAvator1.setImageURI((new Uri.Builder()).scheme("res").path(String.valueOf(R.drawable.icon_photo1)).build());
@@ -323,6 +342,5 @@ public class RegistrationStoreActivity extends BaseActivity {
         url_business_licence_2 = "";
         url_business_licence_3 = "";
     }
-
 
 }

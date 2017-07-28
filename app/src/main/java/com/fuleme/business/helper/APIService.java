@@ -30,11 +30,10 @@ import retrofit2.http.Part;
 public interface APIService {
     //    String SERVER_IP = "http://192.168.1.138/";
 //    String SERVER_IP = "http://192.168.1.155/";
-    String SERVER_IP = "https://dev.fuleme.com/";//TEST
-//    String SERVER_IP = "https://pay.fuleme.com/";
+//    String SERVER_IP = "https://dev.fuleme.com/";//TEST
+    String SERVER_IP = "https://pay.fuleme.com/";
     /**
      * 关于我们接口
-     *
      * @return
      */
     String ABOUT = "system/about";

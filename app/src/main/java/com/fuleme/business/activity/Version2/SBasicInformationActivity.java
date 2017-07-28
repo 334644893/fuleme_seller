@@ -147,7 +147,7 @@ public class SBasicInformationActivity extends BaseActivity {
                 break;
             case R.id.fl_r:
                 // 添加店铺
-                startActivity(new Intent(SBasicInformationActivity.this, RegistrationStoreActivity.class));
+                startActivity(new Intent(SBasicInformationActivity.this, TreatyActivity.class));
                 break;
             case R.id.ll_dianyuan:
                 setState(1);

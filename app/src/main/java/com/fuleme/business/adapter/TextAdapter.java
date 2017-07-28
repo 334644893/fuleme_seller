@@ -22,21 +22,19 @@ import butterknife.ButterKnife;
 public class TextAdapter extends RecyclerView.Adapter<TextAdapter.MyViewHolder> {
 
 
-    private String[] mDatas;
+    private List<String> mDatas;
     private Context context;
     private onRecyclerViewItemClickListener itemClickListener = null;
 
-    public TextAdapter(Context context, String[] mDatas) {
+    public TextAdapter(Context context, List<String> mDatas) {
         this.context = context;
         this.mDatas = mDatas;
     }
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        @Bind(R.id.tv_store)
-        TextView tvStore;
-        @Bind(R.id.ll_store)
-        LinearLayout llStore;
+        @Bind(R.id.tv_name)
+        TextView tvName;
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -46,18 +44,18 @@ public class TextAdapter extends RecyclerView.Adapter<TextAdapter.MyViewHolder> 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         MyViewHolder hodler = new MyViewHolder(LayoutInflater.from(context)
-                .inflate(R.layout.item_store_a_g_q, parent, false));
+                .inflate(R.layout.item_textview, parent, false));
         return hodler;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.tvStore.setText(mDatas[position]);
-        holder.llStore.setOnClickListener(new View.OnClickListener() {
+        holder.tvName.setText(mDatas.get(position));
+        holder.tvName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (itemClickListener != null)
-                    itemClickListener.onItemClick(v, position);
+                    itemClickListener.onItemClick(v, mDatas.get(position));
             }
         });
 
@@ -65,7 +63,7 @@ public class TextAdapter extends RecyclerView.Adapter<TextAdapter.MyViewHolder> 
 
     public interface onRecyclerViewItemClickListener {
         //点击传递item信息接口
-        void onItemClick(View v, int position);
+        void onItemClick(View v, String bank);
     }
 
     public void setOnItemClickListener(onRecyclerViewItemClickListener listener) {
@@ -77,7 +75,7 @@ public class TextAdapter extends RecyclerView.Adapter<TextAdapter.MyViewHolder> 
         if (mDatas == null) {
             return 0;
         }
-        return mDatas.length;
+        return mDatas.size();
     }
 
 

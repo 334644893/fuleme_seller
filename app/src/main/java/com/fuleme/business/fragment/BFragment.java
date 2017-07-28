@@ -32,7 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 /**
- * 自媒体
+ * 推广
  */
 public class BFragment extends Fragment {
     private static final String TAG = "BFragment";
