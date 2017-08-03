@@ -155,6 +155,10 @@ public class LoginActivity extends BaseActivity {
             App.short_area = SharedPreferencesUtils.getParam(getApplicationContext(), "short_area", App.short_area).toString();
             App.qrcode = SharedPreferencesUtils.getParam(getApplicationContext(), "qrcode", App.qrcode).toString();
             App.short_logo = SharedPreferencesUtils.getParam(getApplicationContext(), "head_img", App.short_logo).toString();
+            App.is_agent = SharedPreferencesUtils.getParam(getApplicationContext(), "is_agent", App.is_agent).toString();
+            App.invitation_code = SharedPreferencesUtils.getParam(getApplicationContext(), "invitation_code", App.invitation_code).toString();
+            App.pay_password = SharedPreferencesUtils.getParam(getApplicationContext(), "pay_password", App.pay_password).toString();
+            App.create_time = SharedPreferencesUtils.getParam(getApplicationContext(), "create_time", App.create_time).toString();
             //绑定推送账号
             if (App.bindAccount) {
                 App.bindAccount();
@@ -323,6 +327,20 @@ public class LoginActivity extends BaseActivity {
                         SharedPreferencesUtils.setParam(getApplicationContext(), "qrcode", App.qrcode);
                         App.short_logo = data.optString("head_img");
                         SharedPreferencesUtils.setParam(getApplicationContext(), "head_img", App.short_logo);
+
+                        App.is_agent = data.optString("is_agent");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "is_agent", App.is_agent);
+
+                        App.invitation_code = data.optString("invitation_code");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "invitation_code", App.invitation_code);
+
+                        App.pay_password = data.optString("pay_password");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "pay_password", App.pay_password);
+
+                        App.create_time = data.optString("create_time");
+                        SharedPreferencesUtils.setParam(getApplicationContext(), "create_time", App.create_time);
+
+
                         LogUtil.d("-------登录返回App.token---------", App.token);
                         //绑定推送账号
                         App.bindAccount();

@@ -60,7 +60,8 @@ public class SinceMediaAdapter extends RecyclerView.Adapter<SinceMediaAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        Glide.with(context).load(APIService.SERVER_IP + mDatas.get(position).getImg()).into(holder.ivLeft);
+//        Glide.with(context).load(APIService.SERVER_IP + mDatas.get(position).getImg()).into(holder.ivLeft);
+        holder.ivLeft.setImageResource(mDatas.get(position).getImg());
         holder.tvTitle.setText(mDatas.get(position).getTitle());
         holder.tvContent.setText(mDatas.get(position).getAbstractX());
         holder.llSince.setOnClickListener(new View.OnClickListener() {

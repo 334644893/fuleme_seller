@@ -184,7 +184,7 @@ public class BasicInformationActivity extends BaseActivity {
     }
 
     /**
-     * 改变登录类型
+     * 改变类型
      *
      * @param types
      */

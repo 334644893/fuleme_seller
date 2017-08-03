@@ -372,8 +372,9 @@
                     android:layout_alignParentLeft="true"
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
+
                     android:text="营业执照(无营业执照上传租赁合同):"
-                    android:textColor="@color/progress_background" />
+                    android:textColor="@color/red_1" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -432,7 +433,7 @@
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
                     android:text="法人身份证(无营业执照请上传收款人身份证):"
-                    android:textColor="@color/progress_background" />
+                    android:textColor="@color/red_1" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

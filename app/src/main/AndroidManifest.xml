@@ -209,7 +209,11 @@
         <activity android:name=".activity.Version2.SBasicInformationActivity" />
         <activity android:name=".activity.Version2.InviteCodeActivity" />
         <activity android:name=".activity.Version2.ListActivity" />
-        <activity android:name=".activity.Version2.TreatyActivity"></activity>
+        <activity android:name=".activity.Version2.TreatyActivity" />
+        <activity android:name=".activity.Version2.BalanceActivity" />
+        <activity android:name=".activity.Version2.CashActivity" />
+        <activity android:name=".activity.Version2.SignPromoteActivity" />
+        <activity android:name=".activity.Version2.MyCommissionActivity"></activity>
     </application>
 
 </manifest>

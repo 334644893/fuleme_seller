@@ -44,7 +44,7 @@ public class SinceMediaBean {
          */
 
         private int id;
-        private String img;
+        private int img;
         private String title;
         @SerializedName("abstract")
         private String abstractX;
@@ -58,11 +58,11 @@ public class SinceMediaBean {
             this.id = id;
         }
 
-        public String getImg() {
+        public int getImg() {
             return img;
         }
 
-        public void setImg(String img) {
+        public void setImg(int img) {
             this.img = img;
         }
 

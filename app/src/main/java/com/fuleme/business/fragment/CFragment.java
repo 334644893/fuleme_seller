@@ -80,8 +80,6 @@ public class CFragment extends Fragment {
     TextView tvPhone;
     @Bind(R.id.tv_fulemenumber)
     TextView tvFulemenumber;
-//    @Bind(R.id.ll_addstore)
-//    LinearLayout llAddstore;
     @Bind(R.id.tv_version)
     TextView tvVersion;
     @Bind(R.id.ll_title_1)
@@ -138,10 +136,8 @@ public class CFragment extends Fragment {
         }
         if ("0".equals(App.role)) {
             llTitle1.setVisibility(View.VISIBLE);
-//            llAddstore.setVisibility(View.VISIBLE);
         } else {
             llTitle1.setVisibility(View.GONE);
-//            llAddstore.setVisibility(View.GONE);
         }
         if (App.POS) {
             llDayinji.setVisibility(View.GONE);
@@ -199,10 +195,6 @@ public class CFragment extends Fragment {
                 // 跳转商铺应用
                 startActivity(new Intent(getActivity(), BusinessApplicationActivity.class));
                 break;
-//            case R.id.ll_addstore:
-//                // 添加店铺
-//                startActivity(new Intent(getActivity(), RegistrationStoreActivity.class));
-//                break;
             case R.id.ll_adskm:
                 // 店铺收款码
                 EmployeeCollectionActivity.short_id = App.short_id;

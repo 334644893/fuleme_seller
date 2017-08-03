@@ -5,123 +5,186 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
+import com.fuleme.business.App;
 import com.fuleme.business.R;
-import com.fuleme.business.activity.OrderDetailsActivity;
-import com.fuleme.business.adapter.OrderAdapter;
-import com.fuleme.business.adapter.SinceMediaAdapter;
-import com.fuleme.business.bean.OrderBean;
-import com.fuleme.business.bean.SinceMediaBean;
-import com.fuleme.business.bean.bannerBean;
+import com.fuleme.business.activity.LoginActivity;
+import com.fuleme.business.activity.Version2.BalanceActivity;
+import com.fuleme.business.activity.Version2.MyCommissionActivity;
+import com.fuleme.business.activity.Version2.SignPromoteActivity;
 import com.fuleme.business.helper.GsonUtils;
-import com.fuleme.business.utils.DividerItemDecoration;
 import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONObject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 /**
  * 推广
  */
 public class BFragment extends Fragment {
     private static final String TAG = "BFragment";
     View view = null;
-    private Context context;
-    LinearLayoutManager linearLayoutManager;
-    @Bind(R.id.m_recyclerview)
-    RecyclerView mRecyclerview;
-    SinceMediaAdapter mAdapter;
-    private List<SinceMediaBean.DataBean> mDatas = new ArrayList<>();
-//    private int[] mImageDatas = {R.mipmap.icon_zhifu, R.mipmap.icon_weixin_54, R.mipmap.icon_dazhong, R.mipmap.icon_jinri, R.mipmap.icon_koubei};
-//    private String[] mTextDatas = {"支付宝服务窗口", "微信公众号管理", "大众点评", "今日头条", "口碑客"};
-//    private String[] mTextContentDatas = {"每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销"};
-//    private String[] mUrlDatas = {"每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销", "每天帮我做促销"};
+    @Bind(R.id.tv_1)
+    TextView tv1;
+    @Bind(R.id.tv_2)
+    TextView tv2;
+    @Bind(R.id.tv_3)
+    TextView tv3;
+    @Bind(R.id.tv_4)
+    TextView tv4;
+    @Bind(R.id.tv_5)
+    TextView tv5;
+    @Bind(R.id.ll_top)
+    LinearLayout llTop;
+    @Bind(R.id.ll_scl)
+    ScrollView llScl;
+    boolean flag = false;
+    @Bind(R.id.tv_content)
+    TextView tvContent;
+    @Bind(R.id.iv_gougou)
+    ImageView ivGougou;
+    @Bind(R.id.btn_tj_1)
+    Button btnTj1;
+    @Bind(R.id.demo_swiperefreshlayout)
+    SwipeRefreshLayout demoSwiperefreshlayout;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.fragment_administrator_b, container, false);
-        context = getActivity();
         ButterKnife.bind(this, view);
-        init();
+        promotion();
+        //刷新控件
+        demoSwiperefreshlayout.setColorSchemeResources(R.color.white);
+        demoSwiperefreshlayout.setProgressBackgroundColorSchemeResource(R.color.theme);
+        demoSwiperefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //下拉重置数据
+                promotion();
+            }
+        });
         return view;
     }
 
-
-    public void init() {
-        selfmedia();
-    }
-
-    /**
-     *
-     */
-    public void initView() {
-        /**
-         * 设置列表
-         */
-        linearLayoutManager = new LinearLayoutManager(context);
-        mRecyclerview.setLayoutManager(linearLayoutManager);
-        mAdapter = new SinceMediaAdapter(context, mDatas);
-        mRecyclerview.setAdapter(mAdapter);
-        mRecyclerview.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
-        mAdapter.setOnItemClickListener(new SinceMediaAdapter.onRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View v, String url) {
-                ToastUtil.showMessage("新功能正在开发中..");
-            }
-        });
-    }
-
-    /**
-     * 获取自媒体
-     */
-    private void selfmedia() {
-
-        ((FragmentActivity) getActivity()).showLoading("加载中...");
-        Call<SinceMediaBean> call = ((FragmentActivity) getActivity()).getApi().selfmedia();
-        call.enqueue(new Callback<SinceMediaBean>() {
-            @Override
-            public void onResponse(Call<SinceMediaBean> call, Response<SinceMediaBean> response) {
-                if (response.isSuccessful()) {
-                    if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
-                        // do SomeThing
-                        LogUtil.i("登陆成功");
-                        mDatas = response.body().getData();
-                        initView();
-                    } else {
-                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
-                    }
-
-                } else {
-                    LogUtil.i(response.message());
-                }
-                ((FragmentActivity) getActivity()).closeLoading();//取消等待框
-            }
-
-            @Override
-            public void onFailure(Call<SinceMediaBean> call, Throwable t) {
-                LogUtil.e(TAG, t.toString());
-                ((FragmentActivity) getActivity()).closeLoading();//取消等待框
-                ToastUtil.showMessage("超时");
-            }
-
-        });
+    @Override
+    public void onResume() {
+        if ("1".equals(App.is_agent)) {
+            //        代理
+            llTop.setVisibility(View.GONE);
+            llScl.setVisibility(View.VISIBLE);
+        } else {
+            //非代理
+            llTop.setVisibility(View.VISIBLE);
+            llScl.setVisibility(View.GONE);
+        }
+        super.onResume();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @OnClick({R.id.ll_1, R.id.btn_tj_1, R.id.ll_yes, R.id.ll_2, R.id.ll_3, R.id.ll_since_1, R.id.ll_since_2, R.id.ll_since_3})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ll_yes:
+                if (flag) {
+                    ivGougou.setImageResource(R.mipmap.icon_xuanze);
+                    btnTj1.setBackgroundResource(R.drawable.shape_corner_hui_p);
+                    flag = false;
+                } else {
+                    flag = true;
+                    ivGougou.setImageResource(R.mipmap.icon_xuanzhong);
+                    btnTj1.setBackgroundResource(R.drawable.shape_corner_0);
+                }
+                break;
+            case R.id.btn_tj_1:
+                if (flag) {
+                    // 签约推广
+                    startActivity(new Intent(getActivity(), SignPromoteActivity.class));
+                } else {
+                    ToastUtil.showMessage("请同意推广条款");
+                }
+
+                break;
+            case R.id.ll_1:
+                startActivity(new Intent(getActivity(), BalanceActivity.class));
+                break;
+            case R.id.ll_2:
+                startActivity(new Intent(getActivity(), MyCommissionActivity.class));
+                break;
+            case R.id.ll_3:
+                break;
+            case R.id.ll_since_1:
+                break;
+            case R.id.ll_since_2:
+                break;
+            case R.id.ll_since_3:
+                break;
+        }
+    }
+
+    /**
+     * 我的推广接口
+     */
+
+    private void promotion() {
+        ((FragmentActivity) getActivity()).showLoading("加载中...");
+        Call<Object> call = ((FragmentActivity) getActivity()).getApi().promotion(App.token);
+        call.enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if (response.isSuccessful()) {
+                    if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
+                        // do SomeThing
+                        JSONObject data = GsonUtils.getResultData(response.body());
+                        tv1.setText(data.optString("money"));
+                        tv2.setText(data.optString("withdrawals"));
+                        tv3.setText(data.optString("today_withdrawals"));
+                        tv4.setText(data.optString("rebate"));
+                        tv5.setText(data.optString("today_rebate"));
+                        ((FragmentActivity) getActivity()).closeLoading();//取消等待框
+                    } else {
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
+                        ((FragmentActivity) getActivity()).closeLoading();//取消等待框
+                    }
+
+                } else {
+                    LogUtil.i(response.message());
+                    ((FragmentActivity) getActivity()).closeLoading();//取消等待框
+                }
+                demoSwiperefreshlayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                LogUtil.e(TAG, t.toString());
+                ((FragmentActivity) getActivity()).closeLoading();//取消等待框
+                ToastUtil.showMessage("超时");
+                demoSwiperefreshlayout.setRefreshing(false);
+            }
+
+        });
     }
 }

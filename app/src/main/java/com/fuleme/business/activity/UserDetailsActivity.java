@@ -124,6 +124,11 @@ public class UserDetailsActivity extends BaseActivity {
                                 SharedPreferencesUtils.setParam(getApplicationContext(), "token", "");
                                 SharedPreferencesUtils.setParam(getApplicationContext(), "qrcode", "");
                                 SharedPreferencesUtils.setParam(getApplicationContext(), "head_img", "");
+
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "is_agent", "");
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "invitation_code", "");
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "pay_password", "");
+                                SharedPreferencesUtils.setParam(getApplicationContext(), "create_time", "");
                                 App.unbindAccount();
                                 stopService(intent);
                                 finish();

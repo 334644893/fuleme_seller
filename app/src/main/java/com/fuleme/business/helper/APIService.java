@@ -1,6 +1,7 @@
 package com.fuleme.business.helper;
 
 import com.fuleme.business.bean.AnalysecouponBean;
+import com.fuleme.business.bean.BalanceBean;
 import com.fuleme.business.bean.ClerkInfoBean;
 import com.fuleme.business.bean.ClerkOederBean;
 import com.fuleme.business.bean.ContractBean;
@@ -8,6 +9,7 @@ import com.fuleme.business.bean.CouponsBean;
 import com.fuleme.business.bean.CustomerBean;
 import com.fuleme.business.bean.IncomeBean;
 import com.fuleme.business.bean.MemberManagementBean;
+import com.fuleme.business.bean.MyCommissionBean;
 import com.fuleme.business.bean.OrderBean;
 import com.fuleme.business.bean.OrderContentBean;
 import com.fuleme.business.bean.OrderDetailsBean;
@@ -30,10 +32,11 @@ import retrofit2.http.Part;
 public interface APIService {
     //    String SERVER_IP = "http://192.168.1.138/";
 //    String SERVER_IP = "http://192.168.1.155/";
-//    String SERVER_IP = "https://dev.fuleme.com/";//TEST
-    String SERVER_IP = "https://pay.fuleme.com/";
+    String SERVER_IP = "https://dev.fuleme.com/";//TEST
+//    String SERVER_IP = "https://pay.fuleme.com/";
     /**
      * 关于我们接口
+     *
      * @return
      */
     String ABOUT = "system/about";
@@ -81,6 +84,16 @@ public interface APIService {
     @POST("user/login")
     Call<Object> login(@Field("phone") String phone,
                        @Field("password") String password);
+
+    /**
+     * 我的推广接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/promotion/promotion")
+    Call<Object> promotion(@Field("token") String token
+    );
 
     /**
      * 忘记密码
@@ -166,6 +179,21 @@ public interface APIService {
                                      @Field("list_rows") int list_rows);
 
     /**
+     * 推广-我的返佣接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/rebate/rebatelist")
+    Call<MyCommissionBean> rebatelist(@Field("token") String token,
+                                      @Field("page") int page,
+                                      @Field("list_rows") int list_rows,
+                                      @Field("begintime") int begintime,
+                                      @Field("endtime") int endtime,
+                                      @Field("shopid") String shopid
+    );
+
+    /**
      * 报表-获取店铺订单
      *
      * @return
@@ -216,6 +244,15 @@ public interface APIService {
     @FormUrlEncoded
     @POST("shop/list")
     Call<OrderBean> list(@Field("token") String token);
+
+    /**
+     * 提现列表接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/withdrawals/drawmoneylist")
+    Call<BalanceBean> drawmoneylist(@Field("token") String token);
 
     /**
      * 订单详情内容

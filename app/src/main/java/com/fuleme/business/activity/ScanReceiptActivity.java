@@ -84,6 +84,15 @@ public class ScanReceiptActivity extends BaseActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length()>0) {
+                if ((new Float(Float.parseFloat(s.toString().trim()) * 100)).intValue() > 1000000) {
+                    etAmount.setText("10000.00");
+                    etAmount.setSelection(etAmount.getText().toString().length());
+                    ToastUtil.showMessage("限额1万元");
+                }else{
+                    etAmount.setMaxEms(10);
+                }
+            }
             if (s.toString().contains(".")) {
                 if (s.length() - 1 - s.toString().indexOf(".") > 2) {
                     s = s.toString().subSequence(0,
