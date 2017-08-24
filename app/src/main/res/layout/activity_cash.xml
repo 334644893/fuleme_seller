@@ -29,19 +29,17 @@
                 android:id="@+id/tv_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="中国人民银行"
+                android:text="选择银行卡"
                 android:textStyle="bold"
                 android:textColor="@color/pale_black"
                 android:textSize="@dimen/text_size_18" />
 
             <TextView
                 android:id="@+id/tv_2"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="**** **** **** 7690"
                 android:textColor="@color/progress_background"
                 android:textSize="@dimen/text_size_25" />
         </LinearLayout>

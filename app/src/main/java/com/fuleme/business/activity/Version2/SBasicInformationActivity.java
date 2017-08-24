@@ -147,7 +147,7 @@ public class SBasicInformationActivity extends BaseActivity {
                 break;
             case R.id.fl_r:
                 // 添加店铺
-                startActivity(new Intent(SBasicInformationActivity.this, TreatyActivity.class));
+                startActivityForResult(new Intent(SBasicInformationActivity.this, TreatyActivity.class),0);
                 break;
             case R.id.ll_dianyuan:
                 setState(1);
@@ -157,7 +157,11 @@ public class SBasicInformationActivity extends BaseActivity {
                 break;
         }
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        setState(type);
+    }
     /**
      * 改变登录类型
      *

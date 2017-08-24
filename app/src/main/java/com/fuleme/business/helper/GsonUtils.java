@@ -48,6 +48,18 @@ public class GsonUtils {
         return Errmsg;
 
     }
+    public static String getStringDate(Object responseBody) {
+        String data = "";
+
+        try {
+            data = new JSONObject(gson.toJson(responseBody)).optString("date");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return data;
+
+    }
 
     public static int getError_code(Object responseBody) {
         int resultError_code = 0;

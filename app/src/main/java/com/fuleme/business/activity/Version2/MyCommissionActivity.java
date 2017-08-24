@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.fuleme.business.App;
@@ -34,9 +36,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * 我的返佣
+ */
 public class MyCommissionActivity extends BaseActivity {
     public static int startTime = 0;//查询开始时间戳
     public static int endTime = 0;//查询结束时间戳
+    public static String mid = App.PLACEHOLDER;//店铺ID 查询全部传占位符
     private static final String TAG = "OrderDetailsActivity";
     NumberFormat nf = NumberFormat.getInstance();
     public static String short_name = "";
@@ -52,6 +58,8 @@ public class MyCommissionActivity extends BaseActivity {
     TextView tv2;
     @Bind(R.id.tv_3)
     TextView tv3;
+    @Bind(R.id.ll_meiyou)
+    LinearLayout llMeiyou;
     @Bind(R.id.rv_m_recyclerview)
     RecyclerView mRecyclerView;
     LinearLayoutManager linearLayoutManager;
@@ -61,6 +69,7 @@ public class MyCommissionActivity extends BaseActivity {
     private List<MyCommissionBean.DataBean.ListBean> mDatas = new ArrayList<>();
     int Year, Month, Day;
     Calendar ca;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,13 +83,13 @@ public class MyCommissionActivity extends BaseActivity {
     public void init() {
         initView();
         initData();
-        initTime();
     }
 
     protected void initData() {
         rebatelist();
 
     }
+
     public void initTime() {
         Year = ca.get(Calendar.YEAR);
         Month = ca.get(Calendar.MONTH);
@@ -89,8 +98,10 @@ public class MyCommissionActivity extends BaseActivity {
         endTime = DateUtil.getTimesnight();//结束查询时间设为今日23点59分59秒的时间戳
         tv1.setText(DateUtil.stampToDate(startTime + "", DateUtil.DATE_2));//初始化页面日期
     }
+
     public void initView() {
         tvTitle.setText("我的返佣");
+        initTime();
         /**
          * 设置列表
          */
@@ -133,16 +144,33 @@ public class MyCommissionActivity extends BaseActivity {
 
     private void rebatelist() {
         showLoading("获取中...");
-        Call<MyCommissionBean> call = null;
-        call = getApi().rebatelist(
-                App.token,
-                page,
-                list_rows,
-                startTime,
-                endTime,
-                App.PLACEHOLDER
-        );
+        Call<MyCommissionBean>
+                call;
+        if (TextUtils.isEmpty(mid)) {
+            call = getApi().rebatelist(
+                    App.token,
+                    page,
+                    list_rows,
+                    startTime,
+                    endTime
+            );
+        } else {
+            call = getApi().rebatelist(
+                    App.token,
+                    page,
+                    list_rows,
+                    startTime,
+                    endTime,
+                    mid
+            );
+        }
 
+        LogUtil.d("App.token,-----------", App.token + "");
+        LogUtil.d("page-----------", page + "");
+        LogUtil.d("list_rows-----------", list_rows + "");
+        LogUtil.d("startTime-----------", startTime + "");
+        LogUtil.d("endTime-----------", endTime + "");
+        LogUtil.d("------mid------", mid);
         call.enqueue(new Callback<MyCommissionBean>() {
             @Override
             public void onResponse(Call<MyCommissionBean> call, final Response<MyCommissionBean> response) {
@@ -161,10 +189,15 @@ public class MyCommissionActivity extends BaseActivity {
                             state = false;
                             textState = false;
                         }
-                        tv2.setText(response.body().getData().getInfo().getNum()+"");
+                        tv2.setText(response.body().getData().getInfo().getNum() + "");
 
                         tv3.setText("¥ " + nf.format(response.body().getData().getInfo().getMoney()));
                         mDatas.addAll(response.body().getData().getList());
+                        if (mDatas.size() < 1) {
+                            llMeiyou.setVisibility(View.VISIBLE);
+                        } else {
+                            llMeiyou.setVisibility(View.GONE);
+                        }
                         mAdapter.notifyDataSetChanged();
                     } else {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
@@ -186,6 +219,7 @@ public class MyCommissionActivity extends BaseActivity {
 
         });
     }
+
     @Override
     protected Dialog onCreateDialog(int id) {
         switch (id) {
@@ -196,6 +230,7 @@ public class MyCommissionActivity extends BaseActivity {
         return null;
 
     }
+
     /**
      * 重置数据
      */
@@ -204,6 +239,7 @@ public class MyCommissionActivity extends BaseActivity {
         state = true;
         rebatelist();
     }
+
     private DatePickerDialog.OnDateSetListener DateListener = new DatePickerDialog.OnDateSetListener() {
 
         @Override
@@ -219,12 +255,13 @@ public class MyCommissionActivity extends BaseActivity {
             try {
                 startTime = new Integer(DateUtil.dateToStamp(tv1.getText().toString(), DateUtil.DATE_2));
                 endTime = new Integer(DateUtil.dateToStamp(tv1.getText().toString(), DateUtil.DATE_2)) + 24 * 60 * 60 - 1;
-                rebatelist() ;
+                rebatelist();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
     };
+
     public String add0(int i) {
 
         if (i < 10) {
@@ -233,6 +270,7 @@ public class MyCommissionActivity extends BaseActivity {
             return i + "";
         }
     }
+
     @OnClick({R.id.tv_left, R.id.tv_1})
     public void onClick(View view) {
         switch (view.getId()) {

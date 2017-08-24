@@ -19,12 +19,18 @@ import com.fuleme.business.App;
 import com.fuleme.business.R;
 import com.fuleme.business.activity.LoginActivity;
 import com.fuleme.business.activity.Version2.BalanceActivity;
+import com.fuleme.business.activity.Version2.InviteCodeActivity;
+import com.fuleme.business.activity.Version2.MyBankActivity;
 import com.fuleme.business.activity.Version2.MyCommissionActivity;
+import com.fuleme.business.activity.Version2.PromoteTeamActivity;
+import com.fuleme.business.activity.Version2.ServiceBusinessesActivity;
 import com.fuleme.business.activity.Version2.SignPromoteActivity;
+import com.fuleme.business.helper.APIService;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
+import com.fuleme.business.widget.ScrollWebView;
 
 import org.json.JSONObject;
 
@@ -57,21 +63,24 @@ public class BFragment extends Fragment {
     ScrollView llScl;
     boolean flag = false;
     @Bind(R.id.tv_content)
-    TextView tvContent;
+    LinearLayout tvContent;
     @Bind(R.id.iv_gougou)
     ImageView ivGougou;
     @Bind(R.id.btn_tj_1)
     Button btnTj1;
     @Bind(R.id.demo_swiperefreshlayout)
     SwipeRefreshLayout demoSwiperefreshlayout;
-
+    private Context context;
+    ScrollWebView webView1;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_administrator_b, container, false);
         ButterKnife.bind(this, view);
-        promotion();
+        context = getActivity();
+
+
         //刷新控件
         demoSwiperefreshlayout.setColorSchemeResources(R.color.white);
         demoSwiperefreshlayout.setProgressBackgroundColorSchemeResource(R.color.theme);
@@ -91,8 +100,15 @@ public class BFragment extends Fragment {
             //        代理
             llTop.setVisibility(View.GONE);
             llScl.setVisibility(View.VISIBLE);
+            promotion();
         } else {
             //非代理
+            webView1 = new ScrollWebView(context.getApplicationContext());
+            tvContent.addView(webView1);
+            webView1.setVerticalScrollBarEnabled(false);
+            webView1.setHorizontalScrollBarEnabled(false);
+            webView1.getSettings().setJavaScriptEnabled(true); //加上这句话才能使用JavaScript方法
+            webView1.loadUrl(APIService.SERVER_IP + "api/system/clause");
             llTop.setVisibility(View.VISIBLE);
             llScl.setVisibility(View.GONE);
         }
@@ -126,21 +142,29 @@ public class BFragment extends Fragment {
                 } else {
                     ToastUtil.showMessage("请同意推广条款");
                 }
-
                 break;
             case R.id.ll_1:
+                //余额
                 startActivity(new Intent(getActivity(), BalanceActivity.class));
                 break;
             case R.id.ll_2:
+                //我的返佣
+                MyCommissionActivity.mid = App.PLACEHOLDER;
                 startActivity(new Intent(getActivity(), MyCommissionActivity.class));
                 break;
             case R.id.ll_3:
+                //推广团队
+                startActivity(new Intent(getActivity(), PromoteTeamActivity.class));
                 break;
             case R.id.ll_since_1:
+                startActivity(new Intent(getActivity(), ServiceBusinessesActivity.class));
                 break;
             case R.id.ll_since_2:
+                //提现记录--余额页面
+                startActivity(new Intent(getActivity(), BalanceActivity.class));
                 break;
             case R.id.ll_since_3:
+                startActivity(new Intent(getActivity(), InviteCodeActivity.class));
                 break;
         }
     }

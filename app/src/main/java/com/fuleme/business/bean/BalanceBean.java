@@ -51,7 +51,25 @@ public class BalanceBean {
 
         private String money;
         private String profit;
+        private String account_bank;
+        private String bankcard;
         private List<ListBean> list;
+
+        public String getAccount_bank() {
+            return account_bank;
+        }
+
+        public void setAccount_bank(String account_bank) {
+            this.account_bank = account_bank;
+        }
+
+        public String getBankcard() {
+            return bankcard;
+        }
+
+        public void setBankcard(String bankcard) {
+            this.bankcard = bankcard;
+        }
 
         public String getMoney() {
             return money;

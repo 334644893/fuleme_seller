@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_invite_code"
     android:layout_width="match_parent"
@@ -10,91 +11,159 @@
 
     <include layout="@layout/item_actionbar" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:padding="15dp">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:text="我的邀请码"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="7"
-            android:paddingLeft="10dp"
-            android:text="9527"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_bot"
+    <ScrollView
+        android:id="@+id/ll_scl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:overScrollMode="never"
+        android:scrollbars="none">
 
         <LinearLayout
-            android:id="@+id/ll_forgotpassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:padding="15dp">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/ll_top"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="邀请码"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size" />
+                android:layout_marginTop="8dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="15dp">
 
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="7"
-                android:paddingLeft="10dp"
-                android:text="9527"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="我的邀请码"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size" />
+
+                <TextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="7"
+                    android:paddingLeft="10dp"
+                    android:textIsSelectable="true"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <FrameLayout
+                    android:id="@+id/fl_save_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/theme">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="30dp"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_marginLeft="12dp"
+                           >
+
+                            <com.facebook.drawee.view.SimpleDraweeView
+                                android:id="@+id/logo"
+                                android:layout_width="50dp"
+                                android:layout_height="50dp"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center"
+                                fresco:actualImageScaleType="fitCenter"
+                                fresco:failureImage="@mipmap/logo"
+                                fresco:placeholderImage="@mipmap/logo"
+                                fresco:progressBarAutoRotateInterval="1000"
+                                fresco:progressBarImage="@mipmap/icon_load"
+                                fresco:roundAsCircle="true" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:paddingLeft="5dp">
+
+                                <TextView
+                                    android:id="@+id/tv_2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center"
+                                    android:lines="1"
+                                    android:text="null"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_size_20" />
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:background="@color/white"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:paddingBottom="2dp"
+                            android:paddingLeft="5dp"
+                            android:paddingRight="5dp">
+
+                            <FrameLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp">
+
+                                <ImageView
+                                    android:id="@+id/iv_ba_qr_code"
+                                    android:layout_width="200dp"
+                                    android:layout_height="200dp"
+                                    android:src="@mipmap/logo_de" />
+
+
+                            </FrameLayout>
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginBottom="30dp"
+                            android:layout_marginTop="15dp"
+                            android:text="扫一扫上面的二维码，注册账号"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_size_18" />
+                    </LinearLayout>
+
+
+                </FrameLayout>
+            </LinearLayout>
+
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:text="注册账号起3天内可补填,3天后禁止修改" />
-
-        <Button
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/shape_corner_0"
-            android:gravity="center"
-            android:text="补填"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size" />
-    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

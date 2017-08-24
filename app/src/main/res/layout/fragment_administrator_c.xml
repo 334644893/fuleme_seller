@@ -72,6 +72,12 @@
 
                 </LinearLayout>
 
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon3" />
             </LinearLayout>
 
             <LinearLayout
@@ -98,8 +104,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:text="签约信息"
+                        android:layout_marginTop="8dp"
+                        android:text="签约店铺"
                         android:textSize="@dimen/text_size_14" />
                 </LinearLayout>
 
@@ -121,7 +127,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="8dp"
                         android:text="店铺管理"
                         android:textSize="@dimen/text_size_14" />
                 </LinearLayout>
@@ -144,87 +150,53 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="8dp"
                         android:text="店员管理"
                         android:textSize="@dimen/text_size_14" />
                 </LinearLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_set_s_a"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/white"
-                android:orientation="horizontal"
-                android:paddingBottom="15dp"
-                android:paddingLeft="15dp"
-                android:paddingTop="15dp">
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@mipmap/icon_fuwu" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="4"
-                    android:paddingLeft="10dp"
-                    android:text="商户应用" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@mipmap/icon3" />
-            </LinearLayout>
-
 
             <!--<LinearLayout-->
-                <!--android:id="@+id/ll_addstore"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="1dp"-->
-                <!--android:background="@color/white"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:paddingBottom="15dp"-->
-                <!--android:paddingLeft="15dp"-->
-                <!--android:paddingTop="15dp">-->
+            <!--android:id="@+id/ll_addstore"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="1dp"-->
+            <!--android:background="@color/white"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:paddingBottom="15dp"-->
+            <!--android:paddingLeft="15dp"-->
+            <!--android:paddingTop="15dp">-->
 
-                <!--<ImageView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:src="@mipmap/icon_tianjia_92" />-->
+            <!--<ImageView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="1"-->
+            <!--android:src="@mipmap/icon_tianjia_92" />-->
 
-                <!--<TextView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center_vertical"-->
-                    <!--android:layout_weight="4"-->
-                    <!--android:paddingLeft="10dp"-->
-                    <!--android:text="添加店铺" />-->
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_weight="4"-->
+            <!--android:paddingLeft="10dp"-->
+            <!--android:text="添加店铺" />-->
 
-                <!--<ImageView-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="15dp"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:src="@mipmap/icon3" />-->
+            <!--<ImageView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="15dp"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_weight="1"-->
+            <!--android:src="@mipmap/icon3" />-->
             <!--</LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/ll_adskm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
+                android:layout_marginTop="10dp"
                 android:background="@color/white"
                 android:orientation="horizontal"
                 android:paddingBottom="15dp"
@@ -263,7 +235,8 @@
                 android:orientation="horizontal"
                 android:paddingBottom="15dp"
                 android:paddingLeft="15dp"
-                android:paddingTop="15dp">
+                android:paddingTop="15dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="0dp"
@@ -462,6 +435,39 @@
                     android:src="@mipmap/icon3" />
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_set_s_a"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="15dp">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon_fuwu" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="4"
+                    android:paddingLeft="10dp"
+                    android:text="商户应用" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="15dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@mipmap/icon3" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_version"

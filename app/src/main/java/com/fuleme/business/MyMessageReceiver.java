@@ -7,6 +7,8 @@ import com.alibaba.sdk.android.push.notification.CPushMessage;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.DateUtil;
 import com.fuleme.business.utils.LogUtil;
+import com.fuleme.business.utils.SharedPreferencesUtils;
+import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.utils.TtsUtil;
 
 import java.util.Map;
@@ -37,6 +39,9 @@ public class MyMessageReceiver extends MessageReceiver {
             if (App.POS) {
                 App.startPosService(extraMap.get("short_name"), extraMap.get("total_fee") + "元", DateUtil.stampToDate(extraMap.get("time_end"), DateUtil.DATE_1), extraMap.get("out_trade_no"));
             }
+        }else if ("200".equals(extraMap.get("type"))) {
+            App.is_agent = "1";
+            SharedPreferencesUtils.setParam(context, "is_agent", App.is_agent);
         }
     }
 
@@ -75,6 +80,10 @@ public class MyMessageReceiver extends MessageReceiver {
             if (App.POS) {
                 App.startPosService(extraMap.get("short_name"), extraMap.get("total_fee") + "元", DateUtil.stampToDate(extraMap.get("time_end"), DateUtil.DATE_1), extraMap.get("out_trade_no"));
             }
+        } else if ("200".equals(extraMap.get("type"))) {
+            App.is_agent = "1";
+            SharedPreferencesUtils.setParam(context, "is_agent", App.is_agent);
+            ToastUtil.showMessage("代理开通成功");
         }
 
     }

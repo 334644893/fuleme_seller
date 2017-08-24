@@ -52,6 +52,7 @@ public class ScanEntranceActivity extends BaseActivity {
     private ArrayList<Map<String, String>> valueList;
     private Animation enterAnim;
     private Animation exitAnim;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,12 +68,12 @@ public class ScanEntranceActivity extends BaseActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (s.length()>0) {
+            if (s.length() > 0) {
                 if ((new Float(Float.parseFloat(s.toString().trim()) * 100)).intValue() > 1000000) {
                     etAmount.setText("10000.00");
                     etAmount.setSelection(etAmount.getText().toString().length());
                     ToastUtil.showMessage("限额1万元");
-                }else{
+                } else {
                     etAmount.setMaxEms(10);
                 }
             }
@@ -118,7 +119,8 @@ public class ScanEntranceActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
             if (!TextUtils.isEmpty(data.getExtras().getString(CodeUtils.RESULT_STRING))) {
-                CreditCardPayment(data.getExtras().getString(CodeUtils.RESULT_STRING), NumberUtils.StringToAmount(etAmount.getText().toString().trim()) + "");
+//                CreditCardPayment(data.getExtras().getString(CodeUtils.RESULT_STRING), NumberUtils.StringToAmount(etAmount.getText().toString().trim()) + "");
+                fyPaycard(data.getExtras().getString(CodeUtils.RESULT_STRING), NumberUtils.StringToAmount(etAmount.getText().toString().trim()) + "");
             }
         }
         etAmount.setText("");
@@ -140,15 +142,58 @@ public class ScanEntranceActivity extends BaseActivity {
         }
     }
 
+//    /**
+//     * 威富通刷卡支付(统一支付接口)
+//     * auth_code 扫码支付授权码， 设备读取用户展示的条码或者二维码信息
+//     * total_fee 总金额，以分为单位，不允许包含任何字、符号
+//     */
+//
+//    private void CreditCardPayment(String auth_code, String total_fee) {
+//        showLoading("收款中...");
+//        Call<Object> call = getApi().CreditCardPayment(
+//                App.token,
+//                auth_code,
+//                total_fee,
+//                App.merchant,
+//                App.short_id,
+//                App.phone);
+//        LogUtil.i("App.token:" + App.token
+//                + "``auth_code:" + auth_code
+//                + "```total_fee:" + total_fee
+//                + "``App.merchant:" + App.merchant
+//                + "``App.short_id:" + App.short_id
+//                + "App.phone:" + App.phone);
+//        call.enqueue(new Callback<Object>() {
+//            @Override
+//            public void onResponse(Call<Object> call, Response<Object> response) {
+//                if (response.isSuccessful()) {
+//                    if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
+//                        // do SomeThing
+//                        ToastUtil.showMessage(GsonUtils.getResultData(response.body()).optString(GsonUtils.ERRMSG));
+//                    }
+//                }
+//                closeLoading();//取消等待框
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Object> call, Throwable t) {
+//                LogUtil.e(TAG, t.toString());
+//                closeLoading();//取消等待框
+//                ToastUtil.showMessage("超时");
+//            }
+//
+//        });
+//    }
+
     /**
-     * 威富通刷卡支付(统一支付接口)
+     * 富友刷卡支付(统一支付接口)
      * auth_code 扫码支付授权码， 设备读取用户展示的条码或者二维码信息
      * total_fee 总金额，以分为单位，不允许包含任何字、符号
      */
 
-    private void CreditCardPayment(String auth_code, String total_fee) {
+    private void fyPaycard(String auth_code, String total_fee) {
         showLoading("收款中...");
-        Call<Object> call = getApi().CreditCardPayment(
+        Call<Object> call = getApi().fyPaycard(
                 App.token,
                 auth_code,
                 total_fee,
@@ -167,7 +212,10 @@ public class ScanEntranceActivity extends BaseActivity {
                 if (response.isSuccessful()) {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
-                        ToastUtil.showMessage(GsonUtils.getResultData(response.body()).optString(GsonUtils.ERRMSG));
+                        if (!TextUtils.isEmpty(GsonUtils.getResultData(response.body()).optString(GsonUtils.ERRMSG))) {
+                            ToastUtil.showMessage(GsonUtils.getResultData(response.body()).optString(GsonUtils.ERRMSG));
+                        }
+
                     }
                 }
                 closeLoading();//取消等待框
@@ -182,6 +230,7 @@ public class ScanEntranceActivity extends BaseActivity {
 
         });
     }
+
     /**
      * 数字键盘显示动画
      */
@@ -189,6 +238,7 @@ public class ScanEntranceActivity extends BaseActivity {
         enterAnim = AnimationUtils.loadAnimation(this, R.anim.push_bottom_in);
         exitAnim = AnimationUtils.loadAnimation(this, R.anim.push_bottom_out);
     }
+
     private void initView() {
         etAmount.addTextChangedListener(watcher);
         // 设置不调用系统键盘

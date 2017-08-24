@@ -95,7 +95,7 @@ public class BasicInformationActivity extends BaseActivity {
     private void basicinfo() {
 
         showLoading("加载中...");
-        Call<Object> call = getApi().basicinfo(App.token, short_id);
+        Call<Object> call = getApi().shopdetails(App.token, short_id);
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
@@ -112,22 +112,32 @@ public class BasicInformationActivity extends BaseActivity {
                             ContractBean.setName("商户号:");
                             ContractBean.setRate(data.optString("id"));
                             mDatas.add(ContractBean);
+
                             ContractBean ContractBean1 = new ContractBean();
                             ContractBean1.setName("店铺名称:");
                             ContractBean1.setRate(data.optString("short_name"));
                             mDatas.add(ContractBean1);
+
+                            ContractBean ContractBean6 = new ContractBean();
+                            ContractBean6.setName("经营类目:");
+                            ContractBean6.setRate(data.optString("alipay_operate_category"));
+                            mDatas.add(ContractBean6);
+
                             ContractBean ContractBean2 = new ContractBean();
                             ContractBean2.setName("所在地区:");
                             ContractBean2.setRate(data.optString("merchant_area"));
                             mDatas.add(ContractBean2);
+
                             ContractBean ContractBean3 = new ContractBean();
                             ContractBean3.setName("详细地址:");
                             ContractBean3.setRate(data.optString("merchant_address"));
                             mDatas.add(ContractBean3);
+
                             ContractBean ContractBean4 = new ContractBean();
                             ContractBean4.setName("联系人:");
                             ContractBean4.setRate(data.optString("contact_person_name"));
                             mDatas.add(ContractBean4);
+
                             ContractBean ContractBean5 = new ContractBean();
                             ContractBean5.setName("联系电话:");
                             ContractBean5.setRate(data.optString("contact_person_mobile"));
@@ -139,27 +149,27 @@ public class BasicInformationActivity extends BaseActivity {
                             //TODO 接口信息未添加
                             ContractBean ContractBean = new ContractBean();
                             ContractBean.setName("法人:");
-                            ContractBean.setRate("法人");
+                            ContractBean.setRate(data.optString("legal_person_name"));
                             mDatas.add(ContractBean);
                             ContractBean ContractBean1 = new ContractBean();
                             ContractBean1.setName("银行账户:");
-                            ContractBean1.setRate("收款人");
+                            ContractBean1.setRate(data.optString("account_name"));
                             mDatas.add(ContractBean1);
                             ContractBean ContractBean2 = new ContractBean();
                             ContractBean2.setName("银行账号:");
-                            ContractBean2.setRate("收款卡号");
+                            ContractBean2.setRate(data.optString("account_num"));
                             mDatas.add(ContractBean2);
                             ContractBean ContractBean3 = new ContractBean();
                             ContractBean3.setName("银行:");
-                            ContractBean3.setRate("中国建设银行");
+                            ContractBean3.setRate(data.optString("account_bank"));
                             mDatas.add(ContractBean3);
                             ContractBean ContractBean4 = new ContractBean();
                             ContractBean4.setName("支行:");
-                            ContractBean4.setRate("武汉支行:");
+                            ContractBean4.setRate(data.optString("account_bank_address"));
                             mDatas.add(ContractBean4);
                             ContractBean ContractBean5 = new ContractBean();
                             ContractBean5.setName("手机号:");
-                            ContractBean5.setRate("18672359600");
+                            ContractBean5.setRate(data.optString("account_mobile"));
                             mDatas.add(ContractBean5);
                         }
                         mAdapter.notifyDataSetChanged();

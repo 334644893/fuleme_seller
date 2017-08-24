@@ -78,12 +78,9 @@ public class LoginActivity extends BaseActivity {
         }
         //判断是否第一次启动
         if ("".equals(SharedPreferencesUtils.getParam(getApplicationContext(), "start", ""))) {
-
             startActivity(new Intent(LoginActivity.this, StartActivity.class));
         }
         initJzmm();
-
-//        setState(App.login_type);
         //更新
         version();
         AutomaticLogin();
@@ -91,7 +88,7 @@ public class LoginActivity extends BaseActivity {
 
 
     /**
-     * 手动添加权限
+     * 手动添加权限4
      */
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final int REQUEST_PERMISSIOCAMERA = 2;

@@ -38,14 +38,17 @@ import com.fuleme.business.activity.RegistrationStoreActivity;
 import com.fuleme.business.activity.UserDetailsActivity;
 import com.fuleme.business.activity.Version2.ContactServiceActivity;
 import com.fuleme.business.activity.Version2.SBasicInformationActivity;
+import com.fuleme.business.activity.Version2.TreatyActivity;
 import com.fuleme.business.download.DeviceUtils;
 import com.fuleme.business.helper.APIService;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
 import static com.fuleme.business.fragment.FragmentActivity.imgurlFlag;
 
 /**
@@ -162,21 +165,17 @@ public class CFragment extends Fragment {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ll_title_1:
-                //签约信息
-                if (!TextUtils.isEmpty(App.short_id)) {
-                    startActivity(new Intent(getActivity(), ContractrateActivity.class));
-                } else {
-                    ToastUtil.showMessage(getActivity().getResources().getString(R.string.nostore));
-                }
-
+                //签约店铺（原为签约信息）
+//                if (!TextUtils.isEmpty(App.short_id)) {
+//                    startActivity(new Intent(getActivity(), ContractrateActivity.class));
+//                } else {
+//                    ToastUtil.showMessage(getActivity().getResources().getString(R.string.nostore));
+//                }
+                startActivity(new Intent(getActivity(), TreatyActivity.class));
                 break;
             case R.id.ll_title_2:
-                //店铺基本信息
-                if (!TextUtils.isEmpty(App.short_id)) {
-                    startActivity(new Intent(getActivity(), SBasicInformationActivity.class));
-                } else {
-                    ToastUtil.showMessage(getActivity().getResources().getString(R.string.nostore));
-                }
+                //店铺管理
+                startActivity(new Intent(getActivity(), SBasicInformationActivity.class));
                 break;
             case R.id.ll_title_3:
                 // 店员管理
@@ -242,15 +241,13 @@ public class CFragment extends Fragment {
                 startActivity(new Intent(getActivity(), AboutUsActivity.class));
                 break;
             case R.id.ll_lxwomen:
-               startActivity(new Intent(getActivity(), ContactServiceActivity.class));
+                startActivity(new Intent(getActivity(), ContactServiceActivity.class));
 
 
                 break;
         }
 
     }
-
-
 
 
     private void OffPrinter() {

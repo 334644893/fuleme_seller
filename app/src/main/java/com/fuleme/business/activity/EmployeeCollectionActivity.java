@@ -96,21 +96,7 @@ public class EmployeeCollectionActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == TOSTORE) {
             initView();
-//            if ("0".equals(App.short_state)) {
-//                tvStoreName.setText(App.merchant + "(审核中)");
-//                tvName.setText(App.merchant);
-//            } else if ("1".equals(App.short_state)) {
-//                tvStoreName.setText(App.merchant + "(已审核)");
-//                tvName.setText(App.merchant);
-//            } else {
-//                tvStoreName.setText("暂无店铺");
-//                tvName.setText("");
-//            }
-//
-//            if (!TextUtils.isEmpty(App.qrcode)) {
-//                LogUtil.i("生成二维码，店铺名" + App.merchant + "店铺ID" + App.short_id);
-//                ivBaQrCode.setImageBitmap(Zxing.getQrCode(App.qrcode));
-//            }
+
         }
     }
 
@@ -131,7 +117,6 @@ public class EmployeeCollectionActivity extends BaseActivity {
             }
         }, 0);
     }
-
     public void savePicture(Bitmap bm, String fileName) {
         String imageurl = Environment.getExternalStorageDirectory().getAbsolutePath() + "/fuleme";
         if (bm == null) {

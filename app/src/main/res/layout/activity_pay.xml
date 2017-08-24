@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_pay"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/evaluate_content_1"
+    android:orientation="vertical"
+    tools:context="com.fuleme.business.activity.Version2.PayActivity">
+
+    <include layout="@layout/item_actionbar" />
+
+    <FrameLayout
+        android:id="@+id/fl_save_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/white">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="260dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lines="1"
+                android:text="￥600"
+                android:textColor="@color/red"
+                android:textSize="@dimen/text_size_45" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="付款后即可加入创业合伙人"
+
+                android:textColor="@color/pale_black"
+                android:textSize="@dimen/text_size_18" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="2dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp">
+
+                    <ImageView
+                        android:id="@+id/iv_ba_qr_code"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:src="@mipmap/logo_de" />
+
+                    <TextView
+                        android:layout_width="43dp"
+                        android:layout_height="43dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/shape_bg_fffff" />
+
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/short_logo"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        fresco:actualImageScaleType="fitCenter"
+                        fresco:failureImage="@mipmap/logo"
+                        fresco:placeholderImage="@mipmap/logo"
+                        fresco:roundBottomLeft="true"
+                        fresco:roundBottomRight="true"
+                        fresco:roundTopLeft="true"
+                        fresco:roundTopRight="true"
+                        fresco:roundedCornerRadius="5dp" />
+                </FrameLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="25dp"
+                    android:text="请在10分钟内完成扫码支付"
+
+                    android:textColor="@color/pale_black"
+                    android:textSize="@dimen/text_size_s" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/tv_bt_save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/theme"
+            android:gravity="center"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_baocun" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="保存"
+                android:layout_marginLeft="10dp"
+                android:textSize="@dimen/album_sp_20"
+                android:textColor="@color/white"/>
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

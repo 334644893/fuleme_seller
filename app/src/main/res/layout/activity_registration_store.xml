@@ -75,6 +75,35 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="门店地址:"
+                    android:textColor="@color/pale_black" />
+
+                <EditText
+                    android:id="@+id/short_dre"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="4"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:imeOptions="actionNext"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:singleLine="true"
+                    android:textColorHint="@color/black_26"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,6 +158,7 @@
                     android:gravity="center"
                     android:hint="收款卡号"
                     android:imeOptions="actionNext"
+                    android:inputType="number"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:singleLine="true"
@@ -136,35 +166,6 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/activity_horizontal_margin">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="银行:        "
-                    android:textColor="@color/pale_black" />
-
-                <TextView
-                    android:id="@+id/tv_bank"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="4"
-                    android:background="@null"
-                    android:drawableRight="@mipmap/icon3"
-                    android:gravity="center"
-                    android:imeOptions="actionNext"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:textColorHint="@color/black_26"
-                    android:textSize="14sp" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -317,6 +318,7 @@
                     android:textColor="@color/pale_black" />
 
                 <EditText
+                    android:id="@+id/et_f_name"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="4"
@@ -345,17 +347,20 @@
                     android:textColor="@color/pale_black" />
 
                 <EditText
+                    android:id="@+id/et_f_phone"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
-                    android:layout_weight="4"
+                    android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center"
                     android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:maxLength="11"
                     android:paddingLeft="16dp"
                     android:paddingRight="16dp"
                     android:singleLine="true"
                     android:textColorHint="@color/black_26"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"/>
             </LinearLayout>
 
             <LinearLayout

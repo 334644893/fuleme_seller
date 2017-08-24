@@ -2,17 +2,24 @@ package com.fuleme.business.helper;
 
 import com.fuleme.business.bean.AnalysecouponBean;
 import com.fuleme.business.bean.BalanceBean;
+import com.fuleme.business.bean.BankBean;
 import com.fuleme.business.bean.ClerkInfoBean;
 import com.fuleme.business.bean.ClerkOederBean;
+import com.fuleme.business.bean.CommissionReportBean;
 import com.fuleme.business.bean.ContractBean;
 import com.fuleme.business.bean.CouponsBean;
 import com.fuleme.business.bean.CustomerBean;
 import com.fuleme.business.bean.IncomeBean;
 import com.fuleme.business.bean.MemberManagementBean;
+import com.fuleme.business.bean.MerchantDetailsBean;
+import com.fuleme.business.bean.MerchantListBean;
+import com.fuleme.business.bean.MyBankBean;
 import com.fuleme.business.bean.MyCommissionBean;
 import com.fuleme.business.bean.OrderBean;
 import com.fuleme.business.bean.OrderContentBean;
 import com.fuleme.business.bean.OrderDetailsBean;
+import com.fuleme.business.bean.PromoteBean;
+import com.fuleme.business.bean.ServiceBusinessesBean;
 import com.fuleme.business.bean.SinceMediaBean;
 import com.fuleme.business.bean.bannerBean;
 
@@ -56,6 +63,54 @@ public interface APIService {
                           @Field("password") String password,
                           @Field("code") String code,
                           @Field("invitation_code") String invitation_code
+    );
+    /**
+     * 签约推广接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/promotion/sign")
+    Call<Object> sign(@Field("idcard") String idcard,
+                          @Field("truename") String truename,
+                          @Field("promotion_phone") String promotion_phone,
+                          @Field("idcard_img") String idcard_img,
+                          @Field("token") String token
+    );
+    /**
+     * 联系服务商接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/promotion/introducer")
+    Call<Object> introducer(
+                          @Field("token") String token
+    );
+
+    /**
+     * 绑定银行卡接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/withdrawals/bindingbank")
+    Call<Object> bindingbank(@Field("token") String token,
+                             @Field("truename") String truename,
+                             @Field("bankcard") String bankcard,
+                             @Field("account_bank") String account_bank,
+                             @Field("validate") String validate
+    );
+    /**
+     * 补填邀请码接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/user/modifyInvite_code")
+    Call<Object> modifyInvite_code(@Field("token") String token,
+                             @Field("invitation_code") String invitation_code
+
     );
 
     /**
@@ -155,6 +210,12 @@ public interface APIService {
     @GET("system/banner")
     Call<bannerBean> banner();
 
+    /**
+     * 获取开户行
+     */
+    @GET("merchant/getbank")
+    Call<BankBean> getbank();
+
 
     /**
      * 版本更新接口
@@ -190,7 +251,98 @@ public interface APIService {
                                       @Field("list_rows") int list_rows,
                                       @Field("begintime") int begintime,
                                       @Field("endtime") int endtime,
-                                      @Field("shopid") String shopid
+                                      @Field("mid") String shopid
+    );
+
+    /**
+     * 推广-我的返佣接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/rebate/rebatelist")
+    Call<MyCommissionBean> rebatelist(@Field("token") String token,
+                                      @Field("page") int page,
+                                      @Field("list_rows") int list_rows,
+                                      @Field("begintime") int begintime,
+                                      @Field("endtime") int endtime
+    );
+
+    /**
+     * 推广-我的返佣接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/promotion/promotion_team")
+    Call<PromoteBean> promotionTeam(@Field("token") String token,
+                                    @Field("page") int page,
+                                    @Field("list_rows") int list_rows
+    );
+
+    /**
+     * 推广-我的推广团队接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/promotion/promotion_shop")
+    Call<MerchantListBean> promotionShop(@Field("token") String token,
+                                         @Field("team_id") String team_id,
+                                         @Field("page") int page,
+                                         @Field("list_rows") int list_rows
+    );
+
+    /**
+     * 推广-
+     * 我的银行卡接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/withdrawals/bankcard")
+    Call<MyBankBean> bankcard(@Field("token") String token
+
+    );
+
+    /**
+     * 推广-
+     * 确认提现接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/withdrawals/drawmoney")
+    Call<Object> drawmoney(
+            @Field("token") String token,
+            @Field("money") String money
+
+    );
+
+
+    /**
+     * 推广-店铺详情接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/shop/shopdetail")
+    Call<MerchantDetailsBean> shopdetail(@Field("token") String token,
+                                         @Field("shop_type") String shop_type,
+                                         @Field("shop_id") String shop_id
+    );
+
+    /**
+     * 我的服务商户和团队商户接口
+     *
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/shop/shoplist")
+    Call<ServiceBusinessesBean> shoplist(@Field("token") String token,
+                                         @Field("type") String type,
+                                         @Field("page") int page,
+                                         @Field("list_rows") int list_rows
     );
 
     /**
@@ -331,23 +483,23 @@ public interface APIService {
     /**
      * 添加店铺接口
      *
-     * @param short_name       商户简称
-     * @param contact_mobile   联系人手机号
-     * @param account_num      商户结算账号
-     * @param business_licence 营业证
-     * @param identity_card    身份证
-     * @param token            用户token
      * @return
      */
     @FormUrlEncoded
-    @POST("merchant/addmerchant")
-    Call<Object> addmerchant(@Field("short_name") String short_name,
-                             @Field("contact_mobile") String contact_mobile,
-                             @Field("account_num") String account_num,
-                             @Field("business_licence") String business_licence,
-                             @Field("identity_card") String identity_card,
-                             @Field("token") String token
-
+    @POST("api/merchant/addshop")
+    Call<Object> addshop(
+            @Field("token") String token,
+            @Field("short_name") String short_name,
+            @Field("account_num") String account_num,
+            @Field("account_name") String account_name,
+            @Field("account_bank_address") String account_bank_address,
+            @Field("account_mobile") String account_mobile,
+            @Field("account_identity_card_num") String account_identity_card_num,
+            @Field("legal_person_name") String legal_person_name,
+            @Field("legal_person_mobile") String legal_person_mobile,
+            @Field("business_licence") String business_licence,
+            @Field("legal_person_identity_card") String legal_person_identity_card,
+            @Field("merchant_address") String merchant_address
     );
 
     /**
@@ -475,6 +627,20 @@ public interface APIService {
     );
 
     /**
+     * 报表=我的返佣
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/rebate/myrebate")
+    Call<CommissionReportBean> myrebate(@Field("token") String token,
+                                        @Field("shopid") String shopid,
+                                        @Field("starttime") int starttime,
+                                        @Field("endtime") int endtime
+    );
+
+    /**
      * 添加优惠券
      *
      * @param
@@ -537,6 +703,22 @@ public interface APIService {
                                    @Field("account") String account
 
     );
+    /**
+     * 富友刷卡支付(统一支付接口)
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/wft/fyPaycard")
+    Call<Object> fyPaycard(@Field("token") String token,
+                                   @Field("auth_code") String auth_code,
+                                   @Field("total_fee") String total_fee,
+                                   @Field("body") String body,
+                                   @Field("mid") String mid,
+                                   @Field("account") String account
+
+    );
 
     /**
      * 生成微信扫码二维码支付接口
@@ -563,6 +745,20 @@ public interface APIService {
     Call<Object> AlipaySweepPayment(@Field("token") String token,
                                     @Field("body") String body,
                                     @Field("mid") String mid,
+                                    @Field("total_fee") String total_fee
+    );
+    /**
+     * 富有扫码支付接口
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/wft/fyPayscan")
+    Call<Object> fyPayscan(@Field("token") String token,
+                                    @Field("body") String body,
+                                    @Field("mid") String mid,
+                                    @Field("order_type") String order_type,
                                     @Field("total_fee") String total_fee
     );
 
@@ -597,5 +793,16 @@ public interface APIService {
     @POST("merchant/basicinfo")
     Call<Object> basicinfo(@Field("token") String token,
                            @Field("merchant_id") String merchant_id
+    );
+    /**
+     * 2.0获取店铺基本信息
+     *
+     * @param
+     * @return
+     */
+    @FormUrlEncoded
+    @POST("api/shop/shopdetails")
+    Call<Object> shopdetails(@Field("token") String token,
+                           @Field("shop_id") String shop_id
     );
 }

@@ -48,11 +48,13 @@ public class PaymentCodeActivity extends BaseActivity {
         payType = getIntent().getExtras().getString("payType");
         tvQian.setText("￥" + etAmount);
         if (payType.equals(ScanReceiptActivity.ALIPAYSWEEPPAYMENT)) {
-            //生成微信支付二维码接口
-            AlipaySweepPayment(NumberUtils.StringToAmount(etAmount) + "");
+            //生成支付宝支付二维码接口
+//            AlipaySweepPayment(NumberUtils.StringToAmount(etAmount) + "");
+            fyPayscan(NumberUtils.StringToAmount(etAmount) + "","ALIPAY");
         } else if (payType.equals(ScanReceiptActivity.WEIXINSWEEPPAYMENT)) {
             //生成微信支付二维码接口
-            WeixinSweepPayment(NumberUtils.StringToAmount(etAmount) + "");
+//            WeixinSweepPayment(NumberUtils.StringToAmount(etAmount) + "");
+            fyPayscan(NumberUtils.StringToAmount(etAmount) + "","WECHAT");
         } else {
             ToastUtil.showMessage("生成失败");
         }
@@ -64,16 +66,109 @@ public class PaymentCodeActivity extends BaseActivity {
         finish();
     }
 
+//    /**
+//     * 生成微信扫码二维码支付接口
+//     */
+//
+//    private void WeixinSweepPayment(String total_fee) {
+//        showLoading("生成中...");
+//        Call<Object> call = getApi().WeixinSweepPayment(
+//                App.token,
+//                App.merchant,
+//                App.short_id,
+//                total_fee);
+//        call.enqueue(new Callback<Object>() {
+//            @Override
+//            public void onResponse(Call<Object> call, Response<Object> response) {
+//                if (response.isSuccessful()) {
+//                    if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
+//                        // do SomeThing
+//                        LogUtil.i("成功");
+//
+//
+//                        JSONObject data = GsonUtils.getResultData(response.body());
+//                        if (!TextUtils.isEmpty(data.optString("code_url"))) {
+//                            ToastUtil.showMessage("生成微信码成功");
+//                            ivBaQrCode.setImageBitmap(Zxing.getQrCode(data.optString("code_url")));
+//                        } else {
+//                            ToastUtil.showMessage("生成微信码失败");
+//                        }
+//
+//                    } else {
+//                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
+//                    }
+//                } else {
+//                    ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
+//                }
+//                closeLoading();//取消等待框
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Object> call, Throwable t) {
+//                LogUtil.e(TAG, t.toString());
+//                closeLoading();//取消等待框
+//                ToastUtil.showMessage("超时");
+//            }
+//
+//        });
+//    }
+//
+//    /**
+//     * 生成支付宝二维码支付接口
+//     */
+//
+//    private void AlipaySweepPayment(String total_fee) {
+//        showLoading("生成中...");
+//        Call<Object> call = getApi().AlipaySweepPayment(
+//                App.token,
+//                App.merchant,
+//                App.short_id,
+//                total_fee);
+//        call.enqueue(new Callback<Object>() {
+//            @Override
+//            public void onResponse(Call<Object> call, Response<Object> response) {
+//                if (response.isSuccessful()) {
+//                    if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
+//                        // do SomeThing
+//                        LogUtil.i("成功");
+//
+//                        JSONObject data = GsonUtils.getResultData(response.body());
+//
+//                        if (!TextUtils.isEmpty(data.optString("code_url"))) {
+//                            ToastUtil.showMessage("生成支付宝码成功");
+//                            ivBaQrCode.setImageBitmap(Zxing.getQrCode(data.optString("code_url")));
+//                        } else {
+//                            ToastUtil.showMessage("生成支付宝码失败");
+//                        }
+//                    } else {
+//                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
+//                    }
+//                } else {
+//                    ToastUtil.showMessage("生成二维码失败：" + response.message());
+//                }
+//                closeLoading();//取消等待框
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Object> call, Throwable t) {
+//                LogUtil.e(TAG, t.toString());
+//                closeLoading();//取消等待框
+//                ToastUtil.showMessage("超时");
+//            }
+//
+//        });
+//    }
     /**
-     * 生成微信扫码二维码支付接口
+     * 富友扫码支付接口
      */
 
-    private void WeixinSweepPayment(String total_fee) {
+    private void fyPayscan(String total_fee,String type) {
         showLoading("生成中...");
-        Call<Object> call = getApi().WeixinSweepPayment(
+        Call<Object> call = getApi().fyPayscan (
                 App.token,
                 App.merchant,
                 App.short_id,
+                type,
                 total_fee);
         call.enqueue(new Callback<Object>() {
             @Override
@@ -83,60 +178,12 @@ public class PaymentCodeActivity extends BaseActivity {
                         // do SomeThing
                         LogUtil.i("成功");
 
-
-                        JSONObject data = GsonUtils.getResultData(response.body());
-                        if (!TextUtils.isEmpty(data.optString("code_url"))) {
-                            ToastUtil.showMessage("生成微信码成功");
-                            ivBaQrCode.setImageBitmap(Zxing.getQrCode(data.optString("code_url")));
-                        } else {
-                            ToastUtil.showMessage("生成微信码失败");
-                        }
-
-                    } else {
-                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
-                    }
-                } else {
-                    ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
-                }
-                closeLoading();//取消等待框
-            }
-
-            @Override
-            public void onFailure(Call<Object> call, Throwable t) {
-                LogUtil.e(TAG, t.toString());
-                closeLoading();//取消等待框
-                ToastUtil.showMessage("超时");
-            }
-
-        });
-    }
-
-    /**
-     * 生成支付宝二维码支付接口
-     */
-
-    private void AlipaySweepPayment(String total_fee) {
-        showLoading("生成中...");
-        Call<Object> call = getApi().AlipaySweepPayment(
-                App.token,
-                App.merchant,
-                App.short_id,
-                total_fee);
-        call.enqueue(new Callback<Object>() {
-            @Override
-            public void onResponse(Call<Object> call, Response<Object> response) {
-                if (response.isSuccessful()) {
-                    if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
-                        // do SomeThing
-                        LogUtil.i("成功");
-
                         JSONObject data = GsonUtils.getResultData(response.body());
 
                         if (!TextUtils.isEmpty(data.optString("code_url"))) {
-                            ToastUtil.showMessage("生成支付宝码成功");
                             ivBaQrCode.setImageBitmap(Zxing.getQrCode(data.optString("code_url")));
                         } else {
-                            ToastUtil.showMessage("生成支付宝码失败");
+                            ToastUtil.showMessage("生成失败");
                         }
                     } else {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));

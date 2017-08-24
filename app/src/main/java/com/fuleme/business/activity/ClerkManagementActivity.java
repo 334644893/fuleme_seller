@@ -62,6 +62,7 @@ public class ClerkManagementActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clerk_management);
         ButterKnife.bind(this);
+        storeID="";
         initView();
         getmerchantclerkinfo();
 

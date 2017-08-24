@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
  */
 public class OrderFragment extends Fragment {
     private static final String TAG = "OrderFragment";
-    private static final String URL = APIService.SERVER_IP + "h5/integralmall/index?token=" + App.token;
+    private String URL = "";
     @Bind(R.id.demo_swiperefreshlayout)
     SwipeRefreshLayout demoSwiperefreshlayout;
     private Context context;
@@ -43,6 +43,7 @@ public class OrderFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_order_fragment, container, false);
         ButterKnife.bind(this, view);
         context = getActivity();
+        URL = APIService.SERVER_IP + "h5/integralmall/index?token=" + App.token;
         //刷新控件
         demoSwiperefreshlayout.setColorSchemeResources(R.color.white);
         demoSwiperefreshlayout.setProgressBackgroundColorSchemeResource(R.color.theme);

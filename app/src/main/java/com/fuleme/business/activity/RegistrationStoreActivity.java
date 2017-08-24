@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -73,8 +74,21 @@ public class RegistrationStoreActivity extends BaseActivity {
     @Bind(R.id.ll_xx_3)
     LinearLayout llXx3;
     public static String BANK = "";//银行
-    @Bind(R.id.tv_bank)
-    TextView tvBank;
+
+    @Bind(R.id.payee)
+    EditText payee;
+    @Bind(R.id.short_dre)
+    EditText shortDre;
+    @Bind(R.id.tv_branch_bank)
+    EditText tvBranchBank;
+    @Bind(R.id.id_card)
+    EditText idCard;
+    @Bind(R.id.et_f_name)
+    EditText etFName;
+    @Bind(R.id.et_f_phone)
+    EditText etFPhone;
+    @Bind(R.id.imageView)
+    ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +100,6 @@ public class RegistrationStoreActivity extends BaseActivity {
 
     @Override
     protected void onResume() {
-        tvBank.setText(BANK);
         super.onResume();
     }
 
@@ -122,7 +135,6 @@ public class RegistrationStoreActivity extends BaseActivity {
 
     @OnClick({
             R.id.tv_left,
-            R.id.tv_bank,
             R.id.user_avator_1,
             R.id.user_avator_2,
             R.id.user_avator_3,
@@ -134,10 +146,6 @@ public class RegistrationStoreActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_left:
                 finish();
-                break;
-            case R.id.tv_bank:
-                ListActivity.INTENTTYPE = 0;
-                startActivity(new Intent(RegistrationStoreActivity.this, ListActivity.class));
                 break;
             case R.id.ll_xx_1:
                 userAvator1.setImageURI((new Uri.Builder()).scheme("res").path(String.valueOf(R.drawable.icon_photo1)).build());
@@ -190,13 +198,13 @@ public class RegistrationStoreActivity extends BaseActivity {
                 }
                 break;
             case R.id.btn_tj_1:
-                //TODO 接口待完善
-//                if (comitJudge()) {
-//                    addmerchant(url_business_licence, url_business_licence_2 + "," + url_business_licence_3);
-//                }
-                LogUtil.d("url_business_licence--------", url_business_licence);
-                LogUtil.d("url_business_licence_2---------", url_business_licence_2);
-                LogUtil.d("url_business_licence_3--------", url_business_licence_3);
+                if (comitJudge()) {
+                    LogUtil.d("url_business_licence--------", url_business_licence);
+                    LogUtil.d("url_business_licence_2---------", url_business_licence_2);
+                    LogUtil.d("url_business_licence_3--------", url_business_licence_3);
+                    addshop();
+                }
+
                 break;
         }
     }
@@ -205,16 +213,23 @@ public class RegistrationStoreActivity extends BaseActivity {
      * 添加店铺接口
      */
 
-    private void addmerchant(String url_business_licence_string, String url_identity_card_string) {
+    private void addshop(
+    ) {
         showLoading("获取中...");
         Call<Object> call =
-                getApi().addmerchant(
-                        shortName.getText().toString(),
-                        contactMobile.getText().toString(),
-                        accountNum.getText().toString(),
-                        url_business_licence_string,
-                        url_identity_card_string,
-                        App.token
+                getApi().addshop(
+                        App.token,
+                        shortName.getText().toString().trim(),
+                        accountNum.getText().toString().trim(),
+                        payee.getText().toString().trim(),
+                        tvBranchBank.getText().toString().trim(),
+                        contactMobile.getText().toString().trim(),
+                        idCard.getText().toString().trim(),
+                        etFName.getText().toString().trim(),
+                        etFPhone.getText().toString().trim(),
+                        url_business_licence,
+                        url_business_licence_2 + "," + url_business_licence_3,
+                        shortDre.getText().toString().trim()
                 );
 
         call.enqueue(new Callback<Object>() {
@@ -224,7 +239,7 @@ public class RegistrationStoreActivity extends BaseActivity {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("成功");
-                        ToastUtil.showMessage("已提交..请耐心等待");
+                        ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                         finish();
                     } else {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
@@ -254,11 +269,29 @@ public class RegistrationStoreActivity extends BaseActivity {
         if (TextUtils.isEmpty(shortName.getText().toString())) {
             ToastUtil.showMessage("商户简称不能为空");
             return false;
-        } else if (TextUtils.isEmpty(contactMobile.getText().toString())) {
-            ToastUtil.showMessage("联系人手机号不能为空");
+        } else if (TextUtils.isEmpty(shortDre.getText().toString())) {
+            ToastUtil.showMessage("门店地址不能为空");
+            return false;
+        } else if (TextUtils.isEmpty(payee.getText().toString())) {
+            ToastUtil.showMessage("收款人不能为空");
             return false;
         } else if (TextUtils.isEmpty(accountNum.getText().toString())) {
             ToastUtil.showMessage("商户结算账号不能为空");
+            return false;
+        } else if (TextUtils.isEmpty(tvBranchBank.getText().toString())) {
+            ToastUtil.showMessage("请填写开户行支行");
+            return false;
+        } else if (TextUtils.isEmpty(contactMobile.getText().toString())) {
+            ToastUtil.showMessage("联系人手机号不能为空");
+            return false;
+        } else if (TextUtils.isEmpty(idCard.getText().toString())) {
+            ToastUtil.showMessage("请填写收款人身份证号");
+            return false;
+        } else if (TextUtils.isEmpty(etFName.getText().toString())) {
+            ToastUtil.showMessage("请填写法人姓名");
+            return false;
+        } else if (TextUtils.isEmpty(etFPhone.getText().toString())) {
+            ToastUtil.showMessage("请填写法人手机号");
             return false;
         } else if (TextUtils.isEmpty(url_business_licence)) {
             ToastUtil.showMessage("请上传营业证");

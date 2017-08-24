@@ -91,7 +91,7 @@ public class StoreAQAdapter extends RecyclerView.Adapter<StoreAQAdapter.MyViewHo
             holder.tvArea.setText("地址:" + mDatas.get(position).getAddress());
             holder.tvStore.setText(mDatas.get(position).getName());
             if ("0".equals(mDatas.get(position).getState())) {
-                holder.tvState.setText("原因:不可抗逆因素");
+                holder.tvState.setText("审核中");
                 holder.tvState.setVisibility(View.VISIBLE);
                 holder.tvNumber.setVisibility(View.GONE);
                 holder.llName.setVisibility(View.GONE);

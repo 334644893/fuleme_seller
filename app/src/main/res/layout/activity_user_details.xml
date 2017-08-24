@@ -192,7 +192,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="7"
             android:paddingLeft="10dp"
-            android:text="我的邀请码"
+            android:text="我的推荐码"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size" />
 

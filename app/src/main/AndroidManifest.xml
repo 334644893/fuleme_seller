@@ -213,7 +213,16 @@
         <activity android:name=".activity.Version2.BalanceActivity" />
         <activity android:name=".activity.Version2.CashActivity" />
         <activity android:name=".activity.Version2.SignPromoteActivity" />
-        <activity android:name=".activity.Version2.MyCommissionActivity"></activity>
+        <activity android:name=".activity.Version2.MyCommissionActivity" />
+        <activity android:name=".activity.Version2.CommissionReportActivity" />
+        <activity android:name=".activity.Version2.PromoteTeamActivity" />
+        <activity android:name=".activity.Version2.MerchantListActivity" />
+        <activity android:name=".activity.Version2.ServiceBusinessesActivity" />
+        <activity android:name=".activity.Version2.MerchantDetailsActivity" />
+        <activity android:name=".activity.Version2.MyBankActivity" />
+        <activity android:name=".activity.Version2.BindBankCardActivity" />
+        <activity android:name=".activity.Version2.InvitationRegisterActivity" />
+        <activity android:name=".activity.Version2.PayActivity"></activity>
     </application>
 
 </manifest>

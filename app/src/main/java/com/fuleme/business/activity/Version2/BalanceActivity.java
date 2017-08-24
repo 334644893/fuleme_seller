@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -50,6 +51,7 @@ public class BalanceActivity extends BaseActivity {
     LinearLayoutManager linearLayoutManager;
     BalanceAdapter mAdapter;
     private List<BalanceBean.DataBean.ListBean> mDatas = new ArrayList<>();
+    public static boolean flag = false;//是否可以提现
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,14 +101,27 @@ public class BalanceActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.ll_set_s_a:
-                startActivity(new  Intent(context, MyCommissionActivity.class));
+                startActivity(new Intent(context, MyCommissionActivity.class));
                 break;
             case R.id.btn_tj_1:
-                startActivity(new Intent(context, CashActivity.class));
+                if (flag) {
+                    startActivityForResult(new Intent(context, CashActivity.class),0);
+                } else {
+                    ToastUtil.showMessage("请绑定银行卡");
+                    startActivity(new Intent(context, BindBankCardActivity.class));
+                }
+
                 break;
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==0) {
+            drawmoneylist();
+        }
 
+    }
     /**
      * 提现列表接口
      */
@@ -121,7 +136,7 @@ public class BalanceActivity extends BaseActivity {
                         // do SomeThing
                         LogUtil.i("成功");
                         if (response.body().getData() != null) {
-                            CashActivity.cash=response.body().getData().getMoney()+"";
+                            CashActivity.cash = response.body().getData().getMoney() + "";
                             tv1.setText("￥" + response.body().getData().getMoney());
                             tv2.setText("￥" + response.body().getData().getProfit());
                             mDatas.clear();
@@ -135,6 +150,13 @@ public class BalanceActivity extends BaseActivity {
                             llVisibo.setVisibility(View.GONE);
                         }
                         mAdapter.notifyDataSetChanged();
+                        if (TextUtils.isEmpty(response.body().getData().getAccount_bank()) || TextUtils.isEmpty(response.body().getData().getBankcard())) {
+                            flag = false;
+                        } else {
+                            CashActivity.bank=response.body().getData().getAccount_bank();
+                            CashActivity.number=response.body().getData().getBankcard();
+                            flag = true;
+                        }
                     } else {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
                     }

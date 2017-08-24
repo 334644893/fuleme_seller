@@ -26,13 +26,10 @@
                 android:id="@+id/tv_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0000-00-00   " />
+                android:text="0000-00-00   "
+                android:padding="4dp"
+                android:drawableRight="@mipmap/icon31"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:src="@mipmap/icon31" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -75,10 +72,10 @@
                 android:id="@+id/tv_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="12dp"
                 android:ellipsize="end"
                 android:lines="1"
                 android:text="0"
-                android:layout_marginRight="12dp"
                 android:textColor="@color/red_1" />
         </LinearLayout>
     </LinearLayout>
@@ -96,14 +93,42 @@
         android:layout_height="fill_parent"
         android:scrollbars="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_m_recyclerview"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white_gray_d"
-            android:overScrollMode="never"
-            android:scrollbars="none" />
+            android:layout_height="match_parent"
 
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_meiyou"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/icon_meiyou" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="暂无返佣记录"
+                    android:textSize="@dimen/text_size_25" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_m_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white_gray_d"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+        </LinearLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
