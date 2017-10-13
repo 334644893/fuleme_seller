@@ -39,8 +39,8 @@ import retrofit2.http.Part;
 public interface APIService {
     //    String SERVER_IP = "http://192.168.1.138/";
 //    String SERVER_IP = "http://192.168.1.155/";
-    String SERVER_IP = "https://dev.fuleme.com/";//TEST
-//    String SERVER_IP = "https://pay.fuleme.com/";
+//    String SERVER_IP = "https://dev.fuleme.com/";//TEST
+    String SERVER_IP = "https://pay.fuleme.com/";
     /**
      * 关于我们接口
      *
@@ -497,6 +497,7 @@ public interface APIService {
             @Field("account_identity_card_num") String account_identity_card_num,
             @Field("legal_person_name") String legal_person_name,
             @Field("legal_person_mobile") String legal_person_mobile,
+            @Field("account_img") String account_img,
             @Field("business_licence") String business_licence,
             @Field("legal_person_identity_card") String legal_person_identity_card,
             @Field("merchant_address") String merchant_address

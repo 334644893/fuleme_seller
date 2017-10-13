@@ -103,9 +103,9 @@
             android:label="图库"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
-        <activity
-            android:name=".activity.UploadPicturesActivity"
-            android:screenOrientation="portrait" />
+        <!--<activity-->
+        <!--android:name=".activity.UploadPicturesActivity"-->
+        <!--android:screenOrientation="portrait" />-->
         <activity
             android:name=".activity.PaymentCodeActivity"
             android:screenOrientation="portrait" />
@@ -221,8 +221,12 @@
         <activity android:name=".activity.Version2.MerchantDetailsActivity" />
         <activity android:name=".activity.Version2.MyBankActivity" />
         <activity android:name=".activity.Version2.BindBankCardActivity" />
-        <activity android:name=".activity.Version2.InvitationRegisterActivity" />
-        <activity android:name=".activity.Version2.PayActivity"></activity>
+        <!--<activity android:name=".activity.Version2.InvitationRegisterActivity" />-->
+        <activity android:name=".activity.Version2.PayActivity" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
     </application>
 
 </manifest>

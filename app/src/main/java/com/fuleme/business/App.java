@@ -27,6 +27,8 @@ import com.fuleme.business.utils.ToastUtil;
 import com.fuleme.business.utils.TtsUtil;
 import com.fuleme.business.widget.LoadingDialogUtils;
 import com.fuleme.business.widget.NoticeDialog;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.util.concurrent.TimeUnit;
@@ -59,7 +61,7 @@ public class App extends Application {
     public static String invitation_code = "";//代理商邀请码
     public static String pay_password = "";//支付密码
     public static String create_time = "";//注册时间
-//    public static int login_type = 1;//登录状态 0:管理员 1：员工
+    //    public static int login_type = 1;//登录状态 0:管理员 1：员工
     public static boolean bindYY;//语音开关
     public static boolean bindAccount;//通知开关
     public static boolean bindPrinter;//打印机蓝牙连接开关
@@ -256,6 +258,11 @@ public class App extends Application {
         TtsUtil.audioTrack.release();//关闭语音播放
         super.onTerminate();
     }
-
-
+    private static final String APP_ID = "wx0c962071b3960450";    //这个APP_ID就是注册APP的时候生成的
+    private static final String APP_SECRET = "e18ad56b0aa1005a7e5810e355a00c87";
+    public static IWXAPI api;
+    public static void registerWeChat(Context context) {   //向微信注册app
+        api = WXAPIFactory.createWXAPI(context, APP_ID, true);
+        api.registerApp(APP_ID);
+    }
 }

@@ -107,13 +107,13 @@ public class LoginActivity extends BaseActivity {
          * 检查是否获得了ACTION_MANAGE_OVERLAY_PERMISSION权限（Android6.0运行时权限）
          * 弹窗
          */
-        if (Build.VERSION.SDK_INT >= 23) {
-            if (!Settings.canDrawOverlays(LoginActivity.this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, 10);
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= 23) {
+//            if (!Settings.canDrawOverlays(LoginActivity.this)) {
+//                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+//                        Uri.parse("package:" + getPackageName()));
+//                startActivityForResult(intent, 10);
+//            }
+//        }
         /**
          * 检查是否获得了android.permission-group.STORAGE权限（Android6.0运行时权限）
          *

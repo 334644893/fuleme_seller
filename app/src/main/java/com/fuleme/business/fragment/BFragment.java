@@ -96,11 +96,11 @@ public class BFragment extends Fragment {
 
     @Override
     public void onResume() {
+
         if ("1".equals(App.is_agent)) {
             //        代理
             llTop.setVisibility(View.GONE);
             llScl.setVisibility(View.VISIBLE);
-            promotion();
         } else {
             //非代理
             webView1 = new ScrollWebView(context.getApplicationContext());
@@ -112,6 +112,7 @@ public class BFragment extends Fragment {
             llTop.setVisibility(View.VISIBLE);
             llScl.setVisibility(View.GONE);
         }
+        promotion();
         super.onResume();
     }
 
@@ -183,11 +184,19 @@ public class BFragment extends Fragment {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         JSONObject data = GsonUtils.getResultData(response.body());
-                        tv1.setText(data.optString("money"));
-                        tv2.setText(data.optString("withdrawals"));
-                        tv3.setText(data.optString("today_withdrawals"));
-                        tv4.setText(data.optString("rebate"));
-                        tv5.setText(data.optString("today_rebate"));
+
+                        if("1".equals(data.optString("is_agent"))){
+                            //        代理
+                            llTop.setVisibility(View.GONE);
+                            llScl.setVisibility(View.VISIBLE);
+                            tv1.setText(data.optString("money"));
+                            tv2.setText(data.optString("withdrawals"));
+                            tv3.setText(data.optString("today_withdrawals"));
+                            tv4.setText(data.optString("rebate"));
+                            tv5.setText(data.optString("today_rebate"));
+                            App.is_agent = "1";
+                            SharedPreferencesUtils.setParam(context, "is_agent", App.is_agent);
+                        }
                         ((FragmentActivity) getActivity()).closeLoading();//取消等待框
                     } else {
                         ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));

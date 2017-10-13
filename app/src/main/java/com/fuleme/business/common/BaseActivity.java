@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,10 +31,17 @@ import com.fuleme.business.activity.LoginActivity;
 import com.fuleme.business.fragment.FragmentActivity;
 import com.fuleme.business.helper.APIService;
 import com.fuleme.business.helper.GsonUtils;
+import com.fuleme.business.utils.Constant;
 import com.fuleme.business.utils.LogUtil;
 import com.fuleme.business.utils.SharedPreferencesUtils;
 import com.fuleme.business.utils.ToastUtil;
+import com.fuleme.business.utils.WxUtil;
 import com.fuleme.business.widget.LoadingDialogUtils;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.json.JSONObject;
 
@@ -66,7 +75,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showLoading(String text) {
         mLoading = LoadingDialogUtils.createLoadingDialog(BaseActivity.this, text
-                , true
+
         );//添加等待框
     }
 
@@ -119,5 +128,19 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public static void shear(boolean b,int icon) {
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = Constant.URL;
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title=Constant.TITLE;
+        msg.description=Constant.description;
+        Bitmap thumb= BitmapFactory.decodeResource(App.getInstance().getResources(),icon);
+        msg.thumbData= WxUtil.bmpToByteArray(thumb,true);
+        SendMessageToWX.Req req=new SendMessageToWX.Req();
+        req.transaction=WxUtil.buildTransaction("webpage");
+        req.message=msg;
+        req.scene = b?SendMessageToWX.Req.WXSceneTimeline:SendMessageToWX.Req.WXSceneSession;
+        App.api.sendReq(req);
+    }
 
 }

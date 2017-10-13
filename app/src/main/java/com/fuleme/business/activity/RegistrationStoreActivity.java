@@ -50,23 +50,30 @@ public class RegistrationStoreActivity extends BaseActivity {
     EditText contactMobile;
     @Bind(R.id.account_num)
     EditText accountNum;
+    String url_business_licence_bank = "";//上传银行卡地址
     String url_business_licence = "";//上传营业证地址
     String url_business_licence_2 = "";//上传身份证正面地址
     String url_business_licence_3 = "";//上传身份证反面地址
+    String url_ph_bank = "";//显示银行卡地址
     String url_ph_1 = "";//显示营业证地址
     String url_ph_2 = "";//显示身份证正面地址
     String url_ph_3 = "";//显示身份证反面地址
+    boolean onClick_bank = true;//银行卡点击标识
     boolean onClick_1 = true;//营业证点击标识
     boolean onClick_2 = true;//身份证正面点击标识
     boolean onClick_3 = true;//身份证反面点击标识
     public int ACTIVITY_REQUEST_SELECT_PHOTO = 1000;
     @Bind(R.id.user_avator_1)
     SimpleDraweeView userAvator1;
+    @Bind(R.id.user_avator_bank)
+    SimpleDraweeView userAvatorBank;
     @Bind(R.id.user_avator_2)
     SimpleDraweeView userAvator2;
     @Bind(R.id.user_avator_3)
     SimpleDraweeView userAvator3;
-    int SCBS = 0;//上传标识 1为营业证 2身份证正面 3身份证反面
+    int SCBS = 0;//上传标识 1为营业证 2身份证正面 3身份证反面 4银行卡
+    @Bind(R.id.ll_xx_bank)
+    LinearLayout llXxBank;
     @Bind(R.id.ll_xx_1)
     LinearLayout llXx1;
     @Bind(R.id.ll_xx_2)
@@ -123,6 +130,9 @@ public class RegistrationStoreActivity extends BaseActivity {
                         case 3:
                             url_ph_3 = pathList.get(0);
                             break;
+                        case 4:
+                            url_ph_bank = pathList.get(0);
+                            break;
                     }
                     uploadMemberIcon(PictureUtil.smallPic(pathList.get(0)));
                 }
@@ -135,10 +145,12 @@ public class RegistrationStoreActivity extends BaseActivity {
 
     @OnClick({
             R.id.tv_left,
+            R.id.user_avator_bank,
             R.id.user_avator_1,
             R.id.user_avator_2,
             R.id.user_avator_3,
             R.id.btn_tj_1,
+            R.id.ll_xx_bank,
             R.id.ll_xx_1,
             R.id.ll_xx_2,
             R.id.ll_xx_3})
@@ -146,6 +158,12 @@ public class RegistrationStoreActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.tv_left:
                 finish();
+                break;
+            case R.id.ll_xx_bank:
+                userAvatorBank.setImageURI((new Uri.Builder()).scheme("res").path(String.valueOf(R.mipmap.icon_yhk)).build());
+                url_business_licence_bank = "";
+                onClick_bank = true;
+                llXxBank.setVisibility(View.INVISIBLE);
                 break;
             case R.id.ll_xx_1:
                 userAvator1.setImageURI((new Uri.Builder()).scheme("res").path(String.valueOf(R.drawable.icon_photo1)).build());
@@ -164,6 +182,18 @@ public class RegistrationStoreActivity extends BaseActivity {
                 url_business_licence_3 = "";
                 onClick_3 = true;
                 llXx3.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.user_avator_bank:
+                //银行卡
+
+                if (onClick_bank) {
+                    SCBS = 4;
+                    Album.startAlbum(RegistrationStoreActivity.this, ACTIVITY_REQUEST_SELECT_PHOTO
+                            , 1                                                         // 指定选择数量。
+                            , ContextCompat.getColor(RegistrationStoreActivity.this, R.color.theme)        // 指定Toolbar的颜色。
+                            , ContextCompat.getColor(RegistrationStoreActivity.this, R.color.theme));  // 指定状态栏的颜色。
+                }
+
                 break;
             case R.id.user_avator_1:
                 //营业证
@@ -199,6 +229,7 @@ public class RegistrationStoreActivity extends BaseActivity {
                 break;
             case R.id.btn_tj_1:
                 if (comitJudge()) {
+                    LogUtil.d("url_business_licence_bank--------", url_business_licence_bank);
                     LogUtil.d("url_business_licence--------", url_business_licence);
                     LogUtil.d("url_business_licence_2---------", url_business_licence_2);
                     LogUtil.d("url_business_licence_3--------", url_business_licence_3);
@@ -227,6 +258,7 @@ public class RegistrationStoreActivity extends BaseActivity {
                         idCard.getText().toString().trim(),
                         etFName.getText().toString().trim(),
                         etFPhone.getText().toString().trim(),
+                        url_business_licence_bank,
                         url_business_licence,
                         url_business_licence_2 + "," + url_business_licence_3,
                         shortDre.getText().toString().trim()
@@ -293,7 +325,10 @@ public class RegistrationStoreActivity extends BaseActivity {
         } else if (TextUtils.isEmpty(etFPhone.getText().toString())) {
             ToastUtil.showMessage("请填写法人手机号");
             return false;
-        } else if (TextUtils.isEmpty(url_business_licence)) {
+        } else if (TextUtils.isEmpty(url_business_licence_bank)) {
+            ToastUtil.showMessage("请上传银行卡照片");
+            return false;
+        }else if (TextUtils.isEmpty(url_business_licence)) {
             ToastUtil.showMessage("请上传营业证");
             return false;
         } else if (TextUtils.isEmpty(url_business_licence_2)) {
@@ -345,10 +380,17 @@ public class RegistrationStoreActivity extends BaseActivity {
                             onClick_3 = false;
                             llXx3.setVisibility(View.VISIBLE);
                             break;
+                        case 4:
+                            url_business_licence_bank = data.optString("url");
+                            userAvatorBank.setImageURI(Uri.fromFile(new File(url_ph_bank)));
+                            onClick_bank = false;
+                            llXxBank.setVisibility(View.VISIBLE);
+                            break;
                     }
                     closeLoading();//取消等待框
                 } else {
                     ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
+                    url_business_licence_bank = "";
                     url_business_licence = "";
                     url_business_licence_2 = "";
                     url_business_licence_3 = "";
@@ -358,6 +400,7 @@ public class RegistrationStoreActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
+                url_business_licence_bank = "";
                 url_business_licence = "";
                 url_business_licence_2 = "";
                 url_business_licence_3 = "";
@@ -371,6 +414,7 @@ public class RegistrationStoreActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        url_business_licence_bank = "";
         url_business_licence = "";
         url_business_licence_2 = "";
         url_business_licence_3 = "";

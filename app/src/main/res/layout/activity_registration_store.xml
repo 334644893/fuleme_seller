@@ -378,6 +378,65 @@
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
 
+                    android:text="收款银行卡照片:"
+                    android:textColor="@color/red_1" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <com.facebook.drawee.view.SimpleDraweeView
+                            android:id="@+id/user_avator_bank"
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="4dp"
+                            fresco:actualImageScaleType="focusCrop"
+                            fresco:failureImage="@mipmap/icon_err"
+                            fresco:placeholderImage="@mipmap/icon_yhk"
+                            fresco:progressBarAutoRotateInterval="1000"
+                            fresco:progressBarImage="@mipmap/icon_load" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_xx_bank"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="right"
+                            android:gravity="right"
+                            android:orientation="vertical"
+                            android:visibility="invisible">
+
+                            <ImageView
+                                android:id="@+id/imageView_bank"
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@mipmap/icon_cha" />
+                        </LinearLayout>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/activity_horizontal_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+
                     android:text="营业执照(无营业执照上传租赁合同):"
                     android:textColor="@color/red_1" />
 

@@ -107,7 +107,7 @@ public class NoticeDialog extends Dialog {
             // instantiate the dialog with the custom Theme
             final NoticeDialog dialog = new NoticeDialog(context,
                     R.style.Dialog);
-            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+//            dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
             dialog.setCanceledOnTouchOutside(true);
             View layout = inflater.inflate(R.layout.notice_custom_dialog_layout, null);
             dialog.addContentView(layout, new LayoutParams(

@@ -178,7 +178,6 @@ public class BasicInformationActivity extends BaseActivity {
                     }
                 } else {
                     ToastUtil.showMessage(GsonUtils.getErrmsg(response.body()));
-                    finish();
                 }
                 closeLoading();//取消等待框
             }

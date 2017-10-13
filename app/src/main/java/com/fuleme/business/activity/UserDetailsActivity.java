@@ -110,26 +110,10 @@ public class UserDetailsActivity extends BaseActivity {
                         .setNegativeButton("确定", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
+                                SharedPreferencesUtils.setParam(UserDetailsActivity.this, "token", "");
+                                App.unbindAccount();
                                 Intent intent = new Intent(UserDetailsActivity.this, FragmentActivity.class);
                                 setResult(EXIT_USERDETAIL, intent);
-
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "uid", 0);
-//                                SharedPreferencesUtils.setParam(getApplicationContext(), "phone", "");
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "username", "");
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "role", "");
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "short_id", "");
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "merchant", "");
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "short_state", "");
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "short_area", "");
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "token", "");
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "qrcode", "");
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "head_img", "");
-
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "is_agent", "");
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "invitation_code", "");
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "pay_password", "");
-                                SharedPreferencesUtils.setParam(getApplicationContext(), "create_time", "");
-                                App.unbindAccount();
                                 stopService(intent);
                                 finish();
                             }

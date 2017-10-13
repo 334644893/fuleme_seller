@@ -173,7 +173,7 @@ public class PaymentCodeActivity extends BaseActivity {
         call.enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                if (response.isSuccessful()) {
+                 if (response.isSuccessful()) {
                     if (GsonUtils.getError_code(response.body()) == GsonUtils.SUCCESSFUL) {
                         // do SomeThing
                         LogUtil.i("成功");

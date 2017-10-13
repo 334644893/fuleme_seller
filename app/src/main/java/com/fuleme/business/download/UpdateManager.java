@@ -71,7 +71,7 @@ public class UpdateManager {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                LoginActivity.mUpdateLoading = LoadingDialogUtils.createLoadingDialog(mContext, "更新中...",false);//添加等待框
+                LoginActivity.mUpdateLoading = LoadingDialogUtils.createLoadingDialog(mContext, "更新中...");//添加等待框
                 mContext.startService(new Intent(mContext, DownLoadService.class));
 
             }

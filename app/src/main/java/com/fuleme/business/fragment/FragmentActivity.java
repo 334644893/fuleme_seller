@@ -1,13 +1,9 @@
 package com.fuleme.business.fragment;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -18,15 +14,11 @@ import android.widget.Toast;
 
 import com.fuleme.business.App;
 import com.fuleme.business.R;
-import com.fuleme.business.activity.BusinessApplicationActivity;
-import com.fuleme.business.activity.LoginActivity;
 import com.fuleme.business.common.BaseActivity;
 import com.fuleme.business.download.UpdateManager;
 import com.fuleme.business.helper.GsonUtils;
 import com.fuleme.business.utils.LogUtil;
-import com.fuleme.business.utils.NumberUtils;
 import com.fuleme.business.widget.CustomDialog;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import org.json.JSONObject;
 
